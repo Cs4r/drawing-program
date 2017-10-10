@@ -415,5 +415,31 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void fillComplexArea() throws Exception {
+
+        int height = 4;
+        int width = 20;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawLine(0, 1, 5, 1);
+        canvas.drawLine(5, 2, 5, 3);
+        canvas.drawRectangle(15, 0, 19, 2);
+
+        canvas.fillArea(9, 2, 'o');
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "----------------------\n"
+                + "|oooooooooooooooxxxxx|\n"
+                + "|xxxxxxooooooooox   x|\n"
+                + "|     xoooooooooxxxxx|\n"
+                + "|     xoooooooooooooo|\n"
+                + "----------------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
 
 }
