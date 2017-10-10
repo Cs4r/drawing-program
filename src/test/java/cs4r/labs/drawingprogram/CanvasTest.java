@@ -468,4 +468,46 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void fillSeveralAreas() throws Exception {
+
+        int height = 16;
+        int width = 16;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawRectangle(0, 0, 2, 2);
+        canvas.drawRectangle(3, 6, 9, 10);
+        canvas.drawRectangle(4, 13, 15, 15);
+
+        canvas.fillArea(1, 1, 'o');
+        canvas.fillArea(15, 0, '*');
+        canvas.fillArea(14, 14, '-');
+        canvas.fillArea(5, 7, '.');
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------------\n"
+                + "|xxx*************|\n"
+                + "|xox*************|\n"
+                + "|xxx*************|\n"
+                + "|****************|\n"
+                + "|****************|\n"
+                + "|****************|\n"
+                + "|***xxxxxxx******|\n"
+                + "|***x.....x******|\n"
+                + "|***x.....x******|\n"
+                + "|***x.....x******|\n"
+                + "|***xxxxxxx******|\n"
+                + "|****************|\n"
+                + "|****************|\n"
+                + "|****xxxxxxxxxxxx|\n"
+                + "|****x----------x|\n"
+                + "|****xxxxxxxxxxxx|\n"
+                + "------------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }
