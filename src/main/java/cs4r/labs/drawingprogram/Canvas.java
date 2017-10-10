@@ -36,7 +36,13 @@ public class Canvas {
     }
 
 
-    public void drawHorizontalLine(int y, int x1, int x2) {
+    public void drawLine(int x1, int y1, int x2, int y2) {
+
+        drawHorizontalLine(y1, x1, x2);
+    }
+
+
+    private void drawHorizontalLine(int y, int x1, int x2) {
 
         int from;
         int to;

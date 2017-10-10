@@ -39,7 +39,7 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawHorizontalLine(0, 0, 5);
+        canvas.drawLine(0, 0, 5, 0);
 
         String currentCanvas = canvas.toText();
 
@@ -63,7 +63,7 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawHorizontalLine(1, 8, 0);
+        canvas.drawLine(8, 1, 0, 1);
 
         String currentCanvas = canvas.toText();
 
@@ -87,11 +87,11 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawHorizontalLine(0, 3, 9);
-        canvas.drawHorizontalLine(1, 3, 6);
-        canvas.drawHorizontalLine(2, 3, 5);
-        canvas.drawHorizontalLine(4, 0, 4);
-        canvas.drawHorizontalLine(5, 0, 15);
+        canvas.drawLine(3, 0, 9, 0);
+        canvas.drawLine(3, 1, 6, 1);
+        canvas.drawLine(3, 2, 5, 2);
+        canvas.drawLine(0, 4, 4, 4);
+        canvas.drawLine(0, 5, 15, 5);
 
         String currentCanvas = canvas.toText();
 
@@ -117,17 +117,17 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawHorizontalLine(5, 0, 3);
+        canvas.drawLine(0, 5, 3, 5);
 
-        canvas.drawHorizontalLine(-1, 0, 3);
+        canvas.drawLine(0, -1, 3, -1);
 
-        canvas.drawHorizontalLine(0, -1, 3);
-        canvas.drawHorizontalLine(0, 1, -3);
-        canvas.drawHorizontalLine(0, -1, -5);
+        canvas.drawLine(-1, 0, 3, 0);
+        canvas.drawLine(1, 0, -3, 0);
+        canvas.drawLine(-1, 0, -5, 0);
 
-        canvas.drawHorizontalLine(0, 5, 1);
-        canvas.drawHorizontalLine(0, 1, 5);
-        canvas.drawHorizontalLine(0, 5, 5);
+        canvas.drawLine(5, 0, 1, 0);
+        canvas.drawLine(1, 0, 5, 0);
+        canvas.drawLine(5, 0, 5, 0);
 
         String currentCanvas = canvas.toText();
 
