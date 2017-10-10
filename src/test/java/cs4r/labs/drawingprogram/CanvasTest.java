@@ -151,7 +151,7 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawVerticalLine(3, 2, 7);
+        canvas.drawLine(3, 2, 3, 7);
 
         String currentCanvas = canvas.toText();
 
@@ -180,7 +180,7 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawVerticalLine(1, 5, 1);
+        canvas.drawLine(1, 5, 1, 1);
 
         String currentCanvas = canvas.toText();
 
@@ -205,14 +205,14 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawVerticalLine(3,0,1);
-        canvas.drawVerticalLine(-3,0,1);
+        canvas.drawLine(3, 0, 3, 1);
+        canvas.drawLine(-3, 0, -3, 1);
 
-        canvas.drawVerticalLine(1,-1,2);
-        canvas.drawVerticalLine(1,1,-2);
+        canvas.drawLine(1, -1, 1, 2);
+        canvas.drawLine(1, 1, 1, -2);
 
-        canvas.drawVerticalLine(1,5,1);
-        canvas.drawVerticalLine(1,1,5);
+        canvas.drawLine(1, 5, 1, 1);
+        canvas.drawLine(1, 1, 1, 5);
 
         String currentCanvas = canvas.toText();
 
@@ -234,11 +234,11 @@ public class CanvasTest {
 
         Canvas canvas = new Canvas(height, width);
 
-        canvas.drawVerticalLine(3, 2, 7);
-        canvas.drawVerticalLine(7, 0, 2);
-        canvas.drawVerticalLine(3, 2, 7);
-        canvas.drawVerticalLine(5, 3, 5);
-        canvas.drawVerticalLine(22, 0, 11);
+        canvas.drawLine(3, 2, 3, 7);
+        canvas.drawLine(7, 0, 7, 2);
+        canvas.drawLine(3, 2, 3, 7);
+        canvas.drawLine(5, 3, 5, 5);
+        canvas.drawLine(22, 0, 22, 11);
 
         String currentCanvas = canvas.toText();
 

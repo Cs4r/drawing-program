@@ -38,7 +38,11 @@ public class Canvas {
 
     public void drawLine(int x1, int y1, int x2, int y2) {
 
-        drawHorizontalLine(y1, x1, x2);
+        if (y1 == y2) {
+            drawHorizontalLine(y1, x1, x2);
+        } else {
+            drawVerticalLine(x1, y1, y2);
+        }
     }
 
 
@@ -67,7 +71,7 @@ public class Canvas {
 
     }
 
-    public void drawVerticalLine(int x, int y1, int y2) {
+    private void drawVerticalLine(int x, int y1, int y2) {
 
         int from;
         int to;
