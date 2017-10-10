@@ -3,6 +3,7 @@ package cs4r.labs.drawingprogram;
 
 public class Canvas {
 
+    private static final char LINE_COLOR = 'x';
     private int width;
     private int height;
     private char[][] canvas;
@@ -54,7 +55,7 @@ public class Canvas {
         if (xWithinCanvas && yWithinCanvas) {
 
             for (int i = from; i <= to; ++i) {
-                canvas[y][i] = 'x';
+                canvas[y][i] = LINE_COLOR;
             }
         }
 
@@ -97,7 +98,7 @@ public class Canvas {
     public void drawVerticalLine(int x, int y1, int y2) {
 
         for (int i = y1; i <= y2; ++i) {
-            canvas[i][x] = 'x';
+            canvas[i][x] = LINE_COLOR;
         }
     }
 }
