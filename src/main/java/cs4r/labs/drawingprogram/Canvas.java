@@ -45,8 +45,8 @@ public class Canvas {
      *
      * @param x1 x coordinate of the first point
      * @param y1 y coordinate of the first point
-     * @param x2 x coordinate of the first point
-     * @param y2 y coordinate of the first point
+     * @param x2 x coordinate of the second point
+     * @param y2 y coordinate of the second point
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
 
@@ -58,6 +58,16 @@ public class Canvas {
     }
 
 
+    /**
+     * Draws a rectangle, whose upper left corner is (x1,y1) and lower right corner is (x2,y2).
+     * <p>
+     * Rectangles with corners outside the canvas will not be drawn.
+     *
+     * @param x1 x coordinate of the first point
+     * @param y1 y coordinate of the first point
+     * @param x2 x coordinate of the second point
+     * @param y2 y coordinate of the second point
+     */
     public void drawRectangle(int x1, int y1, int x2, int y2) {
 
         boolean validLeftCorner = (x1 <= x2 && y1 <= y2) && (x1 >= 0 && x1 < width) && (y1 >= 0 && y1 < height);
