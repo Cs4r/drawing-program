@@ -60,10 +60,15 @@ public class Canvas {
 
     public void drawRectangle(int x1, int y1, int x2, int y2) {
 
-        drawHorizontalLine(y1, x1, x2);
-        drawVerticalLine(x1, y1, y2);
-        drawVerticalLine(x2, y1, y2);
-        drawHorizontalLine(y2, x1, x2);
+        boolean validLeftCorner = (x1 <= x2 && y1 <= y2) && (x1 >= 0 && x1 < width) && (y1 >= 0 && y1 < height);
+        boolean validRightCorner = (x2 >= 0 && x2 < width) && (y2 >= 0 && y2 < height);
+
+        if (validLeftCorner && validRightCorner) {
+            drawHorizontalLine(y1, x1, x2);
+            drawVerticalLine(x1, y1, y2);
+            drawVerticalLine(x2, y1, y2);
+            drawHorizontalLine(y2, x1, x2);
+        }
     }
 
     private void drawHorizontalLine(int y, int x1, int x2) {

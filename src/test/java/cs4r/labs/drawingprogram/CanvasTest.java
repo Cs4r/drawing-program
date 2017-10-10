@@ -311,4 +311,42 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void ignoreInvalidRectangles() throws Exception {
+
+        int height = 4;
+        int width = 16;
+
+        Canvas canvas = new Canvas(height, width);
+
+        // Invalid corners
+        canvas.drawRectangle(2, 2, 0, 0);
+        canvas.drawRectangle(3, 4, 1, 2);
+
+        // Points outside the canvas
+        canvas.drawRectangle(-1, 0, 2, 2);
+        canvas.drawRectangle(0, -1, 2, 2);
+
+        canvas.drawRectangle(0, 0, -2, 2);
+        canvas.drawRectangle(0, 0, 2, -2);
+
+        canvas.drawRectangle(0, 20, 10, 10);
+        canvas.drawRectangle(20, 0, 10, 10);
+
+        canvas.drawRectangle(0, 0, 20, 2);
+        canvas.drawRectangle(0, 0, 2, 20);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------------\n"
+                + "|                |\n"
+                + "|                |\n"
+                + "|                |\n"
+                + "|                |\n"
+                + "------------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }
