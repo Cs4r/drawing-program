@@ -143,4 +143,33 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void drawSingleVerticalLine() throws Exception {
+
+        int height = 10;
+        int width = 10;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawVerticalLine(3, 2, 7);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "|   x      |\n"
+                + "|   x      |\n"
+                + "|   x      |\n"
+                + "|   x      |\n"
+                + "|   x      |\n"
+                + "|   x      |\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }

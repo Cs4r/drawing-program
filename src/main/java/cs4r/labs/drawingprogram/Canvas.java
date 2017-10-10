@@ -93,4 +93,11 @@ public class Canvas {
         }
         canvasAsText.append('\n');
     }
+
+    public void drawVerticalLine(int x, int y1, int y2) {
+
+        for (int i = y1; i <= y2; ++i) {
+            canvas[i][x] = 'x';
+        }
+    }
 }
