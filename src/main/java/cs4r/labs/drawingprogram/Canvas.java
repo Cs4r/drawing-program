@@ -74,8 +74,14 @@ public class Canvas {
             to = y2;
         }
 
-        for (int i = from; i <= to; ++i) {
-            canvas[i][x] = LINE_COLOR;
+        boolean xWithinTheCanvas = !(x >= width || x < 0);
+        boolean yWithinTheCanvas = !(to >= height || from < 0);
+
+        if (xWithinTheCanvas && yWithinTheCanvas) {
+            for (int j = from; j <= to; ++j) {
+                canvas[j][x] = LINE_COLOR;
+            }
+
         }
     }
 

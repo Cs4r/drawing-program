@@ -196,4 +196,33 @@ public class CanvasTest {
 
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
+
+    @Test
+    public void ignoreVerticalLinesOutSideTheCanvas() throws Exception {
+
+        int height = 3;
+        int width = 3;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawVerticalLine(3,0,1);
+        canvas.drawVerticalLine(-3,0,1);
+
+        canvas.drawVerticalLine(1,-1,2);
+        canvas.drawVerticalLine(1,1,-2);
+
+        canvas.drawVerticalLine(1,5,1);
+        canvas.drawVerticalLine(1,1,5);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "-----\n"
+                + "|   |\n"
+                + "|   |\n"
+                + "|   |\n"
+                + "-----\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
 }
