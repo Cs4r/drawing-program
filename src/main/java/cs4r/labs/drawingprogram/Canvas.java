@@ -40,7 +40,7 @@ public class Canvas {
 
         if (y1 == y2) {
             drawHorizontalLine(y1, x1, x2);
-        } else {
+        } else if (x1 == x2) {
             drawVerticalLine(x1, y1, y2);
         }
     }

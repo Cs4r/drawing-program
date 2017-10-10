@@ -260,4 +260,30 @@ public class CanvasTest {
 
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
+
+    @Test
+    public void ignoreDiagonalLines() throws Exception {
+
+        int height = 5;
+        int width = 5;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawLine(0, 0, 4, 4);
+        canvas.drawLine(0, 1, 2, 3);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "-------\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "-------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }
