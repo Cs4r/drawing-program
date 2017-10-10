@@ -172,4 +172,28 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void drawVerticalLineWithInvertedY() throws Exception {
+
+        int height = 6;
+        int width = 10;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawVerticalLine(1, 5, 1);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------\n"
+                + "|          |\n"
+                + "| x        |\n"
+                + "| x        |\n"
+                + "| x        |\n"
+                + "| x        |\n"
+                + "| x        |\n"
+                + "------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
 }

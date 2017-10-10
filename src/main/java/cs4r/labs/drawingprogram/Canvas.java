@@ -61,6 +61,24 @@ public class Canvas {
 
     }
 
+    public void drawVerticalLine(int x, int y1, int y2) {
+
+        int from;
+        int to;
+
+        if (y1 > y2) {
+            from = y2;
+            to = y1;
+        } else {
+            from = y1;
+            to = y2;
+        }
+
+        for (int i = from; i <= to; ++i) {
+            canvas[i][x] = LINE_COLOR;
+        }
+    }
+
     private void initCanvas() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -93,12 +111,5 @@ public class Canvas {
             canvasAsText.append('-');
         }
         canvasAsText.append('\n');
-    }
-
-    public void drawVerticalLine(int x, int y1, int y2) {
-
-        for (int i = y1; i <= y2; ++i) {
-            canvas[i][x] = LINE_COLOR;
-        }
     }
 }
