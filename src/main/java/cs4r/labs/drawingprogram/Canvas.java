@@ -36,6 +36,18 @@ public class Canvas {
     }
 
 
+    /**
+     * Draws a line from the point defined by (x1, y2) to the point defined by (x2, y2).
+     * <p>
+     * Only horizontal and vertical lines are supported. Diagonal lines will not be drawn.
+     * <p>
+     * Lines whose defining points are outside the canvas will not be drawn either.
+     *
+     * @param x1 x coordinate of the first point
+     * @param y1 y coordinate of the first point
+     * @param x2 x coordinate of the first point
+     * @param y2 y coordinate of the first point
+     */
     public void drawLine(int x1, int y1, int x2, int y2) {
 
         if (y1 == y2) {
