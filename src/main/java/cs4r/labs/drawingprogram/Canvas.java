@@ -58,6 +58,14 @@ public class Canvas {
     }
 
 
+    public void drawRectangle(int x1, int y1, int x2, int y2) {
+
+        drawHorizontalLine(y1, x1, x2);
+        drawVerticalLine(x1, y1, y2);
+        drawVerticalLine(x2, y1, y2);
+        drawHorizontalLine(y2, x1, x2);
+    }
+
     private void drawHorizontalLine(int y, int x1, int x2) {
 
         int from;

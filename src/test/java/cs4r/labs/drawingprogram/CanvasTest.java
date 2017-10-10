@@ -286,4 +286,29 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void drawSingleRectangle() throws Exception {
+
+        int height = 6;
+        int width = 10;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawRectangle(1, 1, 5, 5);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------\n"
+                + "|          |\n"
+                + "| xxxxx    |\n"
+                + "| x   x    |\n"
+                + "| x   x    |\n"
+                + "| x   x    |\n"
+                + "| xxxxx    |\n"
+                + "------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }
