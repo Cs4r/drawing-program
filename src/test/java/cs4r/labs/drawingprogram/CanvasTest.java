@@ -54,4 +54,28 @@ public class CanvasTest {
 
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
+
+
+    @Test
+    public void drawHorizontalLineWithInvertedX() throws Exception {
+        int height = 5;
+        int width = 10;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawHorizontalLine(1, 8, 0);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------\n"
+                + "|          |\n"
+                + "|xxxxxxxxx |\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
 }

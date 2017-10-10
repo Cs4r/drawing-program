@@ -37,7 +37,18 @@ public class Canvas {
 
     public void drawHorizontalLine(int y, int x1, int x2) {
 
-        for (int i = x1; i <= x2; ++i) {
+        int from;
+        int to;
+
+        if (x1 > x2) {
+            from = x2;
+            to = x1;
+        } else {
+            from = x1;
+            to = x2;
+        }
+
+        for (int i = from; i <= to; ++i) {
             canvas[y][i] = 'x';
         }
     }
