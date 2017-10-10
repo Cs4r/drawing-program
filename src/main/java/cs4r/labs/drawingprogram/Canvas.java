@@ -87,26 +87,26 @@ public class Canvas {
 
     public void fillArea(int x, int y, char colour) {
 
+        if (isWithinCanvas(x, y)) {
+            LinkedList<Cell> toColour = new LinkedList<>();
 
-        LinkedList<Cell> toColour = new LinkedList<>();
+            toColour.add(Cell.from(x, y));
 
-        toColour.add(Cell.from(x, y));
+            while (!toColour.isEmpty()) {
 
-        while (!toColour.isEmpty()) {
+                Cell current = toColour.removeFirst();
 
-            Cell current = toColour.removeFirst();
+                canvas[current.getY()][current.getX()] = colour;
 
-            canvas[current.getY()][current.getX()] = colour;
+                List<Cell> uncoloredNeighbors = uncoloredNeighbors(current, colour);
 
-            List<Cell> uncoloredNeighbors = uncoloredNeighbors(current, colour);
-
-            for (Cell uncolored : uncoloredNeighbors) {
-                if (!toColour.contains(uncolored)) {
-                    toColour.addLast(uncolored);
+                for (Cell uncolored : uncoloredNeighbors) {
+                    if (!toColour.contains(uncolored)) {
+                        toColour.addLast(uncolored);
+                    }
                 }
             }
         }
-
     }
 
     private List<Cell> uncoloredNeighbors(Cell current, char colour) {

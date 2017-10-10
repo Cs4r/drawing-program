@@ -442,4 +442,30 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void ignoreAreaFillsOutsideTheCanvas() throws Exception {
+
+        int height = 4;
+        int width = 4;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.fillArea(-1, 0, 'a');
+        canvas.fillArea(0, -1, 'b');
+        canvas.fillArea(0, 4, 'c');
+        canvas.fillArea(4, 0, 'd');
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------\n"
+                + "|    |\n"
+                + "|    |\n"
+                + "|    |\n"
+                + "|    |\n"
+                + "------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }
