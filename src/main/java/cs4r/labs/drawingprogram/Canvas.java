@@ -48,9 +48,16 @@ public class Canvas {
             to = x2;
         }
 
-        for (int i = from; i <= to; ++i) {
-            canvas[y][i] = 'x';
+        boolean xWithinCanvas = !(from < 0 || to >= width);
+        boolean yWithinCanvas = !(y >= height || y < 0);
+
+        if (xWithinCanvas && yWithinCanvas) {
+
+            for (int i = from; i <= to; ++i) {
+                canvas[y][i] = 'x';
+            }
         }
+
     }
 
     private void initCanvas() {

@@ -109,4 +109,38 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void ignoreHorizontalLinesOutSideTheCanvas() throws Exception {
+
+        int height = 5;
+        int width = 5;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawHorizontalLine(5, 0, 3);
+
+        canvas.drawHorizontalLine(-1, 0, 3);
+
+        canvas.drawHorizontalLine(0, -1, 3);
+        canvas.drawHorizontalLine(0, 1, -3);
+        canvas.drawHorizontalLine(0, -1, -5);
+
+        canvas.drawHorizontalLine(0, 5, 1);
+        canvas.drawHorizontalLine(0, 1, 5);
+        canvas.drawHorizontalLine(0, 5, 5);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "-------\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "|     |\n"
+                + "-------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
 }
