@@ -4,6 +4,7 @@ package cs4r.labs.drawingprogram;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Canvas {
 
@@ -85,49 +86,65 @@ public class Canvas {
         }
     }
 
-    public void fillArea(int x, int y, char colour) {
+    public void fillArea(int x1, int y1, char colour) {
 
-        if (isWithinCanvas(x, y)) {
+        if (isWithinCanvas(x1, y1) && !isColoured(x1, y1, colour)) {
+
             LinkedList<Cell> toColour = new LinkedList<>();
 
-            toColour.add(Cell.from(x, y));
+            toColour.add(Cell.from(x1, y1));
 
             while (!toColour.isEmpty()) {
 
-                Cell current = toColour.removeFirst();
+                Cell cell = takeNext(toColour);
 
-                canvas[current.getY()][current.getX()] = colour;
+                colourCell(cell, colour);
 
-                List<Cell> uncoloredNeighbors = uncoloredNeighbors(current, colour);
+                List<Cell> neighbors = uncoloredNeighbors(cell, colour);
 
-                for (Cell uncolored : uncoloredNeighbors) {
-                    if (!toColour.contains(uncolored)) {
-                        toColour.addLast(uncolored);
-                    }
-                }
+                addNeighborsNotVisited(neighbors, toColour);
             }
         }
     }
 
+    private void addNeighborsNotVisited(List<Cell> neighbors, LinkedList<Cell> toColour) {
+        Predicate<Cell> notVisited = ((Predicate<Cell>) toColour::contains).negate();
+
+        neighbors.stream().filter(notVisited).forEach(toColour::addLast);
+    }
+
+    private Cell takeNext(LinkedList<Cell> toColour) {
+        return toColour.removeFirst();
+    }
+
+    private void colourCell(Cell current, char colour) {
+        canvas[current.getY()][current.getX()] = colour;
+    }
+
     private List<Cell> uncoloredNeighbors(Cell current, char colour) {
 
-        List<Cell> uncoloredNeighbors = new ArrayList<>();
+        List<Cell> uncoloredNeighbors = new ArrayList<>(4);
 
         int x = current.getX();
         int y = current.getY();
 
-        for (int xOffset : new int[]{-1, 0, 1}) {
-            for (int yOffset : new int[]{-1, 0, 1}) {
-                if (xOffset != 0 || yOffset != 0) {
-                    if (isWithinCanvas(x + xOffset, y + yOffset) && !isColoured(x + xOffset, y + yOffset, colour)) {
-                        uncoloredNeighbors.add(Cell.from(x + xOffset, y + yOffset));
-                    }
-                }
-            }
+        if (isWithinCanvas(x, y - 1) && !isColoured(x, y - 1, colour)) {
+            uncoloredNeighbors.add(Cell.from(x, y - 1));
+        }
+
+        if (isWithinCanvas(x, y + 1) && !isColoured(x, y + 1, colour)) {
+            uncoloredNeighbors.add(Cell.from(x, y + 1));
+        }
+
+        if (isWithinCanvas(x - 1, y) && !isColoured(x - 1, y, colour)) {
+            uncoloredNeighbors.add(Cell.from(x - 1, y));
+        }
+
+        if (isWithinCanvas(x + 1, y) && !isColoured(x + 1, y, colour)) {
+            uncoloredNeighbors.add(Cell.from(x + 1, y));
         }
 
         return uncoloredNeighbors;
-
     }
 
     private boolean isWithinCanvas(int x, int y) {
@@ -267,14 +284,6 @@ public class Canvas {
             int result = getX();
             result = 31 * result + getY();
             return result;
-        }
-
-        @Override
-        public String toString() {
-            return "Cell{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    '}';
         }
     }
 }
