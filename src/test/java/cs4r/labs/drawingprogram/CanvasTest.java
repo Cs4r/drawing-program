@@ -386,4 +386,34 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void fillSimpleArea() throws Exception {
+
+        int height = 10;
+        int width = 25;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.fillArea(5, 5, 'a');
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "---------------------------\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "|aaaaaaaaaaaaaaaaaaaaaaaaa|\n"
+                + "---------------------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
+
 }

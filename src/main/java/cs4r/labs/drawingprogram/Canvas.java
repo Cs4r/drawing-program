@@ -1,6 +1,10 @@
 package cs4r.labs.drawingprogram;
 
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class Canvas {
 
     private static final char LINE_COLOR = 'x';
@@ -79,6 +83,59 @@ public class Canvas {
             drawVerticalLine(x2, y1, y2);
             drawHorizontalLine(y2, x1, x2);
         }
+    }
+
+    public void fillArea(int x, int y, char colour) {
+
+
+        LinkedList<Cell> toColour = new LinkedList<>();
+
+        toColour.add(Cell.from(x, y));
+
+        while (!toColour.isEmpty()) {
+
+            Cell current = toColour.removeFirst();
+
+            canvas[current.getY()][current.getX()] = colour;
+
+            List<Cell> uncoloredNeighbors = uncoloredNeighbors(current, colour);
+
+            for (Cell uncolored : uncoloredNeighbors) {
+                if (!toColour.contains(uncolored)) {
+                    toColour.addLast(uncolored);
+                }
+            }
+        }
+
+    }
+
+    private List<Cell> uncoloredNeighbors(Cell current, char colour) {
+
+        List<Cell> uncoloredNeighbors = new ArrayList<>();
+
+        int x = current.getX();
+        int y = current.getY();
+
+        for (int xOffset : new int[]{-1, 0, 1}) {
+            for (int yOffset : new int[]{-1, 0, 1}) {
+                if (xOffset != 0 || yOffset != 0) {
+                    if (isWithinCanvas(x + xOffset, y + yOffset) && !isColoured(x + xOffset, y + yOffset, colour)) {
+                        uncoloredNeighbors.add(Cell.from(x + xOffset, y + yOffset));
+                    }
+                }
+            }
+        }
+
+        return uncoloredNeighbors;
+
+    }
+
+    private boolean isWithinCanvas(int x, int y) {
+        return (x >= 0 && x < width) && (y >= 0 && y < height);
+    }
+
+    private boolean isColoured(int x, int y, char colour) {
+        return canvas[y][x] == colour || canvas[y][x] != ' ';
     }
 
     private void drawHorizontalLine(int y, int x1, int x2) {
@@ -162,5 +219,62 @@ public class Canvas {
             canvasAsText.append('-');
         }
         canvasAsText.append('\n');
+    }
+
+    private static class Cell {
+
+        private final int x;
+        private final int y;
+
+        public static Cell from(int x, int y) {
+            return new Cell(x, y);
+        }
+
+        private Cell(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+
+            if (!(o instanceof Cell)) {
+                return false;
+            }
+
+            Cell cell = (Cell) o;
+
+            if (getX() != cell.getX()) {
+                return false;
+            }
+
+            return getY() == cell.getY();
+        }
+
+        @Override
+        public int hashCode() {
+            int result = getX();
+            result = 31 * result + getY();
+            return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Cell{" +
+                    "x=" + x +
+                    ", y=" + y +
+                    '}';
+        }
     }
 }
