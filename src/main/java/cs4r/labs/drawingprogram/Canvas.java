@@ -86,13 +86,22 @@ public class Canvas {
         }
     }
 
-    public void fillArea(int x1, int y1, char colour) {
+    /**
+     * Fills the entire area connected to the point defined by the coordinates (x,y) with the given colour.
+     * <p>
+     * Inspiration taken from: https://en.wikipedia.org/wiki/Flood_fill
+     *
+     * @param x x coordinate of the starting point for the filling
+     * @param y y coordinate of the starting point for the filling
+     * @param colour Colour to use
+     */
+    public void fillArea(int x, int y, char colour) {
 
-        if (isWithinCanvas(x1, y1) && !isColoured(x1, y1, colour)) {
+        if (isWithinCanvas(x, y) && !isColoured(x, y, colour)) {
 
             LinkedList<Cell> toColour = new LinkedList<>();
 
-            toColour.add(Cell.from(x1, y1));
+            toColour.add(Cell.from(x, y));
 
             while (!toColour.isEmpty()) {
 
