@@ -8,6 +8,7 @@ import java.util.function.Predicate;
 
 public class Canvas {
 
+    private static final char EMPTY_CELL_COLOR = ' ';
     private static final char LINE_COLOR = 'x';
     private int width;
     private int height;
@@ -75,8 +76,8 @@ public class Canvas {
      */
     public void drawRectangle(int x1, int y1, int x2, int y2) {
 
-        boolean validLeftCorner = (x1 <= x2 && y1 <= y2) && (x1 >= 0 && x1 < width) && (y1 >= 0 && y1 < height);
-        boolean validRightCorner = (x2 >= 0 && x2 < width) && (y2 >= 0 && y2 < height);
+        boolean validLeftCorner = (x1 <= x2 && y1 <= y2) && isWithinCanvas(x1, y1);
+        boolean validRightCorner = isWithinCanvas(x2, y2);
 
         if (validLeftCorner && validRightCorner) {
             drawHorizontalLine(y1, x1, x2);
@@ -161,7 +162,7 @@ public class Canvas {
     }
 
     private boolean isColoured(int x, int y, char colour) {
-        return canvas[y][x] == colour || canvas[y][x] != ' ';
+        return canvas[y][x] == colour || canvas[y][x] != EMPTY_CELL_COLOR;
     }
 
     private void drawHorizontalLine(int y, int x1, int x2) {
@@ -177,10 +178,7 @@ public class Canvas {
             to = x2;
         }
 
-        boolean xWithinCanvas = !(from < 0 || to >= width);
-        boolean yWithinCanvas = !(y >= height || y < 0);
-
-        if (xWithinCanvas && yWithinCanvas) {
+        if (isWithinCanvas(x1, y) && isWithinCanvas(x2, y)) {
 
             for (int i = from; i <= to; ++i) {
                 canvas[y][i] = LINE_COLOR;
@@ -202,10 +200,7 @@ public class Canvas {
             to = y2;
         }
 
-        boolean xWithinTheCanvas = !(x >= width || x < 0);
-        boolean yWithinTheCanvas = !(to >= height || from < 0);
-
-        if (xWithinTheCanvas && yWithinTheCanvas) {
+        if (isWithinCanvas(x, y1) && isWithinCanvas(x, y2)) {
             for (int j = from; j <= to; ++j) {
                 canvas[j][x] = LINE_COLOR;
             }
@@ -216,7 +211,7 @@ public class Canvas {
     private void initCanvas() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
-                canvas[i][j] = ' ';
+                canvas[i][j] = EMPTY_CELL_COLOR;
             }
         }
     }
@@ -281,11 +276,7 @@ public class Canvas {
 
             Cell cell = (Cell) o;
 
-            if (getX() != cell.getX()) {
-                return false;
-            }
-
-            return getY() == cell.getY();
+            return getX() == cell.getX() && getY() == cell.getY();
         }
 
         @Override
