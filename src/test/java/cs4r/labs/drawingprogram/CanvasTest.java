@@ -30,4 +30,28 @@ public class CanvasTest {
 
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
+
+    @Test
+    public void drawSingleHorizontalLine() throws Exception {
+
+        int height = 5;
+        int width = 10;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawHorizontalLine(0, 0, 5);
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "------------\n"
+                + "|xxxxxx    |\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "|          |\n"
+                + "------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
 }

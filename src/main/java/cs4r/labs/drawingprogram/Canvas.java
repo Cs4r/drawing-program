@@ -35,6 +35,13 @@ public class Canvas {
     }
 
 
+    public void drawHorizontalLine(int y, int x1, int x2) {
+
+        for (int i = x1; i <= x2; ++i) {
+            canvas[y][i] = 'x';
+        }
+    }
+
     private void initCanvas() {
         for (int i = 0; i < height; ++i) {
             for (int j = 0; j < width; ++j) {
@@ -68,5 +75,4 @@ public class Canvas {
         }
         canvasAsText.append('\n');
     }
-
 }
