@@ -9,7 +9,8 @@ public class DrawingCommandsInterpreter {
     private final ExceptionHandler exceptionHandler;
 
     public DrawingCommandsInterpreter(CommandsReader commandsReader,
-                                      CommandsProcessor commandsProcessor, ExceptionHandler exceptionHandler) {
+                                      CommandsProcessor commandsProcessor,
+                                      ExceptionHandler exceptionHandler) {
 
         this.commandsReader = commandsReader;
         this.commandsProcessor = commandsProcessor;
