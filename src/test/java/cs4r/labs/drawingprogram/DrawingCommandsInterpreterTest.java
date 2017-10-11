@@ -133,6 +133,16 @@ public class DrawingCommandsInterpreterTest {
                 .isInstanceOf(IllegalArgumentException.class).hasMessage("context cannot be null");
     }
 
+    @Test
+    public void doesNothingIfContextIsInactive() throws Exception {
+
+        when(drawingContext.isActive()).thenReturn(false);
+
+        commandsInterpreter.interpretCommands(drawingContext);
+
+        verifyZeroInteractions(commandsReader, commandsProcessor, exceptionHandler);
+    }
+
     private Command commandsReaderOutput() {
         Command command = mock(Command.class);
 
