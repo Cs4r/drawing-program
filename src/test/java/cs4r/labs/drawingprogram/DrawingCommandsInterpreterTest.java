@@ -31,6 +31,8 @@ public class DrawingCommandsInterpreterTest {
 
     @Before
     public void setUp() throws Exception {
+        commandsProcessorCanHandlePrintPromptCommand();
+
         commandsInterpreter = Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
                 commandsProcessor, exceptionHandler));
     }
@@ -140,7 +142,23 @@ public class DrawingCommandsInterpreterTest {
 
         commandsInterpreter.interpretCommands(drawingContext);
 
-        verifyZeroInteractions(commandsReader, commandsProcessor, exceptionHandler);
+        verify(commandsProcessor).canHandle(Command.PRINT_PROMPT_COMMAND);
+        verifyNoMoreInteractions(commandsReader, commandsProcessor, exceptionHandler);
+    }
+
+    @Test
+    public void ensuresThatCommandsProcessorHandlesPrintPromptCommand() {
+
+        commandsProcessorCannotHandlePrintPromptCommand();
+
+        assertThatThrownBy(() -> new DrawingCommandsInterpreter(commandsReader, commandsProcessor, exceptionHandler))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("CommandsProcessor must handle PrintPromptCommand");
+    }
+
+    private void commandsProcessorCannotHandlePrintPromptCommand() {
+        Command printPrompt = Command.PRINT_PROMPT_COMMAND;
+        when(commandsProcessor.canHandle(printPrompt)).thenReturn(false);
     }
 
     private Command commandsReaderOutput() {
@@ -149,6 +167,10 @@ public class DrawingCommandsInterpreterTest {
         when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
 
         return command;
+    }
+
+    private void commandsProcessorCanHandlePrintPromptCommand() {
+        when(commandsProcessor.canHandle(Command.PRINT_PROMPT_COMMAND)).thenReturn(true);
     }
 
     private void contextBecomeInactiveAfterProcessing(DrawingContext drawingContext, int numberOfCommands) {
