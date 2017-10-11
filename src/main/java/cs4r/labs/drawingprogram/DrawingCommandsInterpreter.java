@@ -18,9 +18,7 @@ public class DrawingCommandsInterpreter {
 
     public void interpretCommands(DrawingContext context) {
 
-        if (isNull(context)) {
-            throw new IllegalArgumentException("context cannot be null");
-        }
+        failIfContextIsNull(context);
 
         while (context.isActive()) {
             try {
@@ -31,6 +29,12 @@ public class DrawingCommandsInterpreter {
             } catch (RuntimeException runtimeException) {
                 exceptionHandler.handle(runtimeException, context);
             }
+        }
+    }
+
+    private void failIfContextIsNull(DrawingContext context) {
+        if (isNull(context)) {
+            throw new IllegalArgumentException("context cannot be null");
         }
     }
 
