@@ -127,7 +127,7 @@ public class DrawingCommandsInterpreterTest {
     }
 
     @Test
-    public void interpretCommandsNeedsANonNullContext() throws Exception {
+    public void interpretCommandsRequiresANonNullContext() throws Exception {
 
         assertThatThrownBy(() -> commandsInterpreter.interpretCommands(null))
                 .isInstanceOf(IllegalArgumentException.class).hasMessage("context cannot be null");
