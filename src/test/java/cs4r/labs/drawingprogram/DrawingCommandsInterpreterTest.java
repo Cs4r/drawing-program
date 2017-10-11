@@ -1,5 +1,6 @@
 package cs4r.labs.drawingprogram;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -25,21 +26,23 @@ public class DrawingCommandsInterpreterTest {
     @Mock
     private ExceptionHandler exceptionHandler;
 
+    private DrawingCommandsInterpreter commandsInterpreter;
+
+    @Before
+    public void setUp() throws Exception {
+        commandsInterpreter = Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
+                commandsProcessor, exceptionHandler));
+    }
+
     @Test
     public void interpretOneSingleCommand() throws Exception {
 
         // Given
         contextBecomeInactiveAfterProcessing(drawingContext, 1);
 
-        Command command = mock(Command.class);
-
-        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+        Command command = commandsReaderOutput();
 
         // When
-        DrawingCommandsInterpreter commandsInterpreter =
-                Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
-                        commandsProcessor, exceptionHandler));
-
         commandsInterpreter.interpretCommands(drawingContext);
 
         // Then
@@ -81,17 +84,11 @@ public class DrawingCommandsInterpreterTest {
         // Given
         contextBecomeInactiveAfterProcessing(drawingContext, 1);
 
-        Command command = mock(Command.class);
-
-        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+        Command command = commandsReaderOutput();
 
         RuntimeException runtimeException = new RuntimeException("Oops!");
 
         doThrow(runtimeException).when(commandsProcessor).process(command, drawingContext);
-
-        // When
-        DrawingCommandsInterpreter commandsInterpreter = new DrawingCommandsInterpreter(commandsReader,
-                commandsProcessor, exceptionHandler);
 
         commandsInterpreter.interpretCommands(drawingContext);
 
@@ -108,15 +105,9 @@ public class DrawingCommandsInterpreterTest {
 
         contextBecomeInactiveAfterProcessing(drawingContext, numberOfCommands);
 
-        Command command = mock(Command.class);
-
-        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+        Command command = commandsReaderOutput();
 
         // When
-        DrawingCommandsInterpreter commandsInterpreter =
-                Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
-                        commandsProcessor, exceptionHandler));
-
         commandsInterpreter.interpretCommands(drawingContext);
 
         // Then
@@ -134,16 +125,17 @@ public class DrawingCommandsInterpreterTest {
         }
     }
 
+    private Command commandsReaderOutput() {
+        Command command = mock(Command.class);
+
+        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+
+        return command;
+    }
+
     private void contextBecomeInactiveAfterProcessing(DrawingContext drawingContext, int numberOfCommands) {
         final int count[] = new int[]{0};
 
-        Mockito.when(drawingContext.isActive()).then(answer -> {
-
-            if (count[0]++ == numberOfCommands) {
-                return false;
-            } else {
-                return true;
-            }
-        });
+        when(drawingContext.isActive()).then(answer -> count[0]++ != numberOfCommands);
     }
 }
