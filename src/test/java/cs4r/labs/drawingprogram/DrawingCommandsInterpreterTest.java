@@ -29,6 +29,8 @@ public class DrawingCommandsInterpreterTest {
     public void interpretOneSingleCommand() throws Exception {
 
         // Given
+        contextBecomeInactiveAfterProcessing(drawingContext, 1);
+
         Command command = mock(Command.class);
 
         when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
@@ -57,6 +59,8 @@ public class DrawingCommandsInterpreterTest {
     public void exceptionsAreHandledWhenCommandReadingFails() throws Exception {
 
         // Given
+        contextBecomeInactiveAfterProcessing(drawingContext, 1);
+
         RuntimeException runtimeException = new RuntimeException("Oops!");
 
         when(commandsReader.nextCommand(drawingContext)).thenThrow(runtimeException);
@@ -75,6 +79,8 @@ public class DrawingCommandsInterpreterTest {
     public void exceptionsAreHandledWhenCommandProcessingFails() throws Exception {
 
         // Given
+        contextBecomeInactiveAfterProcessing(drawingContext, 1);
+
         Command command = mock(Command.class);
 
         when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
@@ -92,5 +98,52 @@ public class DrawingCommandsInterpreterTest {
         // Then
         verify(commandsReader).nextCommand(drawingContext);
         verify(exceptionHandler).handle(runtimeException, drawingContext);
+    }
+
+    @Test
+    public void interpretSeveralCommands() throws Exception {
+
+        // Given
+        int numberOfCommands = 5;
+
+        contextBecomeInactiveAfterProcessing(drawingContext, numberOfCommands);
+
+        Command command = mock(Command.class);
+
+        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+
+        // When
+        DrawingCommandsInterpreter commandsInterpreter =
+                Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
+                        commandsProcessor, exceptionHandler));
+
+        commandsInterpreter.interpretCommands(drawingContext);
+
+        // Then
+        InOrder inOrder = inOrder(commandsReader, commandsProcessor, commandsInterpreter);
+
+        for (int times = 0; times < numberOfCommands; ++times) {
+
+            inOrder.verify(commandsInterpreter).beforeProcessingCommand(drawingContext);
+
+            inOrder.verify(commandsReader).nextCommand(drawingContext);
+
+            inOrder.verify(commandsProcessor).process(command, drawingContext);
+
+            inOrder.verify(commandsInterpreter).afterProcessingCommand(drawingContext);
+        }
+    }
+
+    private void contextBecomeInactiveAfterProcessing(DrawingContext drawingContext, int numberOfCommands) {
+        final int count[] = new int[]{0};
+
+        Mockito.when(drawingContext.isActive()).then(answer -> {
+
+            if (count[0]++ == numberOfCommands) {
+                return false;
+            } else {
+                return true;
+            }
+        });
     }
 }

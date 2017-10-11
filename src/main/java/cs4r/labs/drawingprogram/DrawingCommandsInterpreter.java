@@ -16,13 +16,16 @@ public class DrawingCommandsInterpreter {
     }
 
     public void interpretCommands(DrawingContext context) {
-        try {
-            beforeProcessingCommand(context);
-            Command command = readCommand(context);
-            processCommand(context, command);
-            afterProcessingCommand(context);
-        } catch (RuntimeException runtimeException) {
-            exceptionHandler.handle(runtimeException, context);
+
+        while (context.isActive()) {
+            try {
+                beforeProcessingCommand(context);
+                Command command = readCommand(context);
+                processCommand(context, command);
+                afterProcessingCommand(context);
+            } catch (RuntimeException runtimeException) {
+                exceptionHandler.handle(runtimeException, context);
+            }
         }
     }
 
