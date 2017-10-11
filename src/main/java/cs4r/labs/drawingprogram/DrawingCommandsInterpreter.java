@@ -5,19 +5,25 @@ public class DrawingCommandsInterpreter {
 
     private final CommandsReader commandsReader;
     private final CommandsProcessor commandsProcessor;
+    private final ExceptionHandler exceptionHandler;
 
     public DrawingCommandsInterpreter(CommandsReader commandsReader,
-                                      CommandsProcessor commandsProcessor) {
+                                      CommandsProcessor commandsProcessor, ExceptionHandler exceptionHandler) {
 
         this.commandsReader = commandsReader;
         this.commandsProcessor = commandsProcessor;
+        this.exceptionHandler = exceptionHandler;
     }
 
     public void interpretCommands(DrawingContext context) {
-        beforeProcessingCommand(context);
-        Command command = readCommand(context);
-        processCommand(context, command);
-        afterProcessingCommand(context);
+        try {
+            beforeProcessingCommand(context);
+            Command command = readCommand(context);
+            processCommand(context, command);
+            afterProcessingCommand(context);
+        } catch (RuntimeException runtimeException) {
+            exceptionHandler.handle(runtimeException, context);
+        }
     }
 
     private void processCommand(DrawingContext context, Command command) {

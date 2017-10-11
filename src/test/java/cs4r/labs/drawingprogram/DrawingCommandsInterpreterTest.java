@@ -22,6 +22,8 @@ public class DrawingCommandsInterpreterTest {
     private CommandsProcessor commandsProcessor;
     @Mock
     private DrawingContext drawingContext;
+    @Mock
+    private ExceptionHandler exceptionHandler;
 
     @Test
     public void interpretOneSingleCommand() throws Exception {
@@ -34,7 +36,7 @@ public class DrawingCommandsInterpreterTest {
         // When
         DrawingCommandsInterpreter commandsInterpreter =
                 Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
-                        commandsProcessor));
+                        commandsProcessor, exceptionHandler));
 
         commandsInterpreter.interpretCommands(drawingContext);
 
@@ -48,5 +50,24 @@ public class DrawingCommandsInterpreterTest {
         inOrder.verify(commandsProcessor).process(command, drawingContext);
 
         inOrder.verify(commandsInterpreter).afterProcessingCommand(drawingContext);
+    }
+
+
+    @Test
+    public void exceptionsAreHandledWhenCommandReadingFails() throws Exception {
+
+        // Given
+        RuntimeException runtimeException = new RuntimeException("Oops!");
+
+        when(commandsReader.nextCommand(drawingContext)).thenThrow(runtimeException);
+
+        // When
+        DrawingCommandsInterpreter commandsInterpreter = new DrawingCommandsInterpreter(commandsReader,
+                commandsProcessor, exceptionHandler);
+
+        commandsInterpreter.interpretCommands(drawingContext);
+
+        // Then
+        verify(exceptionHandler).handle(runtimeException, drawingContext);
     }
 }
