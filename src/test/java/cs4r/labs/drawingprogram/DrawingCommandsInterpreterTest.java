@@ -136,7 +136,7 @@ public class DrawingCommandsInterpreterTest {
     }
 
     @Test
-    public void doesNothingIfContextIsInactive() throws Exception {
+    public void doesNotInterpretCommandsIfContextIsInactive() throws Exception {
 
         when(drawingContext.isActive()).thenReturn(false);
 
