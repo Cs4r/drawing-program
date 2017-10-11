@@ -1,0 +1,35 @@
+enter command:
+----------------------
+|                    |
+|                    |
+|                    |
+|                    |
+----------------------
+enter command:
+----------------------
+|                    |
+|xxxxxx              |
+|                    |
+|                    |
+----------------------
+enter command:
+----------------------
+|                    |
+|xxxxxx              |
+|     x              |
+|     x              |
+----------------------
+enter command:
+----------------------
+|               xxxxx|
+|xxxxxx         x   x|
+|     x         xxxxx|
+|     x              |
+----------------------
+enter command:
+----------------------
+|oooooooooooooooxxxxx|
+|xxxxxxooooooooox   x|
+|     xoooooooooxxxxx|
+|     xoooooooooooooo|
+----------------------
