@@ -70,4 +70,27 @@ public class DrawingCommandsInterpreterTest {
         // Then
         verify(exceptionHandler).handle(runtimeException, drawingContext);
     }
+
+    @Test
+    public void exceptionsAreHandledWhenCommandProcessingFails() throws Exception {
+
+        // Given
+        Command command = mock(Command.class);
+
+        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+
+        RuntimeException runtimeException = new RuntimeException("Oops!");
+
+        doThrow(runtimeException).when(commandsProcessor).process(command, drawingContext);
+
+        // When
+        DrawingCommandsInterpreter commandsInterpreter = new DrawingCommandsInterpreter(commandsReader,
+                commandsProcessor, exceptionHandler);
+
+        commandsInterpreter.interpretCommands(drawingContext);
+
+        // Then
+        verify(commandsReader).nextCommand(drawingContext);
+        verify(exceptionHandler).handle(runtimeException, drawingContext);
+    }
 }
