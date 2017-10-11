@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 
@@ -123,6 +124,13 @@ public class DrawingCommandsInterpreterTest {
 
             inOrder.verify(commandsInterpreter).afterProcessingCommand(drawingContext);
         }
+    }
+
+    @Test
+    public void interpretCommandsNeedsANonNullContext() throws Exception {
+
+        assertThatThrownBy(() -> commandsInterpreter.interpretCommands(null))
+                .isInstanceOf(IllegalArgumentException.class).hasMessage("context cannot be null");
     }
 
     private Command commandsReaderOutput() {

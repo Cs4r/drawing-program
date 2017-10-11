@@ -1,5 +1,6 @@
 package cs4r.labs.drawingprogram;
 
+import static java.util.Objects.isNull;
 
 public class DrawingCommandsInterpreter {
 
@@ -16,6 +17,10 @@ public class DrawingCommandsInterpreter {
     }
 
     public void interpretCommands(DrawingContext context) {
+
+        if (isNull(context)) {
+            throw new IllegalArgumentException("context cannot be null");
+        }
 
         while (context.isActive()) {
             try {
