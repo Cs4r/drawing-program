@@ -22,3 +22,5 @@ A console version of a drawing program.
 
 # Libraries
 1. I decided to use AssertJ in the tests because it provides neat and readable assertions.
+2. I decided to use Mockito because it simplifies stubbing, spying and mocking objects in the test cases. 
+When used properly it reduces boilerplate code in tests and therefore speeds up the development process.
