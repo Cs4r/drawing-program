@@ -9,9 +9,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link DefaultCommandsProcessor}
@@ -61,8 +61,39 @@ public class DefaultCommandsProcessorTest {
                 .isInstanceOf(CommandNotFoundException.class)
                 .hasMessage("Command \"misspelled-command-name\" not found");
 
+    }
+
+    @Test
+    public void canHandleCommandImplementations() {
+
+        // Given
+        commandImplementationFound();
+
+        // When
+        assertThat(defaultCommandsProcessor.canHandle(command)).isTrue();
+
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
+
+
+        reset(commandImplementationRegistry);
+
+        // Given
+        commandImplementationNotFound();
+
+        // When
+        assertThat(defaultCommandsProcessor.canHandle(command)).isFalse();
+
+        // Then
+        verify(commandImplementationRegistry).findImplementation(command);
+    }
+
+    @Test
+    public void canHandleRequiresANonNullContext() throws Exception {
+
+        assertThatThrownBy(() -> defaultCommandsProcessor.canHandle(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("command cannot be null");
     }
 
     private void commandWithName(String commandName) {

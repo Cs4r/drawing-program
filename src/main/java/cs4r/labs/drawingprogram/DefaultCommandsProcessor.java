@@ -5,6 +5,7 @@ import cs4r.labs.drawingprogram.exception.CommandNotFoundException;
 import java.util.Optional;
 
 import static java.lang.String.format;
+import static java.util.Objects.isNull;
 
 /**
  * Default implementation of {@link CommandsProcessor}.
@@ -33,6 +34,16 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
 
     @Override
     public boolean canHandle(Command command) {
-        return false;
+
+        failIfCommandIsNull(command);
+
+        return commandImplementationRegistry.findImplementation(command).isPresent();
+    }
+
+    private void failIfCommandIsNull(Command command) {
+
+        if (isNull(command)) {
+            throw new IllegalArgumentException("command cannot be null");
+        }
     }
 }
