@@ -46,7 +46,7 @@ public class CommandsProcessorTest {
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
-        verify(commandImplementation).execute(drawingContext);
+        verify(commandImplementation).execute(command.getArguments(), drawingContext);
     }
 
     @Test

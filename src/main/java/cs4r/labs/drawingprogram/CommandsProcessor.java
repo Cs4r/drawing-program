@@ -40,7 +40,7 @@ public class CommandsProcessor {
         Optional<CommandImplementation> commandImplementation = commandImplementationRegistry.findImplementation(command);
 
         if (commandImplementation.isPresent()) {
-            commandImplementation.get().execute(context);
+            commandImplementation.get().execute(command.getArguments(), context);
         } else {
             String commandName = command.getName();
             throw new CommandNotFoundException(format("Command \"%s\" not found", commandName));
