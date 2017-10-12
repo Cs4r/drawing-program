@@ -16,6 +16,8 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
 
     public DefaultCommandsProcessor(CommandImplementationRegistry commandImplementationRegistry) {
 
+        failIfRegistryIsNull(commandImplementationRegistry);
+
         this.commandImplementationRegistry = commandImplementationRegistry;
     }
 
@@ -41,6 +43,14 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
 
         return commandImplementationRegistry.findImplementation(command).isPresent();
     }
+
+    private void failIfRegistryIsNull(CommandImplementationRegistry registry) {
+
+        if (isNull(registry)) {
+            throw new IllegalArgumentException("CommandImplementationRegistry cannot be null");
+        }
+    }
+
 
     private void failIfAnyArgumentIsNull(Command command, DrawingContext context) {
 

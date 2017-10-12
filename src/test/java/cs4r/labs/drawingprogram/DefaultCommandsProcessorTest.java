@@ -120,6 +120,14 @@ public class DefaultCommandsProcessorTest {
                 .hasMessage("context cannot be null");
     }
 
+    @Test
+    public void cannotConstructWithNullCommandImplementationRegistry() throws Exception {
+
+        assertThatThrownBy(() -> new DefaultCommandsProcessor(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("CommandImplementationRegistry cannot be null");
+    }
+
     private void commandWithName(String commandName) {
         when(command.getName()).thenReturn(commandName);
     }
