@@ -1,7 +1,7 @@
 package cs4r.labs.drawingprogram;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.Optional;
@@ -15,15 +15,19 @@ import static org.mockito.Mockito.when;
  */
 public class InMemoryCommandImplementationRegistryTest {
 
+    private HashMap<String, CommandImplementation> registeredCommands;
+
+    @Before
+    public void setUp() throws Exception {
+        registeredCommands = new HashMap<>();
+    }
+
     @Test
     public void doNotFindImplementationItIsNotInTheRegistry() throws Exception {
 
         // Given
-        Command commandWithoutImplementation = mock(Command.class);
-        when(commandWithoutImplementation.getName()).thenReturn("A command without implementation");
-
-        HashMap<String, CommandImplementation> registeredCommands = new HashMap<>();
-        registeredCommands.put("oneCommand", mock(CommandImplementation.class));
+        Command commandWithoutImplementation = commandWithName("A command without implementation");
+        registryWithCommandImplementationFor("otherCommand");
 
         // When
         InMemoryCommandImplementationRegistry inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
@@ -36,17 +40,25 @@ public class InMemoryCommandImplementationRegistryTest {
     public void findImplementationIfItIsInTheRegistry() throws Exception {
 
         // Given
-        Command commandWithImplementation = mock(Command.class);
-        when(commandWithImplementation.getName()).thenReturn("A command with implementation");
-
-        HashMap<String, CommandImplementation> registeredCommands = new HashMap<>();
-        CommandImplementation implementation = mock(CommandImplementation.class);
-        registeredCommands.put("A command with implementation", implementation);
+        Command commandWithImplementation = commandWithName("A command with implementation");
+        CommandImplementation implementation = registryWithCommandImplementationFor("A command with implementation");
 
         // When
         InMemoryCommandImplementationRegistry inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
 
         // Then
         assertThat(inMemoryRegistry.findImplementation(commandWithImplementation)).isEqualTo(Optional.of(implementation));
+    }
+
+    private CommandImplementation registryWithCommandImplementationFor(String commandName) {
+        CommandImplementation commandImplementation = mock(CommandImplementation.class);
+        registeredCommands.put(commandName, commandImplementation);
+        return commandImplementation;
+    }
+
+    private Command commandWithName(String value) {
+        Command commandWithoutImplementation = mock(Command.class);
+        when(commandWithoutImplementation.getName()).thenReturn(value);
+        return commandWithoutImplementation;
     }
 }
