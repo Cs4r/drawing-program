@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +17,7 @@ import static org.mockito.Mockito.when;
 public class InMemoryCommandImplementationRegistryTest {
 
     private HashMap<String, CommandImplementation> registeredCommands;
+    private InMemoryCommandImplementationRegistry inMemoryRegistry;
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +32,7 @@ public class InMemoryCommandImplementationRegistryTest {
         registryWithCommandImplementationFor("otherCommand");
 
         // When
-        InMemoryCommandImplementationRegistry inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
+        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
 
         // Then
         assertThat(inMemoryRegistry.findImplementation(commandWithoutImplementation)).isEqualTo(Optional.empty());
@@ -44,10 +46,18 @@ public class InMemoryCommandImplementationRegistryTest {
         CommandImplementation implementation = registryWithCommandImplementationFor("A command with implementation");
 
         // When
-        InMemoryCommandImplementationRegistry inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
+        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
 
         // Then
         assertThat(inMemoryRegistry.findImplementation(commandWithImplementation)).isEqualTo(Optional.of(implementation));
+    }
+
+    @Test
+    public void cannotBeConstructedWithNullRegistry() throws Exception {
+
+        assertThatThrownBy(() -> new InMemoryCommandImplementationRegistry(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("registry cannot be null");
     }
 
     private CommandImplementation registryWithCommandImplementationFor(String commandName) {
