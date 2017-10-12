@@ -36,6 +36,13 @@ public class DrawingCommandsInterpreter {
         }
     }
 
+    public void afterProcessingCommand(DrawingContext context) {
+
+    }
+
+    public void beforeProcessingCommand(DrawingContext context) {
+
+    }
 
     private void failIfContextIsNull(DrawingContext context) {
         if (isNull(context)) {
@@ -51,13 +58,6 @@ public class DrawingCommandsInterpreter {
         return commandsReader.nextCommand(context);
     }
 
-    public void afterProcessingCommand(DrawingContext context) {
-
-    }
-
-    public void beforeProcessingCommand(DrawingContext context) {
-
-    }
 
     private void failIfNullArguments(CommandsReader commandsReader,
                                      CommandsProcessor commandsProcessor,
