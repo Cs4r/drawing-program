@@ -18,6 +18,6 @@ public class InMemoryCommandImplementationRegistry implements CommandImplementat
 
     @Override
     public Optional<CommandImplementation> findImplementation(Command command) {
-        return Optional.empty();
+        return Optional.ofNullable(registry.get(command.getName()));
     }
 }

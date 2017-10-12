@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
  */
 public class InMemoryCommandImplementationRegistryTest {
 
-
     @Test
     public void doNotFindImplementationItIsNotInTheRegistry() throws Exception {
 
@@ -31,5 +30,23 @@ public class InMemoryCommandImplementationRegistryTest {
 
         // Then
         assertThat(inMemoryRegistry.findImplementation(commandWithoutImplementation)).isEqualTo(Optional.empty());
+    }
+
+    @Test
+    public void findImplementationIfItIsInTheRegistry() throws Exception {
+
+        // Given
+        Command commandWithImplementation = mock(Command.class);
+        when(commandWithImplementation.getName()).thenReturn("A command with implementation");
+
+        HashMap<String, CommandImplementation> registeredCommands = new HashMap<>();
+        CommandImplementation implementation = mock(CommandImplementation.class);
+        registeredCommands.put("A command with implementation", implementation);
+
+        // When
+        InMemoryCommandImplementationRegistry inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
+
+        // Then
+        assertThat(inMemoryRegistry.findImplementation(commandWithImplementation)).isEqualTo(Optional.of(implementation));
     }
 }
