@@ -9,9 +9,9 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for {@link DefaultCommandsProcessor}
@@ -60,6 +60,30 @@ public class DefaultCommandsProcessorTest {
         assertThatThrownBy(() -> defaultCommandsProcessor.process(command, drawingContext))
                 .isInstanceOf(CommandNotFoundException.class)
                 .hasMessage("Command \"misspelled-command-name\" not found");
+
+        // Then
+    }
+
+    @Test
+    public void canHandleCommandImplementations() {
+
+        // Given
+        commandImplementationFound();
+
+        // When
+        assertThat(defaultCommandsProcessor.canHandle(command)).isTrue();
+
+        // Then
+        verify(commandImplementationRegistry).findImplementation(command);
+
+
+        reset(commandImplementationRegistry);
+
+        // Given
+        commandImplementationNotFound();
+
+        // When
+        assertThat(defaultCommandsProcessor.canHandle(command)).isFalse();
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);

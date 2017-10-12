@@ -33,6 +33,6 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
 
     @Override
     public boolean canHandle(Command command) {
-        return false;
+        return commandImplementationRegistry.findImplementation(command).isPresent();
     }
 }
