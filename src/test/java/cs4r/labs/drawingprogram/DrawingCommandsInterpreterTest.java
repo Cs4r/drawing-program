@@ -139,13 +139,12 @@ public class DrawingCommandsInterpreterTest {
 
     @Test
     public void doesNotInterpretCommandsIfContextIsInactive() throws Exception {
+        reset(commandsProcessor);
 
         when(drawingContext.isActive()).thenReturn(false);
 
         commandsInterpreter.interpretCommands(drawingContext);
 
-        verify(commandsProcessor).canHandle(Command.PRINT_PROMPT_COMMAND);
-        verify(commandsProcessor).canHandle(Command.PRINT_CANVAS_COMMAND);
         verifyNoMoreInteractions(commandsReader, commandsProcessor, exceptionHandler);
     }
 

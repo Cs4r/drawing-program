@@ -12,24 +12,13 @@ public class DrawingCommandsInterpreter {
                                       CommandsProcessor commandsProcessor,
                                       ExceptionHandler exceptionHandler) {
 
-        handlesPrintPromptCommand(commandsProcessor);
-        handlesPrintCanvasCommand(commandsProcessor);
+        failIfCannotHandlePrintPromptCommand(commandsProcessor);
+        failIfCannotHandlePrintCanvasCommand(commandsProcessor);
         this.commandsReader = commandsReader;
         this.commandsProcessor = commandsProcessor;
         this.exceptionHandler = exceptionHandler;
     }
 
-    private void handlesPrintCanvasCommand(CommandsProcessor commandsProcessor) {
-        if (!commandsProcessor.canHandle(Command.PRINT_CANVAS_COMMAND)) {
-            throw new IllegalArgumentException("CommandsProcessor must handle PrintCanvasCommand");
-        }
-    }
-
-    private void handlesPrintPromptCommand(CommandsProcessor commandsProcessor) {
-        if (!commandsProcessor.canHandle(Command.PRINT_PROMPT_COMMAND)) {
-            throw new IllegalArgumentException("CommandsProcessor must handle PrintPromptCommand");
-        }
-    }
 
     public void interpretCommands(DrawingContext context) {
 
@@ -67,5 +56,17 @@ public class DrawingCommandsInterpreter {
 
     public void beforeProcessingCommand(DrawingContext context) {
 
+    }
+
+    private void failIfCannotHandlePrintCanvasCommand(CommandsProcessor commandsProcessor) {
+        if (!commandsProcessor.canHandle(Command.PRINT_CANVAS_COMMAND)) {
+            throw new IllegalArgumentException("CommandsProcessor must handle PrintCanvasCommand");
+        }
+    }
+
+    private void failIfCannotHandlePrintPromptCommand(CommandsProcessor commandsProcessor) {
+        if (!commandsProcessor.canHandle(Command.PRINT_PROMPT_COMMAND)) {
+            throw new IllegalArgumentException("CommandsProcessor must handle PrintPromptCommand");
+        }
     }
 }
