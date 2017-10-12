@@ -13,9 +13,16 @@ public class DrawingCommandsInterpreter {
                                       ExceptionHandler exceptionHandler) {
 
         handlesPrintPromptCommand(commandsProcessor);
+        handlesPrintCanvasCommand(commandsProcessor);
         this.commandsReader = commandsReader;
         this.commandsProcessor = commandsProcessor;
         this.exceptionHandler = exceptionHandler;
+    }
+
+    private void handlesPrintCanvasCommand(CommandsProcessor commandsProcessor) {
+        if (!commandsProcessor.canHandle(Command.PRINT_CANVAS_COMMAND)) {
+            throw new IllegalArgumentException("CommandsProcessor must handle PrintCanvasCommand");
+        }
     }
 
     private void handlesPrintPromptCommand(CommandsProcessor commandsProcessor) {

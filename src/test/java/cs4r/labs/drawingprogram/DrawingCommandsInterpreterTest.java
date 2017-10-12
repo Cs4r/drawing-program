@@ -32,10 +32,12 @@ public class DrawingCommandsInterpreterTest {
     @Before
     public void setUp() throws Exception {
         commandsProcessorCanHandlePrintPromptCommand();
+        commandsProcessorCanHandlePrintCanvasCommand();
 
         commandsInterpreter = Mockito.spy(new DrawingCommandsInterpreter(commandsReader,
                 commandsProcessor, exceptionHandler));
     }
+
 
     @Test
     public void interpretOneSingleCommand() throws Exception {
@@ -143,6 +145,7 @@ public class DrawingCommandsInterpreterTest {
         commandsInterpreter.interpretCommands(drawingContext);
 
         verify(commandsProcessor).canHandle(Command.PRINT_PROMPT_COMMAND);
+        verify(commandsProcessor).canHandle(Command.PRINT_CANVAS_COMMAND);
         verifyNoMoreInteractions(commandsReader, commandsProcessor, exceptionHandler);
     }
 
@@ -154,6 +157,21 @@ public class DrawingCommandsInterpreterTest {
         assertThatThrownBy(() -> new DrawingCommandsInterpreter(commandsReader, commandsProcessor, exceptionHandler))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("CommandsProcessor must handle PrintPromptCommand");
+    }
+
+    @Test
+    public void ensuresThatCommandsProcessorHandlesPrintCanvasCommand() throws Exception {
+
+        commandsProcessorCannotHandlePrintCanvasCommand();
+
+        assertThatThrownBy(() -> new DrawingCommandsInterpreter(commandsReader, commandsProcessor, exceptionHandler))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("CommandsProcessor must handle PrintCanvasCommand");
+    }
+
+    private void commandsProcessorCannotHandlePrintCanvasCommand() {
+        Command printCanvas = Command.PRINT_CANVAS_COMMAND;
+        when(commandsProcessor.canHandle(printCanvas)).thenReturn(false);
     }
 
     private void commandsProcessorCannotHandlePrintPromptCommand() {
@@ -171,6 +189,11 @@ public class DrawingCommandsInterpreterTest {
 
     private void commandsProcessorCanHandlePrintPromptCommand() {
         when(commandsProcessor.canHandle(Command.PRINT_PROMPT_COMMAND)).thenReturn(true);
+    }
+
+    private void commandsProcessorCanHandlePrintCanvasCommand() {
+        when(commandsProcessor.canHandle(Command.PRINT_CANVAS_COMMAND)).thenReturn(true);
+
     }
 
     private void contextBecomeInactiveAfterProcessing(DrawingContext drawingContext, int numberOfCommands) {
