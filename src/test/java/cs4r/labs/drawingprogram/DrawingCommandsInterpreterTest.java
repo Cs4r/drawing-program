@@ -190,6 +190,14 @@ public class DrawingCommandsInterpreterTest {
                 .hasMessage("ExceptionHandler cannot be null");
     }
 
+    @Test
+    public void processPrintPromptCommandBeforeReadingEachCommand() throws Exception {
+
+        commandsInterpreter.beforeProcessingCommand(drawingContext);
+
+        verify(commandsProcessor).process(Command.PRINT_PROMPT_COMMAND, drawingContext);
+    }
+
     private void commandsProcessorCannotHandlePrintCanvasCommand() {
         Command printCanvas = Command.PRINT_CANVAS_COMMAND;
         when(commandsProcessor.canHandle(printCanvas)).thenReturn(false);

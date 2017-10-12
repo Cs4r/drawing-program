@@ -41,7 +41,7 @@ public class DrawingCommandsInterpreter {
     }
 
     public void beforeProcessingCommand(DrawingContext context) {
-
+        commandsProcessor.process(Command.PRINT_PROMPT_COMMAND, context);
     }
 
     private void failIfContextIsNull(DrawingContext context) {
