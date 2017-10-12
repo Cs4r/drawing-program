@@ -14,10 +14,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 /**
- * Unit tests for {@link DefaultCommandsProcessor}
+ * Unit tests for {@link CommandsProcessor}.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class DefaultCommandsProcessorTest {
+public class CommandsProcessorTest {
 
     @Mock
     private DrawingContext drawingContext;
@@ -32,7 +32,7 @@ public class DefaultCommandsProcessorTest {
     private CommandImplementationRegistry commandImplementationRegistry;
 
     @InjectMocks
-    private DefaultCommandsProcessor defaultCommandsProcessor;
+    private CommandsProcessor commandsProcessor;
 
 
     @Test
@@ -42,7 +42,7 @@ public class DefaultCommandsProcessorTest {
         commandImplementationFound();
 
         // When
-        defaultCommandsProcessor.process(command, drawingContext);
+        commandsProcessor.process(command, drawingContext);
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
@@ -57,7 +57,7 @@ public class DefaultCommandsProcessorTest {
         commandImplementationNotFound();
 
         // When
-        assertThatThrownBy(() -> defaultCommandsProcessor.process(command, drawingContext))
+        assertThatThrownBy(() -> commandsProcessor.process(command, drawingContext))
                 .isInstanceOf(CommandNotFoundException.class)
                 .hasMessage("Command \"misspelled-command-name\" not found");
 
@@ -70,7 +70,7 @@ public class DefaultCommandsProcessorTest {
         commandImplementationFound();
 
         // When
-        assertThat(defaultCommandsProcessor.canHandle(command)).isTrue();
+        assertThat(commandsProcessor.canHandle(command)).isTrue();
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
@@ -82,7 +82,7 @@ public class DefaultCommandsProcessorTest {
         commandImplementationNotFound();
 
         // When
-        assertThat(defaultCommandsProcessor.canHandle(command)).isFalse();
+        assertThat(commandsProcessor.canHandle(command)).isFalse();
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
@@ -94,7 +94,7 @@ public class DefaultCommandsProcessorTest {
         commandImplementationNotFound();
 
         // When
-        assertThat(defaultCommandsProcessor.canHandle(command)).isFalse();
+        assertThat(commandsProcessor.canHandle(command)).isFalse();
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
@@ -103,7 +103,7 @@ public class DefaultCommandsProcessorTest {
     @Test
     public void canHandleRequiresANonNullContext() throws Exception {
 
-        assertThatThrownBy(() -> defaultCommandsProcessor.canHandle(null))
+        assertThatThrownBy(() -> commandsProcessor.canHandle(null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("command cannot be null");
     }
@@ -111,11 +111,11 @@ public class DefaultCommandsProcessorTest {
     @Test
     public void processRequiresNonNullArguments() throws Exception {
 
-        assertThatThrownBy(() -> defaultCommandsProcessor.process(null, drawingContext))
+        assertThatThrownBy(() -> commandsProcessor.process(null, drawingContext))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("command cannot be null");
 
-        assertThatThrownBy(() -> defaultCommandsProcessor.process(command, null))
+        assertThatThrownBy(() -> commandsProcessor.process(command, null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("context cannot be null");
     }
@@ -123,7 +123,7 @@ public class DefaultCommandsProcessorTest {
     @Test
     public void cannotConstructWithNullCommandImplementationRegistry() throws Exception {
 
-        assertThatThrownBy(() -> new DefaultCommandsProcessor(null))
+        assertThatThrownBy(() -> new CommandsProcessor(null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("CommandImplementationRegistry cannot be null");
     }
