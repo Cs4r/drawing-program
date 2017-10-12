@@ -73,6 +73,30 @@ public class DefaultCommandsProcessorTest {
         assertThat(defaultCommandsProcessor.canHandle(command)).isTrue();
 
         // Then
+    }
+
+    @Test
+    public void canHandleCommandImplementations() {
+
+        // Given
+        commandImplementationFound();
+
+        // When
+        assertThat(defaultCommandsProcessor.canHandle(command)).isTrue();
+
+        // Then
+        verify(commandImplementationRegistry).findImplementation(command);
+
+
+        reset(commandImplementationRegistry);
+
+        // Given
+        commandImplementationNotFound();
+
+        // When
+        assertThat(defaultCommandsProcessor.canHandle(command)).isFalse();
+
+        // Then
         verify(commandImplementationRegistry).findImplementation(command);
 
 
