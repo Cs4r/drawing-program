@@ -1,6 +1,10 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.exception.CommandNotFoundException;
+
 import java.util.Optional;
+
+import static java.lang.String.format;
 
 /**
  * Default implementation of {@link CommandsProcessor}.
@@ -19,7 +23,12 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
 
         Optional<CommandImplementation> commandImplementation = commandImplementationRegistry.findImplementation(command);
 
-        commandImplementation.get().execute(context);
+        if (commandImplementation.isPresent()) {
+            commandImplementation.get().execute(context);
+        } else {
+            String commandName = command.getName();
+            throw new CommandNotFoundException(format("Command \"%s\" not found", commandName));
+        }
     }
 
     @Override
