@@ -139,7 +139,7 @@ public class DrawingCommandsInterpreterTest {
     }
 
     @Test
-    public void doesNotInterpretCommandsIfContextIsInactive() throws Exception {
+    public void doNotInterpretCommandsIfContextIsInactive() throws Exception {
 
         // Given
         reset(commandsProcessor);
@@ -154,7 +154,7 @@ public class DrawingCommandsInterpreterTest {
     }
 
     @Test
-    public void ensuresThatCommandsProcessorHandlesPrintPromptCommand() {
+    public void ensureThatCommandsProcessorHandlesPrintPromptCommand() {
 
         commandsProcessorCannotHandlePrintPromptCommand();
 
@@ -164,7 +164,7 @@ public class DrawingCommandsInterpreterTest {
     }
 
     @Test
-    public void ensuresThatCommandsProcessorHandlesPrintCanvasCommand() throws Exception {
+    public void ensureThatCommandsProcessorHandlesPrintCanvasCommand() throws Exception {
 
         commandsProcessorCannotHandlePrintCanvasCommand();
 
