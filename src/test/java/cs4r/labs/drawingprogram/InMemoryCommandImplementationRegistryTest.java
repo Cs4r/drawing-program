@@ -60,6 +60,16 @@ public class InMemoryCommandImplementationRegistryTest {
                 .hasMessage("registry cannot be null");
     }
 
+    @Test
+    public void findImplementationRequiresANonNullCommand() throws Exception {
+
+        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
+
+        assertThatThrownBy(() -> inMemoryRegistry.findImplementation(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("command cannot be null");
+    }
+
     private CommandImplementation registryWithCommandImplementationFor(String commandName) {
         CommandImplementation commandImplementation = mock(CommandImplementation.class);
         registeredCommands.put(commandName, commandImplementation);
