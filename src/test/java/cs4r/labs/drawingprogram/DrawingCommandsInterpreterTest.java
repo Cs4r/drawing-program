@@ -95,6 +95,7 @@ public class DrawingCommandsInterpreterTest {
 
         doThrow(runtimeException).when(commandsProcessor).process(command, drawingContext);
 
+        // When
         commandsInterpreter.interpretCommands(drawingContext);
 
         // Then
@@ -139,12 +140,16 @@ public class DrawingCommandsInterpreterTest {
 
     @Test
     public void doesNotInterpretCommandsIfContextIsInactive() throws Exception {
+
+        // Given
         reset(commandsProcessor);
 
         when(drawingContext.isActive()).thenReturn(false);
 
+        // When
         commandsInterpreter.interpretCommands(drawingContext);
 
+        // Then
         verifyNoMoreInteractions(commandsReader, commandsProcessor, exceptionHandler);
     }
 
