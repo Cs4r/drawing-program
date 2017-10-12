@@ -44,32 +44,32 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
         return commandImplementationRegistry.findImplementation(command).isPresent();
     }
 
-    private void failIfRegistryIsNull(CommandImplementationRegistry registry) {
 
-        if (isNull(registry)) {
-            throw new IllegalArgumentException("CommandImplementationRegistry cannot be null");
+    private <T> void throwIllegalArgumentExceptionIfNullArgument(T object, String argumentName) {
+        if (isNull(object)) {
+            throw new IllegalArgumentException(argumentName + " cannot be null");
         }
     }
 
+    private void failIfRegistryIsNull(CommandImplementationRegistry registry) {
+
+        throwIllegalArgumentExceptionIfNullArgument(registry, "CommandImplementationRegistry");
+
+    }
 
     private void failIfAnyArgumentIsNull(Command command, DrawingContext context) {
 
         failIfCommandIsNull(command);
         failIfContextIsNull(context);
-
     }
 
     private void failIfContextIsNull(DrawingContext context) {
 
-        if (isNull(context)) {
-            throw new IllegalArgumentException("context cannot be null");
-        }
+        throwIllegalArgumentExceptionIfNullArgument(context, "context");
     }
 
     private void failIfCommandIsNull(Command command) {
 
-        if (isNull(command)) {
-            throw new IllegalArgumentException("command cannot be null");
-        }
+        throwIllegalArgumentExceptionIfNullArgument(command, "command");
     }
 }
