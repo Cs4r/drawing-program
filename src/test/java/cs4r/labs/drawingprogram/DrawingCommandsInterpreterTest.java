@@ -198,6 +198,14 @@ public class DrawingCommandsInterpreterTest {
         verify(commandsProcessor).process(Command.PRINT_PROMPT_COMMAND, drawingContext);
     }
 
+    @Test
+    public void processPrintCanvasCommandAfterProcessingEachCommand() throws Exception {
+
+        commandsInterpreter.afterProcessingCommand(drawingContext);
+
+        verify(commandsProcessor).process(Command.PRINT_CANVAS_COMMAND, drawingContext);
+    }
+
     private void commandsProcessorCannotHandlePrintCanvasCommand() {
         Command printCanvas = Command.PRINT_CANVAS_COMMAND;
         when(commandsProcessor.canHandle(printCanvas)).thenReturn(false);

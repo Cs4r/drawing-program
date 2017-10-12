@@ -37,7 +37,7 @@ public class DrawingCommandsInterpreter {
     }
 
     public void afterProcessingCommand(DrawingContext context) {
-
+        commandsProcessor.process(Command.PRINT_CANVAS_COMMAND, context);
     }
 
     public void beforeProcessingCommand(DrawingContext context) {
