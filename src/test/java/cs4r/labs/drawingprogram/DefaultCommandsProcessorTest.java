@@ -20,7 +20,7 @@ public class DefaultCommandsProcessorTest {
 
 
     @Test
-    public void processCommandWhenFound() throws Exception {
+    public void processCommandWhenCommandImplementationIsFound() throws Exception {
 
         //Given
         DrawingContext drawingContext = mock(DrawingContext.class);
