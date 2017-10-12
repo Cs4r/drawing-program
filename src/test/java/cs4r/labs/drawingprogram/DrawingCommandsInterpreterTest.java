@@ -173,6 +173,23 @@ public class DrawingCommandsInterpreterTest {
                 .hasMessage("CommandsProcessor must handle PrintCanvasCommand");
     }
 
+
+    @Test
+    public void cannotBeConstructedWithNullArguments() throws Exception {
+
+        assertThatThrownBy(() -> new DrawingCommandsInterpreter(null, commandsProcessor, exceptionHandler))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("CommandsReader cannot be null");
+
+        assertThatThrownBy(() -> new DrawingCommandsInterpreter(commandsReader, null, exceptionHandler))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("CommandsProcessor cannot be null");
+
+        assertThatThrownBy(() -> new DrawingCommandsInterpreter(commandsReader, commandsProcessor, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("ExceptionHandler cannot be null");
+    }
+
     private void commandsProcessorCannotHandlePrintCanvasCommand() {
         Command printCanvas = Command.PRINT_CANVAS_COMMAND;
         when(commandsProcessor.canHandle(printCanvas)).thenReturn(false);

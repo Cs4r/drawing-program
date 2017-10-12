@@ -12,13 +12,13 @@ public class DrawingCommandsInterpreter {
                                       CommandsProcessor commandsProcessor,
                                       ExceptionHandler exceptionHandler) {
 
+        failIfNullArguments(commandsReader, commandsProcessor, exceptionHandler);
         failIfCannotHandlePrintPromptCommand(commandsProcessor);
         failIfCannotHandlePrintCanvasCommand(commandsProcessor);
         this.commandsReader = commandsReader;
         this.commandsProcessor = commandsProcessor;
         this.exceptionHandler = exceptionHandler;
     }
-
 
     public void interpretCommands(DrawingContext context) {
 
@@ -35,6 +35,7 @@ public class DrawingCommandsInterpreter {
             }
         }
     }
+
 
     private void failIfContextIsNull(DrawingContext context) {
         if (isNull(context)) {
@@ -56,6 +57,23 @@ public class DrawingCommandsInterpreter {
 
     public void beforeProcessingCommand(DrawingContext context) {
 
+    }
+
+    private void failIfNullArguments(CommandsReader commandsReader,
+                                     CommandsProcessor commandsProcessor,
+                                     ExceptionHandler exceptionHandler) {
+        if (isNull(commandsReader)) {
+            throw new IllegalArgumentException("CommandsReader cannot be null");
+        }
+
+        if (isNull(commandsProcessor)) {
+            throw new IllegalArgumentException("CommandsProcessor cannot be null");
+
+        }
+
+        if (isNull(exceptionHandler)) {
+            throw new IllegalArgumentException("ExceptionHandler cannot be null");
+        }
     }
 
     private void failIfCannotHandlePrintCanvasCommand(CommandsProcessor commandsProcessor) {
