@@ -22,6 +22,8 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
     @Override
     public void process(Command command, DrawingContext context) {
 
+        failIfAnyArgumentIsNull(command, context);
+
         Optional<CommandImplementation> commandImplementation = commandImplementationRegistry.findImplementation(command);
 
         if (commandImplementation.isPresent()) {
@@ -38,6 +40,20 @@ public class DefaultCommandsProcessor implements CommandsProcessor {
         failIfCommandIsNull(command);
 
         return commandImplementationRegistry.findImplementation(command).isPresent();
+    }
+
+    private void failIfAnyArgumentIsNull(Command command, DrawingContext context) {
+
+        failIfCommandIsNull(command);
+        failIfContextIsNull(context);
+
+    }
+
+    private void failIfContextIsNull(DrawingContext context) {
+
+        if (isNull(context)) {
+            throw new IllegalArgumentException("context cannot be null");
+        }
     }
 
     private void failIfCommandIsNull(Command command) {

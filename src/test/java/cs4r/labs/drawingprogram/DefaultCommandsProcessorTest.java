@@ -108,6 +108,18 @@ public class DefaultCommandsProcessorTest {
                 .hasMessage("command cannot be null");
     }
 
+    @Test
+    public void processRequiresNonNullArguments() throws Exception {
+
+        assertThatThrownBy(() -> defaultCommandsProcessor.process(null, drawingContext))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("command cannot be null");
+
+        assertThatThrownBy(() -> defaultCommandsProcessor.process(command, null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("context cannot be null");
+    }
+
     private void commandWithName(String commandName) {
         when(command.getName()).thenReturn(commandName);
     }
