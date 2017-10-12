@@ -22,6 +22,7 @@ public class InMemoryCommandImplementationRegistryTest {
     @Before
     public void setUp() throws Exception {
         registeredCommands = new HashMap<>();
+        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
     }
 
     @Test
@@ -31,11 +32,11 @@ public class InMemoryCommandImplementationRegistryTest {
         Command commandWithoutImplementation = commandWithName("A command without implementation");
         registryWithCommandImplementationFor("otherCommand");
 
-        // When
-        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
 
-        // Then
-        assertThat(inMemoryRegistry.findImplementation(commandWithoutImplementation)).isEqualTo(Optional.empty());
+        // When
+        assertThat(inMemoryRegistry.findImplementation(commandWithoutImplementation))
+                // Then
+                .isEqualTo(Optional.empty());
     }
 
     @Test
@@ -46,10 +47,9 @@ public class InMemoryCommandImplementationRegistryTest {
         CommandImplementation implementation = registryWithCommandImplementationFor("A command with implementation");
 
         // When
-        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
-
-        // Then
-        assertThat(inMemoryRegistry.findImplementation(commandWithImplementation)).isEqualTo(Optional.of(implementation));
+        assertThat(inMemoryRegistry.findImplementation(commandWithImplementation))
+                // Then
+                .isEqualTo(Optional.of(implementation));
     }
 
     @Test
@@ -62,8 +62,6 @@ public class InMemoryCommandImplementationRegistryTest {
 
     @Test
     public void findImplementationRequiresANonNullCommand() throws Exception {
-
-        inMemoryRegistry = new InMemoryCommandImplementationRegistry(registeredCommands);
 
         assertThatThrownBy(() -> inMemoryRegistry.findImplementation(null))
                 .isInstanceOf(IllegalArgumentException.class)
