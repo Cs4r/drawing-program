@@ -3,12 +3,13 @@ package cs4r.labs.drawingprogram;
 import cs4r.labs.drawingprogram.exception.CommandNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,18 +19,27 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultCommandsProcessorTest {
 
+    @Mock
+    private DrawingContext drawingContext;
+
+    @Mock
+    private Command command;
+
+    @Mock
+    private CommandImplementation commandImplementation;
+
+    @Mock
+    private CommandImplementationRegistry commandImplementationRegistry;
+
+    @InjectMocks
+    private DefaultCommandsProcessor defaultCommandsProcessor;
+
 
     @Test
     public void processCommandWhenCommandImplementationIsFound() throws Exception {
 
         //Given
-        DrawingContext drawingContext = mock(DrawingContext.class);
-        Command command = mock(Command.class);
-        CommandImplementation commandImplementation = mock(CommandImplementation.class);
-        CommandImplementationRegistry commandImplementationRegistry = mock(CommandImplementationRegistry.class);
-        when(commandImplementationRegistry.findImplementation(command)).thenReturn(Optional.of(commandImplementation));
-
-        DefaultCommandsProcessor defaultCommandsProcessor = new DefaultCommandsProcessor(commandImplementationRegistry);
+        commandImplementationFound();
 
         // When
         defaultCommandsProcessor.process(command, drawingContext);
@@ -42,13 +52,9 @@ public class DefaultCommandsProcessorTest {
     @Test
     public void throwCommandNotFoundExceptionWhenCommandImplementationNotFound() throws Exception {
 
-        DrawingContext drawingContext = mock(DrawingContext.class);
-        Command command = mock(Command.class);
-        when(command.getName()).thenReturn("misspelled-command-name");
-        CommandImplementationRegistry commandImplementationRegistry = mock(CommandImplementationRegistry.class);
-        when(commandImplementationRegistry.findImplementation(command)).thenReturn(Optional.empty());
-
-        DefaultCommandsProcessor defaultCommandsProcessor = new DefaultCommandsProcessor(commandImplementationRegistry);
+        // Given
+        commandWithName("misspelled-command-name");
+        commandImplementationNotFound();
 
         // When
         assertThatThrownBy(() -> defaultCommandsProcessor.process(command, drawingContext))
@@ -57,5 +63,18 @@ public class DefaultCommandsProcessorTest {
 
         // Then
         verify(commandImplementationRegistry).findImplementation(command);
+    }
+
+    private void commandWithName(String commandName) {
+        when(command.getName()).thenReturn(commandName);
+    }
+
+    private void commandImplementationNotFound() {
+        when(commandImplementationRegistry.findImplementation(command)).thenReturn(Optional.empty());
+    }
+
+
+    private void commandImplementationFound() {
+        when(commandImplementationRegistry.findImplementation(command)).thenReturn(Optional.of(commandImplementation));
     }
 }
