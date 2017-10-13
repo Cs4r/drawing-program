@@ -1,6 +1,7 @@
 package cs4r.labs.drawingprogram;
 
 import cs4r.labs.drawingprogram.exception.InvalidCommandException;
+import org.assertj.core.api.ThrowableAssert;
 import org.junit.After;
 import org.junit.Test;
 
@@ -62,9 +63,23 @@ public class DefaultCommandsReaderTest {
         DefaultCommandsReader reader = new DefaultCommandsReader();
 
         contextWithInput("");
+        assertIsInvalidCommand(() -> reader.nextCommand(context));
 
-        // When
-        assertThatThrownBy(() -> reader.nextCommand(context))
+        contextWithInput("A --");
+        assertIsInvalidCommand(() -> reader.nextCommand(context));
+
+        contextWithInput("-- 1 2");
+        assertIsInvalidCommand(() -> reader.nextCommand(context));
+
+        contextWithInput("$$ 1 2");
+        assertIsInvalidCommand(() -> reader.nextCommand(context));
+
+        contextWithInput("$$ 1 2");
+        assertIsInvalidCommand(() -> reader.nextCommand(context));
+    }
+
+    private void assertIsInvalidCommand(ThrowableAssert.ThrowingCallable callable) {
+        assertThatThrownBy(callable)
                 .isInstanceOf(InvalidCommandException.class)
                 .hasMessage("Invalid command");
     }

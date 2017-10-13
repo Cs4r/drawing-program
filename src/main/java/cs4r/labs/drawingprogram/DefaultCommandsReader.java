@@ -23,15 +23,16 @@ public class DefaultCommandsReader implements CommandsReader {
             String line = scanner.nextLine();
             Matcher matcher = COMMAND_REGEX.matcher(line);
 
-            matcher.matches();
+            if (matcher.matches()) {
+                String name = matcher.group(1);
+                String arguments = matcher.group(2);
+                return Command.with(name, arguments);
+            }
 
-            String name = matcher.group(1);
-
-            String arguments = matcher.group(2);
-
-            return Command.with(name, arguments);
         } catch (NoSuchElementException exception) {
-            throw new InvalidCommandException("Invalid command");
+
         }
+
+        throw new InvalidCommandException("Invalid command");
     }
 }
