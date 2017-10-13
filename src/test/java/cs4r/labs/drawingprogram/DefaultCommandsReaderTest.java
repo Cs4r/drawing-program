@@ -3,6 +3,7 @@ package cs4r.labs.drawingprogram;
 import cs4r.labs.drawingprogram.exception.InvalidCommandException;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -21,6 +22,12 @@ public class DefaultCommandsReaderTest {
 
     private DrawingContext context;
     private InputStream input;
+    private DefaultCommandsReader reader;
+
+    @Before
+    public void setUp() throws Exception {
+        reader = new DefaultCommandsReader();
+    }
 
     @After
     public void tearDown() throws Exception {
@@ -29,8 +36,6 @@ public class DefaultCommandsReaderTest {
 
     @Test
     public void readOneWellFormedCommandWith2Arguments() throws Exception {
-
-        DefaultCommandsReader reader = new DefaultCommandsReader();
 
         contextWithInput("C 20 4");
 
@@ -45,8 +50,6 @@ public class DefaultCommandsReaderTest {
     @Test
     public void readOneWellFormedCommandWith4Arguments() throws Exception {
 
-        DefaultCommandsReader reader = new DefaultCommandsReader();
-
         contextWithInput("L 1 2 4 4");
 
         // When
@@ -60,8 +63,6 @@ public class DefaultCommandsReaderTest {
     @Test
     public void readOneWellFormedCommandWithNoArguments() throws Exception {
 
-        DefaultCommandsReader reader = new DefaultCommandsReader();
-
         contextWithInput("Q");
 
         // When
@@ -74,8 +75,6 @@ public class DefaultCommandsReaderTest {
 
     @Test
     public void readOneBadFormedCommand() throws Exception {
-
-        DefaultCommandsReader reader = new DefaultCommandsReader();
 
         contextWithInput("");
         assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
