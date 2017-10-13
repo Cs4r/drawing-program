@@ -8,20 +8,20 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static cs4r.labs.drawingprogram.DefaultCommandsReader.COMMAND_REGEX;
+import static cs4r.labs.drawingprogram.CommandsReader.COMMAND_REGEX;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- * Unit tests for {@link DefaultCommandsReader}
+ * Unit tests for {@link CommandsReader}
  */
-public class DefaultCommandsReaderTest {
+public class CommandsReaderTest {
 
     private DrawingContext context;
     private InputStream input;
-    private DefaultCommandsReader reader;
+    private CommandsReader reader;
 
     @After
     public void tearDown() throws Exception {
@@ -35,7 +35,7 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("C 20 4");
 
-        reader = new DefaultCommandsReader(context);
+        reader = new CommandsReader(context);
 
         // When
         Command command = reader.nextCommand();
@@ -50,7 +50,7 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("L 1 2 4 4");
 
-        reader = new DefaultCommandsReader(context);
+        reader = new CommandsReader(context);
 
         // When
         Command command = reader.nextCommand();
@@ -65,7 +65,7 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("Q");
 
-        reader = new DefaultCommandsReader(context);
+        reader = new CommandsReader(context);
 
         // When
         Command command = reader.nextCommand();
@@ -80,7 +80,7 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("");
 
-        reader = new DefaultCommandsReader(context);
+        reader = new CommandsReader(context);
 
         assertThatThrowsInvalidCommandException(() -> reader.nextCommand());
     }
@@ -95,7 +95,7 @@ public class DefaultCommandsReaderTest {
                 + "Q"
         );
 
-        reader = new DefaultCommandsReader(context);
+        reader = new CommandsReader(context);
 
         assertThat(reader.nextCommand()).isEqualTo(Command.with("C", "w h"));
         assertThat(reader.nextCommand()).isEqualTo(Command.with("L", "x1 y1 x2 y2"));
@@ -115,7 +115,7 @@ public class DefaultCommandsReaderTest {
                 + "Q------"
         );
 
-        reader = new DefaultCommandsReader(context);
+        reader = new CommandsReader(context);
 
         assertThatThrownBy(() -> reader.nextCommand()).isInstanceOf(InvalidCommandException.class);
 
@@ -156,7 +156,7 @@ public class DefaultCommandsReaderTest {
     @Test
     public void cannotBeConstructedWithANullContext() throws Exception {
 
-        assertThatThrownBy(() -> new DefaultCommandsReader(null))
+        assertThatThrownBy(() -> new CommandsReader(null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("context cannot be null");
     }
