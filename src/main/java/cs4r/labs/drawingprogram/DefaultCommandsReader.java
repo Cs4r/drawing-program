@@ -2,7 +2,6 @@ package cs4r.labs.drawingprogram;
 
 import cs4r.labs.drawingprogram.exception.InvalidCommandException;
 
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -33,8 +32,8 @@ public class DefaultCommandsReader implements CommandsReader {
                 return Command.with(name, arguments);
             }
 
-        } catch (NoSuchElementException exception) {
-
+        } catch (RuntimeException exception) {
+            // If any exception is thrown, we will rethrow an InvalidCommandException
         }
 
         throw new InvalidCommandException("Invalid command");

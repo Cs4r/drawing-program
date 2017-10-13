@@ -51,6 +51,34 @@ public class Command {
         return arguments;
     }
 
+    @Override
+    public final boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof Command)) {
+            return false;
+        }
+
+        Command command = (Command) o;
+
+        return Objects.equals(getArguments(), command.getArguments()) &&
+                Objects.equals(getName(), command.getName());
+    }
+
+    @Override
+    public String toString() {
+        return "Command{" +
+                "arguments='" + arguments + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public final int hashCode() {
+        return Objects.hash(getArguments(), getName());
+    }
 
     private static void failIfNameIsNull(String name) {
         if (Objects.isNull(name)) {

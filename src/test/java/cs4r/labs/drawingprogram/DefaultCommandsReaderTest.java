@@ -3,7 +3,6 @@ package cs4r.labs.drawingprogram;
 import cs4r.labs.drawingprogram.exception.InvalidCommandException;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -19,7 +18,6 @@ import static org.mockito.Mockito.when;
  * Unit tests for {@link DefaultCommandsReader}
  */
 public class DefaultCommandsReaderTest {
-
 
     private DrawingContext context;
     private InputStream input;
@@ -85,6 +83,25 @@ public class DefaultCommandsReaderTest {
         reader = new DefaultCommandsReader(context);
 
         assertThatThrowsInvalidCommandException(() -> reader.nextCommand());
+    }
+
+    @Test
+    public void readSeveralCommandsAllValid() throws Exception {
+
+        contextWithInput("C w h\n"
+                + "L x1 y1 x2 y2\n"
+                + "R x1 y1 x2 y2\n"
+                + "B x y c\n"
+                + "Q"
+        );
+
+        reader = new DefaultCommandsReader(context);
+
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("C", "w h"));
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("L", "x1 y1 x2 y2"));
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("R", "x1 y1 x2 y2"));
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("B", "x y c"));
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("Q", ""));
     }
 
     @Test
