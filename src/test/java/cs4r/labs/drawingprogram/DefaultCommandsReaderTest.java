@@ -105,6 +105,32 @@ public class DefaultCommandsReaderTest {
     }
 
     @Test
+    public void readSeveralCommandsSomeInvalid() throws Exception {
+
+        contextWithInput("\n"
+                + "L x1 y1 x2 y2\n"
+                + "R x1 y1 x2 y2\n"
+                + "\n"
+                + "B x y c\n"
+                + "Q------"
+        );
+
+        reader = new DefaultCommandsReader(context);
+
+        assertThatThrownBy(() -> reader.nextCommand()).isInstanceOf(InvalidCommandException.class);
+
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("L", "x1 y1 x2 y2"));
+
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("R", "x1 y1 x2 y2"));
+
+        assertThatThrownBy(() -> reader.nextCommand()).isInstanceOf(InvalidCommandException.class);
+
+        assertThat(reader.nextCommand()).isEqualTo(Command.with("B", "x y c"));
+
+        assertThatThrownBy(() -> reader.nextCommand()).isInstanceOf(InvalidCommandException.class);
+    }
+
+    @Test
     public void testCommandRegex() throws Exception {
         // Valid commands
         assertThat(COMMAND_REGEX.matcher("C w h").matches()).isTrue();
