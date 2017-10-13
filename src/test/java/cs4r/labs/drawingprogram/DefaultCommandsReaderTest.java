@@ -43,6 +43,21 @@ public class DefaultCommandsReaderTest {
     }
 
     @Test
+    public void readOneWellFormedCommandWith4Arguments() throws Exception {
+
+        DefaultCommandsReader reader = new DefaultCommandsReader();
+
+        contextWithInput("L 1 2 4 4");
+
+        // When
+        Command command = reader.nextCommand(context);
+
+        // Then
+        assertThat(command.getName()).isEqualTo("L");
+        assertThat(command.getArguments()).isEqualTo("1 2 4 4");
+    }
+
+    @Test
     public void readOneWellFormedCommandWithNoArguments() throws Exception {
 
         DefaultCommandsReader reader = new DefaultCommandsReader();
