@@ -1,5 +1,6 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.exception.InvalidCommandException;
 import org.junit.After;
 import org.junit.Test;
 
@@ -7,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -37,6 +39,34 @@ public class DefaultCommandsReaderTest {
         // Then
         assertThat(command.getName()).isEqualTo("C");
         assertThat(command.getArguments()).isEqualTo("20 4");
+    }
+
+    @Test
+    public void readOneWellFormedCommandWithNoArguments() throws Exception {
+
+        DefaultCommandsReader reader = new DefaultCommandsReader();
+
+        contextWithInput("Q");
+
+        // When
+        Command command = reader.nextCommand(context);
+
+        // Then
+        assertThat(command.getName()).isEqualTo("Q");
+        assertThat(command.getArguments()).isEqualTo("");
+    }
+
+    @Test
+    public void readOneBadFormedCommand() throws Exception {
+
+        DefaultCommandsReader reader = new DefaultCommandsReader();
+
+        contextWithInput("");
+
+        // When
+        assertThatThrownBy(() -> reader.nextCommand(context))
+                .isInstanceOf(InvalidCommandException.class)
+                .hasMessage("Invalid command");
     }
 
     private InputStream contextWithInput(String inputAsString) {
