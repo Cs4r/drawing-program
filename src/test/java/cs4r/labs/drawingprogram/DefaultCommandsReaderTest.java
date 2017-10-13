@@ -63,22 +63,22 @@ public class DefaultCommandsReaderTest {
         DefaultCommandsReader reader = new DefaultCommandsReader();
 
         contextWithInput("");
-        assertIsInvalidCommand(() -> reader.nextCommand(context));
+        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
 
         contextWithInput("A --");
-        assertIsInvalidCommand(() -> reader.nextCommand(context));
+        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
 
         contextWithInput("-- 1 2");
-        assertIsInvalidCommand(() -> reader.nextCommand(context));
+        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
 
         contextWithInput("$$ 1 2");
-        assertIsInvalidCommand(() -> reader.nextCommand(context));
+        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
 
         contextWithInput("$$ 1 2");
-        assertIsInvalidCommand(() -> reader.nextCommand(context));
+        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
     }
 
-    private void assertIsInvalidCommand(ThrowableAssert.ThrowingCallable callable) {
+    private void assertThatThrowsInvalidCommandException(ThrowableAssert.ThrowingCallable callable) {
         assertThatThrownBy(callable)
                 .isInstanceOf(InvalidCommandException.class)
                 .hasMessage("Invalid command");
