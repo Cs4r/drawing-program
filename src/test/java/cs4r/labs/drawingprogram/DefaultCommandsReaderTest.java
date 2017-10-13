@@ -3,7 +3,7 @@ package cs4r.labs.drawingprogram;
 import cs4r.labs.drawingprogram.exception.InvalidCommandException;
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.After;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -25,11 +25,6 @@ public class DefaultCommandsReaderTest {
     private InputStream input;
     private DefaultCommandsReader reader;
 
-    @Before
-    public void setUp() throws Exception {
-        reader = new DefaultCommandsReader();
-    }
-
     @After
     public void tearDown() throws Exception {
         if (input != null) {
@@ -42,8 +37,10 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("C 20 4");
 
+        reader = new DefaultCommandsReader(context);
+
         // When
-        Command command = reader.nextCommand(context);
+        Command command = reader.nextCommand();
 
         // Then
         assertThat(command.getName()).isEqualTo("C");
@@ -55,8 +52,10 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("L 1 2 4 4");
 
+        reader = new DefaultCommandsReader(context);
+
         // When
-        Command command = reader.nextCommand(context);
+        Command command = reader.nextCommand();
 
         // Then
         assertThat(command.getName()).isEqualTo("L");
@@ -68,8 +67,10 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("Q");
 
+        reader = new DefaultCommandsReader(context);
+
         // When
-        Command command = reader.nextCommand(context);
+        Command command = reader.nextCommand();
 
         // Then
         assertThat(command.getName()).isEqualTo("Q");
@@ -80,19 +81,10 @@ public class DefaultCommandsReaderTest {
     public void readOneBadFormedCommand() throws Exception {
 
         contextWithInput("");
-        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
 
-        contextWithInput("A --");
-        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
+        reader = new DefaultCommandsReader(context);
 
-        contextWithInput("-- 1 2");
-        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
-
-        contextWithInput("$$ 1 2");
-        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
-
-        contextWithInput("$$ 1 2");
-        assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
+        assertThatThrowsInvalidCommandException(() -> reader.nextCommand());
     }
 
     @Test
@@ -102,17 +94,20 @@ public class DefaultCommandsReaderTest {
         assertThat(COMMAND_REGEX.matcher(" C w h").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("C w h ").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher(" C w h ").matches()).isTrue();
-
         assertThat(COMMAND_REGEX.matcher("L x1 y1 x2 y2").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("R x1 y1 x2 y2").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("B x y c").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("Q").matches()).isTrue();
 
-
+        // Invalid commands
         assertThat(COMMAND_REGEX.matcher("L- x1 *").matches()).isFalse();
         assertThat(COMMAND_REGEX.matcher("R¡ x1 y1 x2 y2").matches()).isFalse();
         assertThat(COMMAND_REGEX.matcher("B x y c,").matches()).isFalse();
         assertThat(COMMAND_REGEX.matcher("").matches()).isFalse();
+        assertThat(COMMAND_REGEX.matcher("A --").matches()).isFalse();
+        assertThat(COMMAND_REGEX.matcher("-- 1 2").matches()).isFalse();
+        assertThat(COMMAND_REGEX.matcher("$$ 1 2").matches()).isFalse();
+
     }
 
     private void assertThatThrowsInvalidCommandException(ThrowableAssert.ThrowingCallable callable) {
@@ -121,14 +116,14 @@ public class DefaultCommandsReaderTest {
                 .hasMessage("Invalid command");
     }
 
-    private InputStream contextWithInput(String inputAsString) {
+    private DrawingContext contextWithInput(String inputAsString) {
 
         context = mock(DrawingContext.class);
 
         input = getInputStream(inputAsString);
 
         when(context.getInput()).thenReturn(input);
-        return input;
+        return context;
     }
 
     private InputStream getInputStream(String inputAsString) {

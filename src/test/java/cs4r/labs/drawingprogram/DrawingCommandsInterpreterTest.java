@@ -55,7 +55,7 @@ public class DrawingCommandsInterpreterTest {
 
         inOrder.verify(commandsInterpreter).beforeProcessingCommand(drawingContext);
 
-        inOrder.verify(commandsReader).nextCommand(drawingContext);
+        inOrder.verify(commandsReader).nextCommand();
 
         inOrder.verify(commandsProcessor).process(command, drawingContext);
 
@@ -71,7 +71,7 @@ public class DrawingCommandsInterpreterTest {
 
         RuntimeException runtimeException = new RuntimeException("Oops!");
 
-        when(commandsReader.nextCommand(drawingContext)).thenThrow(runtimeException);
+        when(commandsReader.nextCommand()).thenThrow(runtimeException);
 
         // When
         DrawingCommandsInterpreter commandsInterpreter = new DrawingCommandsInterpreter(commandsReader,
@@ -99,7 +99,7 @@ public class DrawingCommandsInterpreterTest {
         commandsInterpreter.interpretCommands(drawingContext);
 
         // Then
-        verify(commandsReader).nextCommand(drawingContext);
+        verify(commandsReader).nextCommand();
         verify(exceptionHandler).handle(runtimeException, drawingContext);
     }
 
@@ -123,7 +123,7 @@ public class DrawingCommandsInterpreterTest {
 
             inOrder.verify(commandsInterpreter).beforeProcessingCommand(drawingContext);
 
-            inOrder.verify(commandsReader).nextCommand(drawingContext);
+            inOrder.verify(commandsReader).nextCommand();
 
             inOrder.verify(commandsProcessor).process(command, drawingContext);
 
@@ -219,7 +219,7 @@ public class DrawingCommandsInterpreterTest {
     private Command commandsReaderOutput() {
         Command command = mock(Command.class);
 
-        when(commandsReader.nextCommand(drawingContext)).thenReturn(command);
+        when(commandsReader.nextCommand()).thenReturn(command);
 
         return command;
     }

@@ -55,7 +55,7 @@ public class DrawingCommandsInterpreter {
     }
 
     private Command readCommand(DrawingContext context) {
-        return commandsReader.nextCommand(context);
+        return commandsReader.nextCommand();
     }
 
 

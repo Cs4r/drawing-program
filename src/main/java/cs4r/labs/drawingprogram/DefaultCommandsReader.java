@@ -14,11 +14,14 @@ public class DefaultCommandsReader implements CommandsReader {
 
     // Protected for testing purposes
     protected static Pattern COMMAND_REGEX = Pattern.compile("\\s*(\\p{Alnum}+)\\s*(((\\p{Alnum}+)\\s*)*)\\s*");
+    private final Scanner scanner;
+
+    public DefaultCommandsReader(DrawingContext context) {
+        scanner = new Scanner(context.getInput());
+    }
 
     @Override
-    public Command nextCommand(DrawingContext drawingContext) {
-
-        Scanner scanner = new Scanner(drawingContext.getInput());
+    public Command nextCommand() {
 
         try {
             String line = scanner.nextLine();
