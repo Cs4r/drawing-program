@@ -2,6 +2,7 @@ package cs4r.labs.drawingprogram;
 
 import cs4r.labs.drawingprogram.exception.InvalidCommandException;
 
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +17,7 @@ public class DefaultCommandsReader implements CommandsReader {
     private final Scanner scanner;
 
     public DefaultCommandsReader(DrawingContext context) {
+        failIfNullContext(context);
         scanner = new Scanner(context.getInput());
     }
 
@@ -37,5 +39,12 @@ public class DefaultCommandsReader implements CommandsReader {
         }
 
         throw new InvalidCommandException("Invalid command");
+    }
+
+
+    private void failIfNullContext(DrawingContext context) {
+        if (Objects.isNull(context)) {
+            throw new IllegalArgumentException("context cannot be null");
+        }
     }
 }

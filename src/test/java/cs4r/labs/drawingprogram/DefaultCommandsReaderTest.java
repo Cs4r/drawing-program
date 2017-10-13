@@ -153,6 +153,14 @@ public class DefaultCommandsReaderTest {
 
     }
 
+    @Test
+    public void cannotBeConstructedWithANullContext() throws Exception {
+
+        assertThatThrownBy(() -> new DefaultCommandsReader(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("context cannot be null");
+    }
+
     private void assertThatThrowsInvalidCommandException(ThrowableAssert.ThrowingCallable callable) {
         assertThatThrownBy(callable)
                 .isInstanceOf(InvalidCommandException.class)
