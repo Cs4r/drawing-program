@@ -12,7 +12,8 @@ import java.util.regex.Pattern;
  */
 public class DefaultCommandsReader implements CommandsReader {
 
-    private static Pattern COMMAND_REGEX = Pattern.compile("\\s*(\\p{Alnum}+)\\s*(((\\p{Alnum}+)\\s*)*)\\s*");
+    // Protected for testing purposes
+    protected static Pattern COMMAND_REGEX = Pattern.compile("\\s*(\\p{Alnum}+)\\s*(((\\p{Alnum}+)\\s*)*)\\s*");
 
     @Override
     public Command nextCommand(DrawingContext drawingContext) {

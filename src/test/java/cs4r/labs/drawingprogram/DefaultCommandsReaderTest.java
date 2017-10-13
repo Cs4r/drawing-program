@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
+import static cs4r.labs.drawingprogram.DefaultCommandsReader.COMMAND_REGEX;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
@@ -31,7 +32,9 @@ public class DefaultCommandsReaderTest {
 
     @After
     public void tearDown() throws Exception {
-        input.close();
+        if (input != null) {
+            input.close();
+        }
     }
 
     @Test
@@ -90,6 +93,26 @@ public class DefaultCommandsReaderTest {
 
         contextWithInput("$$ 1 2");
         assertThatThrowsInvalidCommandException(() -> reader.nextCommand(context));
+    }
+
+    @Test
+    public void testCommandRegex() throws Exception {
+        // Valid commands
+        assertThat(COMMAND_REGEX.matcher("C w h").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher(" C w h").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher("C w h ").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher(" C w h ").matches()).isTrue();
+
+        assertThat(COMMAND_REGEX.matcher("L x1 y1 x2 y2").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher("R x1 y1 x2 y2").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher("B x y c").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher("Q").matches()).isTrue();
+
+
+        assertThat(COMMAND_REGEX.matcher("L- x1 *").matches()).isFalse();
+        assertThat(COMMAND_REGEX.matcher("R¡ x1 y1 x2 y2").matches()).isFalse();
+        assertThat(COMMAND_REGEX.matcher("B x y c,").matches()).isFalse();
+        assertThat(COMMAND_REGEX.matcher("").matches()).isFalse();
     }
 
     private void assertThatThrowsInvalidCommandException(ThrowableAssert.ThrowingCallable callable) {
