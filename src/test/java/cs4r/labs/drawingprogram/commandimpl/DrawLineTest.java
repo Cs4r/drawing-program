@@ -46,19 +46,20 @@ public class DrawLineTest {
 
         // Given
         activeContextWithCanvas();
-        validArguments(1, 2, 3, 4);
+        String arguments = "1 2 3 4";
+        validArguments(arguments, 1, 2, 3, 4);
         DrawLine drawLine = new DrawLine(argumentParser);
 
         // When
-        drawLine.execute("1 2 3 4", context);
+        drawLine.execute(arguments, context);
 
         // Then
         verify(context).isActive();
         verify(context).getCanvas();
-        verify(argumentParser).getPositionalArgument(0, Integer.class);
-        verify(argumentParser).getPositionalArgument(1, Integer.class);
-        verify(argumentParser).getPositionalArgument(2, Integer.class);
-        verify(argumentParser).getPositionalArgument(3, Integer.class);
+        verify(argumentParser).getPositionalArgument(arguments, 0, Integer.class);
+        verify(argumentParser).getPositionalArgument(arguments, 1, Integer.class);
+        verify(argumentParser).getPositionalArgument(arguments, 2, Integer.class);
+        verify(argumentParser).getPositionalArgument(arguments, 3, Integer.class);
         verify(canvas).drawLine(0, 1, 2, 3);
     }
 
@@ -92,6 +93,7 @@ public class DrawLineTest {
         verify(canvas, never()).drawLine(anyInt(), anyInt(), anyInt(), anyInt());
     }
 
+
     private void activeContextWithoutCanvas() {
         when(context.isActive()).thenReturn(true);
         when(context.getCanvas()).thenReturn(Optional.empty());
@@ -101,12 +103,12 @@ public class DrawLineTest {
         when(context.isActive()).thenReturn(false);
     }
 
-    private ArgumentParser validArguments(int x1, int y1, int x2, int y2) {
+    private ArgumentParser validArguments(String arguments, int x1, int y1, int x2, int y2) {
         argumentParser = mock(ArgumentParser.class);
-        when(argumentParser.getPositionalArgument(0, Integer.class)).thenReturn(Optional.of(x1));
-        when(argumentParser.getPositionalArgument(1, Integer.class)).thenReturn(Optional.of(y1));
-        when(argumentParser.getPositionalArgument(2, Integer.class)).thenReturn(Optional.of(x2));
-        when(argumentParser.getPositionalArgument(3, Integer.class)).thenReturn(Optional.of(y2));
+        when(argumentParser.getPositionalArgument(arguments, 0, Integer.class)).thenReturn(x1);
+        when(argumentParser.getPositionalArgument(arguments, 1, Integer.class)).thenReturn(y1);
+        when(argumentParser.getPositionalArgument(arguments, 2, Integer.class)).thenReturn(x2);
+        when(argumentParser.getPositionalArgument(arguments, 3, Integer.class)).thenReturn(y2);
         return argumentParser;
     }
 

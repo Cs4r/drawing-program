@@ -26,10 +26,10 @@ public class DrawLine implements CommandImplementation {
         if (drawingContext.isActive()) {
             Canvas canvas = drawingContext.getCanvas().orElseThrow(CanvasNotFoundException::new);
 
-            Integer x1 = argumentParser.getPositionalArgument(0, Integer.class).get() - 1;
-            Integer y1 = argumentParser.getPositionalArgument(1, Integer.class).get() - 1;
-            Integer x2 = argumentParser.getPositionalArgument(2, Integer.class).get() - 1;
-            Integer y2 = argumentParser.getPositionalArgument(3, Integer.class).get() - 1;
+            Integer x1 = argumentParser.getPositionalArgument(arguments, 0, Integer.class) - 1;
+            Integer y1 = argumentParser.getPositionalArgument(arguments, 1, Integer.class) - 1;
+            Integer x2 = argumentParser.getPositionalArgument(arguments, 2, Integer.class) - 1;
+            Integer y2 = argumentParser.getPositionalArgument(arguments, 3, Integer.class) - 1;
 
             canvas.drawLine(x1, y1, x2, y2);
         }
