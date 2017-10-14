@@ -1,17 +1,19 @@
 package cs4r.labs.drawingprogram.commandimpl;
 
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CorruptedOutputException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 
 /**
@@ -36,7 +38,7 @@ public class PrintPromptTest {
 
         PrintPrompt printPrompt = new PrintPrompt();
 
-        DrawingContext context = Mockito.mock(DrawingContext.class);
+        DrawingContext context = mock(DrawingContext.class);
 
         assertThatThrownBy(() -> printPrompt.execute("", null))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -44,27 +46,70 @@ public class PrintPromptTest {
     }
 
     @Test
-    public void printsPromptIfContextIsActive() throws Exception {
+    public void printPromptIfContextIsActive() throws Exception {
 
         // Given
         PrintPrompt printPrompt = new PrintPrompt();
 
-        DrawingContext context = activeContext();
+        DrawingContext context = activeContext(true);
 
         // When
         printPrompt.execute(null, context);
 
         // Then
         verify(context).isActive();
-        ByteArrayOutputStream output = (ByteArrayOutputStream) context.getOutput();
-        String outputAsString = new String(output.toByteArray());
+        String outputAsString = getOutputAsString(context);
         assertThat(outputAsString).isEqualTo("enter command:");
     }
 
-    private DrawingContext activeContext() {
+    private String getOutputAsString(DrawingContext context) {
+        ByteArrayOutputStream output = (ByteArrayOutputStream) context.getOutput();
+        return new String(output.toByteArray());
+    }
 
-        DrawingContext drawingContext = Mockito.mock(DrawingContext.class);
-        when(drawingContext.isActive()).thenReturn(true);
+    @Test
+    public void doNotPrintPromptIfContextIsNotActive() throws Exception {
+        // Given
+        PrintPrompt printPrompt = new PrintPrompt();
+
+        DrawingContext context = activeContext(false);
+
+        // When
+        printPrompt.execute(null, context);
+
+        // Then
+        verify(context).isActive();
+        String outputAsString = getOutputAsString(context);
+        assertThat(outputAsString).isEmpty();
+    }
+
+    @Test
+    public void throwCorruptedOutputExceptionIfOutputIsCorrupted() throws Exception {
+        PrintPrompt printPrompt = new PrintPrompt();
+
+        DrawingContext context = activeContextWithBrokenOutput();
+
+        assertThatThrownBy(() ->
+                printPrompt.execute(null, context))
+                .isInstanceOf(CorruptedOutputException.class)
+                .hasMessage("output is corrupted");
+
+        verify(context).isActive();
+    }
+
+    private DrawingContext activeContextWithBrokenOutput() throws IOException {
+        DrawingContext context = activeContext(true);
+
+        OutputStream brokenOutput = mock(OutputStream.class);
+        doThrow(IOException.class).when(brokenOutput).write(any());
+        when(context.getOutput()).thenReturn(brokenOutput);
+        return context;
+    }
+
+    private DrawingContext activeContext(boolean isActive) {
+
+        DrawingContext drawingContext = mock(DrawingContext.class);
+        when(drawingContext.isActive()).thenReturn(isActive);
         when(drawingContext.getOutput()).thenReturn(output);
 
         return drawingContext;
