@@ -17,19 +17,18 @@ public class PrintCanvas implements CommandImplementation {
     public void execute(String arguments, DrawingContext context) {
         failIfContextIsNull(context);
 
-        context.isActive();
+        if (context.isActive()) {
+            OutputStream output = context.getOutput();
 
-        OutputStream output = context.getOutput();
+            byte[] canvasAsBytes = context.getCanvas().get().toText().getBytes();
 
-        byte[] canvasAsBytes = context.getCanvas().get().toText().getBytes();
-
-        try {
-            output.write(canvasAsBytes);
-            output.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
+            try {
+                output.write(canvasAsBytes);
+                output.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
     }
 
     private void failIfContextIsNull(DrawingContext context) {
