@@ -13,10 +13,11 @@ public class Terminate implements CommandImplementation {
     @Override
     public void execute(String arguments, DrawingContext context) {
         failIfContextIsNull(context);
+
+        context.deactivate();
     }
 
     private void failIfContextIsNull(DrawingContext context) {
-
         if (isNull(context)) {
             throw new IllegalArgumentException("context cannot be null");
         }

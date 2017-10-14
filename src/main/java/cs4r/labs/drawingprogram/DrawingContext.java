@@ -7,6 +7,9 @@ import java.util.Optional;
 
 public interface DrawingContext {
 
+    /**
+     * @return true if the context is active, false otherwise.
+     */
     boolean isActive();
 
     InputStream getInput();
@@ -14,4 +17,11 @@ public interface DrawingContext {
     OutputStream getOutput();
 
     Optional<Canvas> getCanvas();
+
+    /**
+     * Deactivates the context.
+     * <p>
+     * Once the context is deactivated {@link DrawingContext#isActive()} will always return false.
+     */
+    void deactivate();
 }
