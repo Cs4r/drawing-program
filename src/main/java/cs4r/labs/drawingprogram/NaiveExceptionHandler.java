@@ -20,6 +20,9 @@ public class NaiveExceptionHandler implements ExceptionHandler {
             output.write(messageToPrint.getBytes());
             output.flush();
         } catch (IOException ioException) {
+            // If the exception is such that we cannot even write in the output
+            // it's fine to print the stack trace. In a real scenario I would have used
+            // a logger instead of java.lang.Exception#printStackTrace
             ioException.printStackTrace();
         }
     }

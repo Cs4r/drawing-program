@@ -1,6 +1,7 @@
 package cs4r.labs.drawingprogram;
 
 import org.assertj.core.api.Assertions;
+import org.junit.After;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -15,6 +16,16 @@ import static org.mockito.Mockito.when;
  * Unit tests for {@link NaiveExceptionHandler}
  */
 public class NaiveExceptionHandlerTest {
+
+    private DrawingContext context;
+    private ByteArrayOutputStream output;
+
+    @After
+    public void tearDown() throws Exception {
+        if (output != null) {
+            output.close();
+        }
+    }
 
     @Test
     public void requireNonNullArguments() throws Exception {
@@ -41,33 +52,23 @@ public class NaiveExceptionHandlerTest {
 
         // Given
         NaiveExceptionHandler exceptionHandler = new NaiveExceptionHandler();
-        DrawingContext context = mock(DrawingContext.class);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        when(context.getOutput()).thenReturn(output);
-
-        RuntimeException exception = Mockito.mock(RuntimeException.class);
-        when(exception.getMessage()).thenReturn("::exception message::");
+        RuntimeException exception = exceptionWithMessage("::exceptionWithMessage message::");
 
         // When
         exceptionHandler.handle(exception, context);
 
         // Then
         String outputAsString = getOutputAsString(context);
-        assertThat(outputAsString).isEqualTo("::exception message::" + "\n");
+        assertThat(outputAsString).isEqualTo("::exceptionWithMessage message::" + "\n");
 
-        output.close();
     }
 
     @Test
     public void printExceptionMessageEvenWhenNull() throws Exception {
         // Given
         NaiveExceptionHandler exceptionHandler = new NaiveExceptionHandler();
-        DrawingContext context = mock(DrawingContext.class);
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        when(context.getOutput()).thenReturn(output);
 
-        RuntimeException exception = Mockito.mock(RuntimeException.class);
-        when(exception.getMessage()).thenReturn(null);
+        RuntimeException exception = exceptionWithMessage(null);
 
         // When
         exceptionHandler.handle(exception, context);
@@ -75,8 +76,16 @@ public class NaiveExceptionHandlerTest {
         // Then
         String outputAsString = getOutputAsString(context);
         assertThat(outputAsString).isEqualTo("Oops! An error occurred but there are no details\n");
+    }
 
-        output.close();
+    private RuntimeException exceptionWithMessage(String exceptionMessage) {
+        context = mock(DrawingContext.class);
+        output = new ByteArrayOutputStream();
+        when(context.getOutput()).thenReturn(output);
+
+        RuntimeException exception = Mockito.mock(RuntimeException.class);
+        when(exception.getMessage()).thenReturn(exceptionMessage);
+        return exception;
     }
 
     private String getOutputAsString(DrawingContext context) {
