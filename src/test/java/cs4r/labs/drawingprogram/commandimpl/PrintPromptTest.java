@@ -34,7 +34,7 @@ public class PrintPromptTest {
     }
 
     @Test
-    public void requiresNonNullContext() throws Exception {
+    public void requireNonNullContext() throws Exception {
 
         PrintPrompt printPrompt = new PrintPrompt();
 

@@ -46,7 +46,7 @@ public class PrintCanvasTest {
     }
 
     @Test
-    public void requiresNonNullContext() throws Exception {
+    public void requireNonNullContext() throws Exception {
 
         PrintCanvas printCanvas = new PrintCanvas();
 
