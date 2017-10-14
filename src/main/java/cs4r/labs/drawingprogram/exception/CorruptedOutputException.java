@@ -5,7 +5,7 @@ package cs4r.labs.drawingprogram.exception;
  */
 public class CorruptedOutputException extends RuntimeException {
 
-    public CorruptedOutputException(String message) {
-        super(message);
+    public CorruptedOutputException() {
+        super("output is corrupted");
     }
 }

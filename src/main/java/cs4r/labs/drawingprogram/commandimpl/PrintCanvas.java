@@ -29,7 +29,7 @@ public class PrintCanvas implements CommandImplementation {
                 output.write(canvasAsBytes);
                 output.flush();
             } catch (IOException e) {
-                throw new CorruptedOutputException("output is corrupted");
+                throw new CorruptedOutputException();
             }
         }
     }

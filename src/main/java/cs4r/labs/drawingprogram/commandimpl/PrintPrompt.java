@@ -25,7 +25,7 @@ public class PrintPrompt implements CommandImplementation {
                 output.write("enter command:".getBytes());
                 output.flush();
             } catch (IOException e) {
-                throw new CorruptedOutputException("output is corrupted");
+                throw new CorruptedOutputException();
             }
         }
     }
