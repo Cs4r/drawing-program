@@ -14,16 +14,21 @@ public class NaiveExceptionHandler implements ExceptionHandler {
         failIfAnyArgumentIsNull(exception, context);
 
         OutputStream output = context.getOutput();
-        String message = exception.getMessage();
-        message = message == null ? "Oops! An error occurred but there are no details" : message;
+        String message = getMessage(exception);
         String exceptionMessage = String.format("%s\n", message);
 
         try {
             output.write(exceptionMessage.getBytes());
-            output.close();
+            output.flush();
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
+    }
+
+    private String getMessage(RuntimeException exception) {
+        String message = exception.getMessage();
+        message = message == null ? "Oops! An error occurred but there are no details" : message;
+        return message;
     }
 
     private void failIfAnyArgumentIsNull(Object... arguments) {
