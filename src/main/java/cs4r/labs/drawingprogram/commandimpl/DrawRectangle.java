@@ -21,14 +21,15 @@ public class DrawRectangle implements CommandImplementation {
     public void execute(String arguments, DrawingContext context) {
         Checks.failIfAnyArgumentIsNull(arguments, context);
 
-        context.isActive();
-        Canvas canvas = context.getCanvas().get();
+        if (context.isActive()) {
+            Canvas canvas = context.getCanvas().get();
 
-        Integer x1 = argumentParser.getPositionalArgument(arguments, 0, Integer.class) - 1;
-        Integer y1 = argumentParser.getPositionalArgument(arguments, 1, Integer.class) - 1;
-        Integer x2 = argumentParser.getPositionalArgument(arguments, 2, Integer.class) - 1;
-        Integer y2 = argumentParser.getPositionalArgument(arguments, 3, Integer.class) - 1;
+            Integer x1 = argumentParser.getPositionalArgument(arguments, 0, Integer.class) - 1;
+            Integer y1 = argumentParser.getPositionalArgument(arguments, 1, Integer.class) - 1;
+            Integer x2 = argumentParser.getPositionalArgument(arguments, 2, Integer.class) - 1;
+            Integer y2 = argumentParser.getPositionalArgument(arguments, 3, Integer.class) - 1;
 
-        canvas.drawRectangle(x1, y1, x2, y2);
+            canvas.drawRectangle(x1, y1, x2, y2);
+        }
     }
 }

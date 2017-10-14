@@ -61,6 +61,25 @@ public class DrawRectangleTest {
         verify(canvas).drawRectangle(0, 0, 39, 39);
     }
 
+
+    @Test
+    public void doNotDrawRectangleIfContextIsNotActive() throws Exception {
+        inactiveContext();
+        DrawRectangle drawRectangle = new DrawRectangle(argumentParser);
+
+        // When
+        drawRectangle.execute("Arguments do not matter because the context is inactive", context);
+
+        // Then
+        verify(context).isActive();
+        verify(context, never()).getCanvas();
+        verify(canvas, never()).drawRectangle(anyInt(), anyInt(), anyInt(), anyInt());
+    }
+
+    private void inactiveContext() {
+        when(context.isActive()).thenReturn(false);
+    }
+
     private void validArguments(String arguments, int x1, int y1, int x2, int y2) {
         argumentParser = mock(ArgumentParser.class);
         when(argumentParser.getPositionalArgument(arguments, 0, Integer.class)).thenReturn(x1);
