@@ -5,6 +5,7 @@ import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
 import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
+import cs4r.labs.drawingprogram.exception.CorruptedOutputException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -28,7 +29,7 @@ public class PrintCanvas implements CommandImplementation {
                 output.write(canvasAsBytes);
                 output.flush();
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new CorruptedOutputException("output is corrupted");
             }
         }
     }

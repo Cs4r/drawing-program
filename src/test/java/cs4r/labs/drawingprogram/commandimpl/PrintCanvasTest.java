@@ -3,6 +3,7 @@ package cs4r.labs.drawingprogram.commandimpl;
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.DrawingContext;
 import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
+import cs4r.labs.drawingprogram.exception.CorruptedOutputException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
@@ -115,6 +118,27 @@ public class PrintCanvasTest {
 
         String outputAsString = getOutputAsString(context);
         assertThat(outputAsString).isEmpty();
+    }
+
+    @Test
+    public void throwCorruptedOutputExceptionIfOutputIsCorrupted() throws Exception {
+        PrintCanvas printCanvas = new PrintCanvas();
+
+        activeContextWithBrokenOutput();
+
+        assertThatThrownBy(() ->
+                printCanvas.execute(null, context))
+                .isInstanceOf(CorruptedOutputException.class)
+                .hasMessage("output is corrupted");
+
+        verify(context).isActive();
+    }
+
+    private void activeContextWithBrokenOutput() throws IOException {
+        activeContextWithCanvas(true);
+        OutputStream corruptedOutput = mock(OutputStream.class);
+        doThrow(IOException.class).when(corruptedOutput).write(any());
+        when(context.getOutput()).thenReturn(corruptedOutput);
     }
 
     private void activeContextWithNoCanvas() {
