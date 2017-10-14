@@ -14,7 +14,7 @@ public class DrawLine implements CommandImplementation {
     private final ArgumentParser argumentParser;
 
     public DrawLine(ArgumentParser argumentParser) {
-
+        Checks.failIfNullArgument(argumentParser, "argumentParser");
         this.argumentParser = argumentParser;
     }
 

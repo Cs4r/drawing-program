@@ -25,12 +25,13 @@ public class DrawLineTest {
     private DrawingContext context;
     @Mock
     private Canvas canvas;
+    @Mock
     private ArgumentParser argumentParser;
 
     @Test
     public void requireNonNullArguments() throws Exception {
 
-        DrawLine drawLine = new DrawLine(null);
+        DrawLine drawLine = new DrawLine(argumentParser);
 
         assertThatThrownBy(() -> drawLine.execute(null, mock(DrawingContext.class)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -91,6 +92,15 @@ public class DrawLineTest {
         verify(context).isActive();
         verify(context).getCanvas();
         verify(canvas, never()).drawLine(anyInt(), anyInt(), anyInt(), anyInt());
+    }
+
+
+    @Test
+    public void cannotBeConstructedWithNullArgumentParser() throws Exception {
+
+        assertThatThrownBy(() -> new DrawLine(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("argumentParser cannot be null");
     }
 
     private void activeContextWithoutCanvas() {
