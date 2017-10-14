@@ -1,5 +1,7 @@
 package cs4r.labs.drawingprogram;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Objects;
 
 /**
@@ -10,6 +12,16 @@ public class NaiveExceptionHandler implements ExceptionHandler {
     @Override
     public void handle(RuntimeException exception, DrawingContext context) {
         failIfAnyArgumentIsNull(exception, context);
+
+        OutputStream output = context.getOutput();
+        String exceptionMessage = String.format("%s\n", exception.getMessage());
+
+        try {
+            output.write(exceptionMessage.getBytes());
+            output.close();
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
     }
 
     private void failIfAnyArgumentIsNull(Object... arguments) {
