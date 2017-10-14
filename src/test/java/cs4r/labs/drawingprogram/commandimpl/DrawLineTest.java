@@ -3,6 +3,9 @@ package cs4r.labs.drawingprogram.commandimpl;
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.DrawingContext;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
@@ -13,10 +16,13 @@ import static org.mockito.Mockito.*;
 /**
  * Unit tests for {@link DrawLine}
  */
+@RunWith(MockitoJUnitRunner.class)
 public class DrawLineTest {
 
 
+    @Mock
     private DrawingContext context;
+    @Mock
     private Canvas canvas;
     private ArgumentParser argumentParser;
 
@@ -38,7 +44,7 @@ public class DrawLineTest {
     public void drawLine() throws Exception {
 
         // Given
-        contextWithCanvas();
+        activeContextWithCanvas();
         validArguments(1, 2, 3, 4);
         DrawLine drawLine = new DrawLine(argumentParser);
 
@@ -55,6 +61,24 @@ public class DrawLineTest {
         verify(canvas).drawLine(0, 1, 2, 3);
     }
 
+    @Test
+    public void doNotDrawALineIfContextIsNotActive() throws Exception {
+        inactiveContext();
+        DrawLine drawLine = new DrawLine(argumentParser);
+
+        // When
+        drawLine.execute("Arguments do not matter because the context is inactive", context);
+
+        // Then
+        verify(context).isActive();
+        verify(context, never()).getCanvas();
+        verify(canvas, never()).drawLine(anyInt(), anyInt(), anyInt(), anyInt());
+    }
+
+    private void inactiveContext() {
+        when(context.isActive()).thenReturn(false);
+    }
+
     private ArgumentParser validArguments(int x1, int y1, int x2, int y2) {
         argumentParser = mock(ArgumentParser.class);
         when(argumentParser.getPositionalArgument(0, Integer.class)).thenReturn(Optional.of(x1));
@@ -64,8 +88,7 @@ public class DrawLineTest {
         return argumentParser;
     }
 
-    private void contextWithCanvas() {
-        context = mock(DrawingContext.class);
+    private void activeContextWithCanvas() {
         when(context.isActive()).thenReturn(true);
         canvas = mock(Canvas.class);
         when(context.getCanvas()).thenReturn(Optional.of(canvas));

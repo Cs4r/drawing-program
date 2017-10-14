@@ -20,18 +20,18 @@ public class DrawLine implements CommandImplementation {
 
     @Override
     public void execute(String arguments, DrawingContext drawingContext) {
-
         failIfAnyArgumentIsNull(arguments, drawingContext);
 
-        drawingContext.isActive();
-        Canvas canvas = drawingContext.getCanvas().get();
+        if (drawingContext.isActive()) {
+            Canvas canvas = drawingContext.getCanvas().get();
 
-        Integer x1 = argumentParser.getPositionalArgument(0, Integer.class).get() - 1;
-        Integer y1 = argumentParser.getPositionalArgument(1, Integer.class).get() - 1;
-        Integer x2 = argumentParser.getPositionalArgument(2, Integer.class).get() - 1;
-        Integer y2 = argumentParser.getPositionalArgument(3, Integer.class).get() - 1;
+            Integer x1 = argumentParser.getPositionalArgument(0, Integer.class).get() - 1;
+            Integer y1 = argumentParser.getPositionalArgument(1, Integer.class).get() - 1;
+            Integer x2 = argumentParser.getPositionalArgument(2, Integer.class).get() - 1;
+            Integer y2 = argumentParser.getPositionalArgument(3, Integer.class).get() - 1;
 
-        canvas.drawLine(x1, y1, x2, y2);
+            canvas.drawLine(x1, y1, x2, y2);
+        }
     }
 
     private void failIfAnyArgumentIsNull(Object... arguments) {
