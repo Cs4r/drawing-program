@@ -2,6 +2,7 @@ package cs4r.labs.drawingprogram.commandimpl;
 
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.io.ByteArrayOutputStream;
 import java.util.Optional;
 
+import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -92,6 +94,32 @@ public class PrintCanvasTest {
 
         String outputAsString = getOutputAsString(context);
         assertThat(outputAsString).isEmpty();
+    }
+
+    @Test
+    public void throwCanvasNotFoundExceptionIfContextIsActiveButNoCanvas() throws Exception {
+        // Given
+        PrintCanvas printCanvas = new PrintCanvas();
+
+        activeContextWithNoCanvas();
+
+        // When
+        assertThatThrownBy(() -> printCanvas.execute(null, context))
+                .isInstanceOf(CanvasNotFoundException.class)
+                .hasMessage("no canvas to draw on");
+
+        // Then
+        verify(context).isActive();
+        verify(context).getCanvas();
+        verify(canvas, never()).toText();
+
+        String outputAsString = getOutputAsString(context);
+        assertThat(outputAsString).isEmpty();
+    }
+
+    private void activeContextWithNoCanvas() {
+        activeContextWithCanvas(true);
+        when(context.getCanvas()).thenReturn(empty());
     }
 
     private String getOutputAsString(DrawingContext context) {

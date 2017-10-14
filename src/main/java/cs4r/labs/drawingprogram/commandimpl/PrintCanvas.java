@@ -1,8 +1,10 @@
 package cs4r.labs.drawingprogram.commandimpl;
 
 
+import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -19,8 +21,8 @@ public class PrintCanvas implements CommandImplementation {
 
         if (context.isActive()) {
             OutputStream output = context.getOutput();
-
-            byte[] canvasAsBytes = context.getCanvas().get().toText().getBytes();
+            Canvas canvas = getCanvasOrThrow(context);
+            byte[] canvasAsBytes = canvas.toText().getBytes();
 
             try {
                 output.write(canvasAsBytes);
@@ -29,6 +31,11 @@ public class PrintCanvas implements CommandImplementation {
                 e.printStackTrace();
             }
         }
+    }
+
+    private Canvas getCanvasOrThrow(DrawingContext context) {
+        return context.getCanvas()
+                .orElseThrow(() -> new CanvasNotFoundException("no canvas to draw on"));
     }
 
     private void failIfContextIsNull(DrawingContext context) {
