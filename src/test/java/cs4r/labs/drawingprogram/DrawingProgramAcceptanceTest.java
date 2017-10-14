@@ -1,10 +1,14 @@
 package cs4r.labs.drawingprogram;
 
 
+import cs4r.labs.drawingprogram.commandimpl.TestUtils;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -27,7 +31,7 @@ public class DrawingProgramAcceptanceTest {
 
         new DrawingProgram(input, output).run();
 
-        String currentOutput = convertToString(output);
+        String currentOutput = TestUtils.convertToString(output);
         String expectedOutput = readStringFromFile("acceptance-test-output.txt");
 
         assertThat(currentOutput).isEqualTo(expectedOutput);
@@ -35,10 +39,6 @@ public class DrawingProgramAcceptanceTest {
         // Close streams
         output.close();
         input.close();
-    }
-
-    private String convertToString(ByteArrayOutputStream output) {
-        return new String(output.toByteArray());
     }
 
     private InputStream getInputStreamFromFile(String filePath) throws Exception {

@@ -58,13 +58,8 @@ public class PrintPromptTest {
 
         // Then
         verify(context).isActive();
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEqualTo("enter command:");
-    }
-
-    private String getOutputAsString(DrawingContext context) {
-        ByteArrayOutputStream output = (ByteArrayOutputStream) context.getOutput();
-        return new String(output.toByteArray());
     }
 
     @Test
@@ -79,7 +74,7 @@ public class PrintPromptTest {
 
         // Then
         verify(context).isActive();
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEmpty();
     }
 

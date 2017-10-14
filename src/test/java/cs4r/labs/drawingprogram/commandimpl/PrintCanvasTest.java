@@ -74,7 +74,7 @@ public class PrintCanvasTest {
         verify(context).getCanvas();
         verify(canvas).toText();
 
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEqualTo(CANVAS_CONTENT);
     }
 
@@ -95,7 +95,7 @@ public class PrintCanvasTest {
         verify(context, never()).getCanvas();
         verify(canvas, never()).toText();
 
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEmpty();
     }
 
@@ -116,7 +116,7 @@ public class PrintCanvasTest {
         verify(context).getCanvas();
         verify(canvas, never()).toText();
 
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEmpty();
     }
 
@@ -144,11 +144,6 @@ public class PrintCanvasTest {
     private void activeContextWithNoCanvas() {
         activeContextWithCanvas(true);
         when(context.getCanvas()).thenReturn(empty());
-    }
-
-    private String getOutputAsString(DrawingContext context) {
-        ByteArrayOutputStream output = (ByteArrayOutputStream) context.getOutput();
-        return new String(output.toByteArray());
     }
 
     private void activeContextWithCanvas(boolean isActive) {

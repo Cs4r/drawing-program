@@ -1,5 +1,6 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.commandimpl.TestUtils;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -64,7 +65,7 @@ public class NaiveExceptionHandlerTest {
         exceptionHandler.handle(exception, context);
 
         // Then
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEqualTo("::exceptionWithMessage message::" + "\n");
 
     }
@@ -80,7 +81,7 @@ public class NaiveExceptionHandlerTest {
         exceptionHandler.handle(exception, context);
 
         // Then
-        String outputAsString = getOutputAsString(context);
+        String outputAsString = TestUtils.getOutputAsString(context);
         assertThat(outputAsString).isEqualTo("Oops! An error occurred but there are no details\n");
     }
 
@@ -116,10 +117,5 @@ public class NaiveExceptionHandlerTest {
         context = mock(DrawingContext.class);
         output = new ByteArrayOutputStream();
         when(context.getOutput()).thenReturn(output);
-    }
-
-    private String getOutputAsString(DrawingContext context) {
-        ByteArrayOutputStream output = (ByteArrayOutputStream) context.getOutput();
-        return new String(output.toByteArray());
     }
 }
