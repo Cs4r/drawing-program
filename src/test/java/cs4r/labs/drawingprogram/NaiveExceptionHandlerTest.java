@@ -58,6 +58,26 @@ public class NaiveExceptionHandlerTest {
         output.close();
     }
 
+    @Test
+    public void printExceptionMessageEvenWhenNull() throws Exception {
+        // Given
+        NaiveExceptionHandler exceptionHandler = new NaiveExceptionHandler();
+        DrawingContext context = mock(DrawingContext.class);
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+        when(context.getOutput()).thenReturn(output);
+
+        RuntimeException exception = Mockito.mock(RuntimeException.class);
+        when(exception.getMessage()).thenReturn(null);
+
+        // When
+        exceptionHandler.handle(exception, context);
+
+        // Then
+        String outputAsString = getOutputAsString(context);
+        assertThat(outputAsString).isEqualTo("Oops! An error occurred but there are no details\n");
+
+        output.close();
+    }
 
     private String getOutputAsString(DrawingContext context) {
         ByteArrayOutputStream output = (ByteArrayOutputStream) context.getOutput();

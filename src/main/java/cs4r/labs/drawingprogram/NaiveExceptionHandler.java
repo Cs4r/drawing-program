@@ -14,7 +14,9 @@ public class NaiveExceptionHandler implements ExceptionHandler {
         failIfAnyArgumentIsNull(exception, context);
 
         OutputStream output = context.getOutput();
-        String exceptionMessage = String.format("%s\n", exception.getMessage());
+        String message = exception.getMessage();
+        message = message == null ? "Oops! An error occurred but there are no details" : message;
+        String exceptionMessage = String.format("%s\n", message);
 
         try {
             output.write(exceptionMessage.getBytes());
