@@ -93,6 +93,14 @@ public class DrawRectangleTest {
         verify(canvas, never()).drawRectangle(anyInt(), anyInt(), anyInt(), anyInt());
     }
 
+    @Test
+    public void cannotBeConstructedWithNullArgumentParser() throws Exception {
+
+        assertThatThrownBy(() -> new DrawRectangle(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("argumentParser cannot be null");
+    }
+
     private void activeContextWithoutCanvas() {
         when(context.isActive()).thenReturn(true);
         when(context.getCanvas()).thenReturn(Optional.empty());

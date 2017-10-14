@@ -15,6 +15,8 @@ public class DrawRectangle implements CommandImplementation {
 
     public DrawRectangle(ArgumentParser argumentParser) {
 
+        Checks.failIfNullArgument(argumentParser, "argumentParser");
+
         this.argumentParser = argumentParser;
     }
 
