@@ -3,6 +3,7 @@ package cs4r.labs.drawingprogram.commandimpl;
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 
 import java.util.Objects;
 
@@ -23,7 +24,7 @@ public class DrawLine implements CommandImplementation {
         failIfAnyArgumentIsNull(arguments, drawingContext);
 
         if (drawingContext.isActive()) {
-            Canvas canvas = drawingContext.getCanvas().get();
+            Canvas canvas = drawingContext.getCanvas().orElseThrow(() -> new CanvasNotFoundException("no canvas to draw on"));
 
             Integer x1 = argumentParser.getPositionalArgument(0, Integer.class).get() - 1;
             Integer y1 = argumentParser.getPositionalArgument(1, Integer.class).get() - 1;

@@ -2,6 +2,7 @@ package cs4r.labs.drawingprogram.commandimpl;
 
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -75,6 +76,27 @@ public class DrawLineTest {
         verify(canvas, never()).drawLine(anyInt(), anyInt(), anyInt(), anyInt());
     }
 
+    @Test
+    public void throwCanvasNotFoundExceptionIfNoCanvas() throws Exception {
+        activeContextWithoutCanvas();
+        DrawLine drawLine = new DrawLine(argumentParser);
+
+        // When
+        assertThatThrownBy(() -> drawLine.execute("Arguments do not matter because there is no canvas to draw on", context))
+                .isInstanceOf(CanvasNotFoundException.class)
+                .hasMessage("no canvas to draw on");
+
+        // Then
+        verify(context).isActive();
+        verify(context).getCanvas();
+        verify(canvas, never()).drawLine(anyInt(), anyInt(), anyInt(), anyInt());
+    }
+
+    private void activeContextWithoutCanvas() {
+        when(context.isActive()).thenReturn(true);
+        when(context.getCanvas()).thenReturn(Optional.empty());
+    }
+
     private void inactiveContext() {
         when(context.isActive()).thenReturn(false);
     }
@@ -90,7 +112,6 @@ public class DrawLineTest {
 
     private void activeContextWithCanvas() {
         when(context.isActive()).thenReturn(true);
-        canvas = mock(Canvas.class);
         when(context.getCanvas()).thenReturn(Optional.of(canvas));
     }
 }
