@@ -19,6 +19,10 @@ A console version of a drawing program.
 2. Canvas ignores to draw diagonal lines and lines with any of their points outside the canvas.
 3. Canvas ignores to draw rectangles with corners outside the canvas.
 4. Canvas ignores area fills when the supplied point is outside the canvas.
+3. I used IntelliJ built-in features to auto-generate equals, hashCode and toString for data classes. 
+In order to save a bit of time I did not test those auto-generated methods in this project. 
+In a real project I would probably test them (by using a library that test them for me automatically)
+or use a different language with support for data classes (like in Scala or Kotlin).
 
 # Libraries
 1. I decided to use AssertJ in the tests because it provides neat and readable assertions.

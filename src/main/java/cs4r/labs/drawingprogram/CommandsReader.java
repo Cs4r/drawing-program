@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Reads commands from a given {@link DrawingContext}
+ * Reads commands from a given {@link DrawingContext}.
  */
 public class CommandsReader {
 
@@ -27,9 +27,9 @@ public class CommandsReader {
     }
 
     /**
-     * Reads the next command in the input
+     * Reads the next command in the input.
      *
-     * @return a {@link Command}
+     * @return a {@link Command}.
      */
     public Command nextCommand() {
 

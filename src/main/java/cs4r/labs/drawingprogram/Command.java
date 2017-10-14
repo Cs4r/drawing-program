@@ -4,7 +4,7 @@ package cs4r.labs.drawingprogram;
 import java.util.Objects;
 
 /**
- * Represents a console command
+ * Represents a console command.
  */
 public class Command {
 
