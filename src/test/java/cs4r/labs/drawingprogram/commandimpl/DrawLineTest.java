@@ -39,7 +39,7 @@ public class DrawLineTest {
 
         // Given
         contextWithCanvas();
-        validArguments();
+        validArguments(1, 2, 3, 4);
         DrawLine drawLine = new DrawLine(argumentParser);
 
         // When
@@ -55,12 +55,12 @@ public class DrawLineTest {
         verify(canvas).drawLine(0, 1, 2, 3);
     }
 
-    private ArgumentParser validArguments() {
+    private ArgumentParser validArguments(int x1, int y1, int x2, int y2) {
         argumentParser = mock(ArgumentParser.class);
-        when(argumentParser.getPositionalArgument(0, Integer.class)).thenReturn(Optional.of(1));
-        when(argumentParser.getPositionalArgument(1, Integer.class)).thenReturn(Optional.of(2));
-        when(argumentParser.getPositionalArgument(2, Integer.class)).thenReturn(Optional.of(3));
-        when(argumentParser.getPositionalArgument(3, Integer.class)).thenReturn(Optional.of(4));
+        when(argumentParser.getPositionalArgument(0, Integer.class)).thenReturn(Optional.of(x1));
+        when(argumentParser.getPositionalArgument(1, Integer.class)).thenReturn(Optional.of(y1));
+        when(argumentParser.getPositionalArgument(2, Integer.class)).thenReturn(Optional.of(x2));
+        when(argumentParser.getPositionalArgument(3, Integer.class)).thenReturn(Optional.of(y2));
         return argumentParser;
     }
 
