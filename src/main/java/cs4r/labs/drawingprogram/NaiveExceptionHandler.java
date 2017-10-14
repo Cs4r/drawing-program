@@ -14,11 +14,10 @@ public class NaiveExceptionHandler implements ExceptionHandler {
         failIfAnyArgumentIsNull(exception, context);
 
         OutputStream output = context.getOutput();
-        String message = getMessage(exception);
-        String exceptionMessage = String.format("%s\n", message);
+        String messageToPrint = String.format("%s\n", getMessage(exception));
 
         try {
-            output.write(exceptionMessage.getBytes());
+            output.write(messageToPrint.getBytes());
             output.flush();
         } catch (IOException ioException) {
             ioException.printStackTrace();
