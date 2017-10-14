@@ -93,7 +93,6 @@ public class DrawLineTest {
         verify(canvas, never()).drawLine(anyInt(), anyInt(), anyInt(), anyInt());
     }
 
-
     private void activeContextWithoutCanvas() {
         when(context.isActive()).thenReturn(true);
         when(context.getCanvas()).thenReturn(Optional.empty());
