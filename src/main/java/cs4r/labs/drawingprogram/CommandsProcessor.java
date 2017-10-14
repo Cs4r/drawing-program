@@ -1,11 +1,11 @@
 package cs4r.labs.drawingprogram;
 
 import cs4r.labs.drawingprogram.exception.CommandNotFoundException;
+import cs4r.labs.drawingprogram.util.Checks;
 
 import java.util.Optional;
 
 import static java.lang.String.format;
-import static java.util.Objects.isNull;
 
 /**
  * Processes {@link Command}s.
@@ -55,37 +55,22 @@ public class CommandsProcessor {
      */
     public boolean canHandle(Command command) {
 
-        failIfCommandIsNull(command);
+        Checks.failIfNullArgument(command, "command");
 
         return commandImplementationRegistry.findImplementation(command).isPresent();
     }
 
-
-    private <T> void throwIllegalArgumentExceptionIfNullArgument(T object, String argumentName) {
-        if (isNull(object)) {
-            throw new IllegalArgumentException(argumentName + " cannot be null");
-        }
-    }
-
     private void failIfRegistryIsNull(CommandImplementationRegistry registry) {
 
-        throwIllegalArgumentExceptionIfNullArgument(registry, "CommandImplementationRegistry");
+        Checks.failIfNullArgument(registry, "CommandImplementationRegistry");
 
     }
 
     private void failIfAnyArgumentIsNull(Command command, DrawingContext context) {
 
-        failIfCommandIsNull(command);
-        failIfContextIsNull(context);
+        Checks.failIfNullArgument(command, "command");
+
+        Checks.failIfNullArgument(context, "context");
     }
 
-    private void failIfContextIsNull(DrawingContext context) {
-
-        throwIllegalArgumentExceptionIfNullArgument(context, "context");
-    }
-
-    private void failIfCommandIsNull(Command command) {
-
-        throwIllegalArgumentExceptionIfNullArgument(command, "command");
-    }
 }

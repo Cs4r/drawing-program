@@ -6,10 +6,10 @@ import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
 import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import cs4r.labs.drawingprogram.exception.CorruptedOutputException;
+import cs4r.labs.drawingprogram.util.Checks;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Objects;
 
 /**
  * A command implementation that prints the canvas.
@@ -18,7 +18,7 @@ public class PrintCanvas implements CommandImplementation {
 
     @Override
     public void execute(String arguments, DrawingContext context) {
-        failIfContextIsNull(context);
+        Checks.failIfNullArgument(context, "context");
 
         if (context.isActive()) {
             OutputStream output = context.getOutput();
@@ -37,11 +37,5 @@ public class PrintCanvas implements CommandImplementation {
     private Canvas getCanvasOrThrow(DrawingContext context) {
         return context.getCanvas()
                 .orElseThrow(CanvasNotFoundException::new);
-    }
-
-    private void failIfContextIsNull(DrawingContext context) {
-        if (Objects.isNull(context)) {
-            throw new IllegalArgumentException("context cannot be null");
-        }
     }
 }

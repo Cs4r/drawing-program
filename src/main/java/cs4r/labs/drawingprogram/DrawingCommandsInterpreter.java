@@ -1,5 +1,7 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.util.Checks;
+
 import static java.util.Objects.isNull;
 
 public class DrawingCommandsInterpreter {
@@ -62,18 +64,9 @@ public class DrawingCommandsInterpreter {
     private void failIfNullArguments(CommandsReader commandsReader,
                                      CommandsProcessor commandsProcessor,
                                      ExceptionHandler exceptionHandler) {
-        if (isNull(commandsReader)) {
-            throw new IllegalArgumentException("CommandsReader cannot be null");
-        }
-
-        if (isNull(commandsProcessor)) {
-            throw new IllegalArgumentException("CommandsProcessor cannot be null");
-
-        }
-
-        if (isNull(exceptionHandler)) {
-            throw new IllegalArgumentException("ExceptionHandler cannot be null");
-        }
+        Checks.failIfNullArgument(commandsReader, "CommandsReader");
+        Checks.failIfNullArgument(commandsProcessor, "CommandsProcessor");
+        Checks.failIfNullArgument(exceptionHandler, "ExceptionHandler");
     }
 
     private void failIfCannotHandlePrintCanvasCommand(CommandsProcessor commandsProcessor) {

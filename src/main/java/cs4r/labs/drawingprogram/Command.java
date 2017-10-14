@@ -1,6 +1,8 @@
 package cs4r.labs.drawingprogram;
 
 
+import cs4r.labs.drawingprogram.util.Checks;
+
 import java.util.Objects;
 
 /**
@@ -22,8 +24,8 @@ public class Command {
      * @return a {@link Command} holding the supplied details.
      */
     public static Command with(String name, String arguments) {
-        failIfNameIsNull(name);
-        failIfArgumentsIsNull(arguments);
+        Checks.failIfNullArgument(name, "name");
+        Checks.failIfNullArgument(arguments, "arguments");
         return new Command(arguments, name);
     }
 
@@ -80,15 +82,4 @@ public class Command {
         return Objects.hash(getArguments(), getName());
     }
 
-    private static void failIfNameIsNull(String name) {
-        if (Objects.isNull(name)) {
-            throw new IllegalArgumentException("name cannot be null");
-        }
-    }
-
-    private static void failIfArgumentsIsNull(String arguments) {
-        if (Objects.isNull(arguments)) {
-            throw new IllegalArgumentException("arguments cannot be null");
-        }
-    }
 }

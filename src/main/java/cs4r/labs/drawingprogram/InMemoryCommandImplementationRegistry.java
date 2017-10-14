@@ -1,9 +1,9 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.util.Checks;
+
 import java.util.Map;
 import java.util.Optional;
-
-import static java.util.Objects.isNull;
 
 /**
  * A implementation of {@link CommandImplementationRegistry} that holds the {@link CommandImplementation}s
@@ -15,7 +15,7 @@ public class InMemoryCommandImplementationRegistry implements CommandImplementat
 
     public InMemoryCommandImplementationRegistry(Map<String, CommandImplementation> registry) {
 
-        failIfRegistryIsNull(registry);
+        Checks.failIfNullArgument(registry, "registry");
 
         this.registry = registry;
     }
@@ -23,22 +23,9 @@ public class InMemoryCommandImplementationRegistry implements CommandImplementat
     @Override
     public Optional<CommandImplementation> findImplementation(Command command) {
 
-        failIfNullCommand(command);
+        Checks.failIfNullArgument(command, "command");
 
         return Optional.ofNullable(registry.get(command.getName()));
     }
 
-    private void failIfNullCommand(Command command) {
-
-        if (isNull(command)) {
-            throw new IllegalArgumentException("command cannot be null");
-        }
-    }
-
-    private void failIfRegistryIsNull(Map<String, CommandImplementation> registry) {
-
-        if (isNull(registry)) {
-            throw new IllegalArgumentException("registry cannot be null");
-        }
-    }
 }

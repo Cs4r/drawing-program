@@ -4,8 +4,7 @@ import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
 import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
-
-import java.util.Objects;
+import cs4r.labs.drawingprogram.util.Checks;
 
 /**
  * A command implementation that draws a line in the canvas.
@@ -21,7 +20,7 @@ public class DrawLine implements CommandImplementation {
 
     @Override
     public void execute(String arguments, DrawingContext drawingContext) {
-        failIfAnyArgumentIsNull(arguments, drawingContext);
+        Checks.failIfAnyArgumentIsNull(arguments, drawingContext);
 
         if (drawingContext.isActive()) {
             Canvas canvas = drawingContext.getCanvas().orElseThrow(CanvasNotFoundException::new);
@@ -32,14 +31,6 @@ public class DrawLine implements CommandImplementation {
             Integer y2 = argumentParser.getPositionalArgument(arguments, 3, Integer.class) - 1;
 
             canvas.drawLine(x1, y1, x2, y2);
-        }
-    }
-
-    private void failIfAnyArgumentIsNull(Object... arguments) {
-        for (Object arg : arguments) {
-            if (Objects.isNull(arg)) {
-                throw new IllegalArgumentException("arguments cannot be null");
-            }
         }
     }
 }
