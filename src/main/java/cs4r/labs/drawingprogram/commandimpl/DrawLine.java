@@ -24,7 +24,7 @@ public class DrawLine implements CommandImplementation {
         failIfAnyArgumentIsNull(arguments, drawingContext);
 
         if (drawingContext.isActive()) {
-            Canvas canvas = drawingContext.getCanvas().orElseThrow(() -> new CanvasNotFoundException("no canvas to draw on"));
+            Canvas canvas = drawingContext.getCanvas().orElseThrow(CanvasNotFoundException::new);
 
             Integer x1 = argumentParser.getPositionalArgument(0, Integer.class).get() - 1;
             Integer y1 = argumentParser.getPositionalArgument(1, Integer.class).get() - 1;

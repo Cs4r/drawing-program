@@ -36,7 +36,7 @@ public class PrintCanvas implements CommandImplementation {
 
     private Canvas getCanvasOrThrow(DrawingContext context) {
         return context.getCanvas()
-                .orElseThrow(() -> new CanvasNotFoundException("no canvas to draw on"));
+                .orElseThrow(CanvasNotFoundException::new);
     }
 
     private void failIfContextIsNull(DrawingContext context) {

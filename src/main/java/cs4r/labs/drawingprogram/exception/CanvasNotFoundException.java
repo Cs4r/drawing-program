@@ -5,7 +5,7 @@ package cs4r.labs.drawingprogram.exception;
  */
 public class CanvasNotFoundException extends RuntimeException {
 
-    public CanvasNotFoundException(String message) {
-        super(message);
+    public CanvasNotFoundException() {
+        super("no canvas to draw on");
     }
 }
