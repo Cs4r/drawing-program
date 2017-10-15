@@ -34,7 +34,7 @@ public class CreateCanvasTest {
     }
 
     @Test
-    public void createsANewCanvasIfContextIsActive() throws Exception {
+    public void createANewCanvasIfContextIsActive() throws Exception {
 
         // Given
         CreateCanvas createCanvas = new CreateCanvas(argumentParser);
@@ -52,6 +52,7 @@ public class CreateCanvasTest {
         ArgumentCaptor<Canvas> canvasCaptor = ArgumentCaptor.forClass(Canvas.class);
 
         verify(context).setCanvas(canvasCaptor.capture());
+        verify(context).isActive();
 
         Canvas newCanvas = canvasCaptor.getValue();
         assertThat(newCanvas.getWidth()).isEqualTo(20);
