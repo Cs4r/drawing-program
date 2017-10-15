@@ -22,6 +22,20 @@ public class Canvas {
     }
 
     /**
+     * @return the width of this canvas.
+     */
+    public int getWidth() {
+        return width;
+    }
+
+    /**
+     * @return the height of this canvas.
+     */
+    public int getHeight() {
+        return height;
+    }
+
+    /**
      * Returns a text representation of this canvas.
      * <p>
      * <b>Note/b>: use {@link #toString()} only for debugging purposes.

@@ -24,4 +24,9 @@ public interface DrawingContext {
      * Once the context is deactivated {@link DrawingContext#isActive()} will always return false.
      */
     void deactivate();
+
+    /**
+     * Sets the canvas held by this context.
+     */
+    void setCanvas(Canvas canvas);
 }
