@@ -4,7 +4,6 @@ package cs4r.labs.drawingprogram.commandimpl;
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
-import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import cs4r.labs.drawingprogram.exception.CorruptedOutputException;
 import cs4r.labs.drawingprogram.util.Checks;
 
@@ -22,7 +21,7 @@ public class PrintCanvas implements CommandImplementation {
 
         if (context.isActive()) {
             OutputStream output = context.getOutput();
-            Canvas canvas = getCanvasOrThrow(context);
+            Canvas canvas = context.getCanvas();
             byte[] canvasAsBytes = canvas.toText().getBytes();
 
             try {
@@ -32,10 +31,5 @@ public class PrintCanvas implements CommandImplementation {
                 throw new CorruptedOutputException();
             }
         }
-    }
-
-    private Canvas getCanvasOrThrow(DrawingContext context) {
-        return context.getCanvas()
-                .orElseThrow(CanvasNotFoundException::new);
     }
 }

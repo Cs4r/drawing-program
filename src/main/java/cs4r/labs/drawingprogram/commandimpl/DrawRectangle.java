@@ -3,7 +3,6 @@ package cs4r.labs.drawingprogram.commandimpl;
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.CommandImplementation;
 import cs4r.labs.drawingprogram.DrawingContext;
-import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import cs4r.labs.drawingprogram.util.Checks;
 
 /**
@@ -25,7 +24,7 @@ public class DrawRectangle implements CommandImplementation {
         Checks.failIfAnyArgumentIsNull(arguments, context);
 
         if (context.isActive()) {
-            Canvas canvas = context.getCanvas().orElseThrow(CanvasNotFoundException::new);
+            Canvas canvas = context.getCanvas();
 
             Integer x1 = argumentParser.getPositionalArgument(arguments, 0, Integer.class) - 1;
             Integer y1 = argumentParser.getPositionalArgument(arguments, 1, Integer.class) - 1;

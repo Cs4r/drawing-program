@@ -2,12 +2,12 @@ package cs4r.labs.drawingprogram.commandimpl;
 
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -32,7 +32,7 @@ public class TestUtils {
         DrawingContext context = Mockito.mock(DrawingContext.class);
 
         when(context.isActive()).thenReturn(true);
-        when(context.getCanvas()).thenReturn(Optional.of(canvas));
+        when(context.getCanvas()).thenReturn(canvas);
 
         return context;
     }
@@ -58,7 +58,7 @@ public class TestUtils {
 
     public static DrawingContext activeContextWithoutCanvas(Canvas canvas) {
         DrawingContext context = activeContext();
-        when(context.getCanvas()).thenReturn(Optional.empty());
+        when(context.getCanvas()).thenThrow(new CanvasNotFoundException());
         return context;
     }
 
@@ -86,14 +86,16 @@ public class TestUtils {
         DrawingContext context = TestUtils.activeContext();
         OutputStream brokenOutput = mock(OutputStream.class);
         doThrow(IOException.class).when(brokenOutput).write(any());
-        when(context.getOutput()).thenReturn(brokenOutput);
-        when(context.getCanvas()).thenReturn(Optional.ofNullable(canvas));
-        return context;
+        return activeContextWith(canvas, brokenOutput);
     }
 
-    public static DrawingContext activeContextWith(Canvas canvas, ByteArrayOutputStream output) {
+    public static DrawingContext activeContextWith(Canvas canvas, OutputStream output) {
         DrawingContext context = activeContextWithOutput(output);
-        when(context.getCanvas()).thenReturn(Optional.ofNullable(canvas));
+        if (canvas == null) {
+            when(context.getCanvas()).thenThrow(new CanvasNotFoundException());
+        } else {
+            when(context.getCanvas()).thenReturn(canvas);
+        }
         return context;
     }
 }

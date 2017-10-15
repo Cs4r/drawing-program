@@ -1,5 +1,8 @@
+
 package cs4r.labs.drawingprogram;
 
+
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,7 +19,18 @@ public interface DrawingContext {
 
     OutputStream getOutput();
 
-    Optional<Canvas> getCanvas();
+    Optional<Canvas> getOptionalCanvas();
+
+    /**
+     * Returns the canvas held by this context.
+     *
+     * @return Canvas held by this context
+     * @throw {@link cs4r.labs.drawingprogram.exception.CanvasNotFoundException}
+     * if there is no canvas set in this context.
+     */
+    default Canvas getCanvas() {
+        return getOptionalCanvas().orElseThrow(CanvasNotFoundException::new);
+    }
 
     /**
      * Deactivates the context.
