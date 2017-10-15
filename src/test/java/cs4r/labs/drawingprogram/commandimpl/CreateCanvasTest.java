@@ -20,6 +20,8 @@ public class CreateCanvasTest {
 
     @Mock
     private ArgumentParser argumentParser;
+    @Mock
+    private DrawingContext context;
 
     @Test
     public void requireNonNullContext() throws Exception {
@@ -54,6 +56,25 @@ public class CreateCanvasTest {
         Canvas newCanvas = canvasCaptor.getValue();
         assertThat(newCanvas.getWidth()).isEqualTo(20);
         assertThat(newCanvas.getHeight()).isEqualTo(40);
+    }
+
+    @Test
+    public void doNotCreateANewCanvasIfContextIsNotActive() throws Exception {
+
+        // Given
+        CreateCanvas createCanvas = new CreateCanvas(argumentParser);
+        inactiveContext();
+
+        createCanvas.execute("Arguments are not relevant for this test", context);
+
+        // Then
+        verify(context).isActive();
+        verify(context, never()).setCanvas(any());
+    }
+
+
+    private void inactiveContext() {
+        when(context.isActive()).thenReturn(false);
     }
 
     private void validArguments(String arguments, int w, int h) {

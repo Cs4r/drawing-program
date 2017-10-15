@@ -20,11 +20,11 @@ public class CreateCanvas implements CommandImplementation {
 
         Checks.failIfNullArgument(context, "context");
 
-        context.isActive();
+        if (context.isActive()) {
+            Integer width = argumentParser.getPositionalArgument(arguments, 0, Integer.class);
+            Integer height = argumentParser.getPositionalArgument(arguments, 1, Integer.class);
 
-        Integer width = argumentParser.getPositionalArgument(arguments, 0, Integer.class);
-        Integer height = argumentParser.getPositionalArgument(arguments, 1, Integer.class);
-
-        context.setCanvas(new Canvas(height, width));
+            context.setCanvas(new Canvas(height, width));
+        }
     }
 }
