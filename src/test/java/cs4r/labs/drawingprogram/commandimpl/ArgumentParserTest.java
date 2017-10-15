@@ -1,8 +1,10 @@
 package cs4r.labs.drawingprogram.commandimpl;
 
+import cs4r.labs.drawingprogram.exception.InvalidArgumentException;
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 /**
  * Unit tests for {@link ArgumentParser}.
@@ -53,4 +55,21 @@ public class ArgumentParserTest {
         assertThat(fourthArgument).isEqualTo(3);
     }
 
+    @Test
+    public void getIntArgumentThrowsInvalidArgumentExceptionWhenInvalidType() throws Exception {
+
+        ArgumentParser argumentParser = new ArgumentParser();
+
+        assertThatThrownBy(() -> argumentParser.getIntArgument("20 c", 1))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("argument at position 1 has an unexpected type");
+
+        assertThatThrownBy(() -> argumentParser.getIntArgument("c 23", 0))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("argument at position 0 has an unexpected type");
+
+        assertThatThrownBy(() -> argumentParser.getIntArgument("20 1 hola", 2))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("argument at position 2 has an unexpected type");
+    }
 }
