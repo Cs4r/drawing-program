@@ -38,7 +38,7 @@ public class CreateCanvasTest {
 
         // Given
         String arguments = "20 40";
-        argumentParser = TestUtils.validArguments(arguments, 20, 40);
+        argumentParser = TestUtils.validIntArguments(arguments, 20, 40);
         context = TestUtils.activeContext();
         CreateCanvas createCanvas = new CreateCanvas(argumentParser);
 

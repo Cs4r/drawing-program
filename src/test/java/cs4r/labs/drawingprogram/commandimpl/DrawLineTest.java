@@ -45,7 +45,7 @@ public class DrawLineTest {
         // Given
         context = TestUtils.activeContextWithCanvas(canvas);
         String arguments = "1 2 3 4";
-        argumentParser = TestUtils.validArguments(arguments, 1, 2, 3, 4);
+        argumentParser = TestUtils.validIntArguments(arguments, 1, 2, 3, 4);
         DrawLine drawLine = new DrawLine(argumentParser);
 
         // When

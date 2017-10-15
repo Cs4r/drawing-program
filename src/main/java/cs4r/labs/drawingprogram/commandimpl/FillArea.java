@@ -9,8 +9,24 @@ import cs4r.labs.drawingprogram.util.Checks;
  */
 public class FillArea implements CommandImplementation {
 
+    private final ArgumentParser argumentParser;
+
+    public FillArea(ArgumentParser argumentParser) {
+
+        this.argumentParser = argumentParser;
+    }
+
     @Override
-    public void execute(String arguments, DrawingContext drawingContext) {
-        Checks.failIfAnyArgumentIsNull(arguments, drawingContext);
+    public void execute(String arguments, DrawingContext context) {
+        Checks.failIfAnyArgumentIsNull(arguments, context);
+
+
+        context.isActive();
+
+        Integer x = argumentParser.getPositionalArgument(arguments, 0, Integer.class);
+        Integer y = argumentParser.getPositionalArgument(arguments, 1, Integer.class);
+        Character c = argumentParser.getPositionalArgument(arguments, 2, Character.class);
+
+        context.getCanvas().get().fillArea(x - 1, y - 1, c);
     }
 }

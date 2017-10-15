@@ -37,7 +37,7 @@ public class TestUtils {
         return context;
     }
 
-    public static ArgumentParser validArguments(String arguments, int... args) {
+    public static ArgumentParser validIntArguments(String arguments, int... args) {
         ArgumentParser argumentParser = mock(ArgumentParser.class);
 
         int pos = 0;

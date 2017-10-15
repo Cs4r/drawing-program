@@ -44,7 +44,7 @@ public class DrawRectangleTest {
         // Given
         context = TestUtils.activeContextWithCanvas(canvas);
         String arguments = "1 1 40 40";
-        argumentParser = TestUtils.validArguments(arguments, 1, 1, 40, 40);
+        argumentParser = TestUtils.validIntArguments(arguments, 1, 1, 40, 40);
         DrawRectangle drawRectangle = new DrawRectangle(this.argumentParser);
 
         // When
