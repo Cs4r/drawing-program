@@ -3,7 +3,6 @@ package cs4r.labs.drawingprogram;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-
 /*
  * Just a skeleton for now
  */

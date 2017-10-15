@@ -20,7 +20,6 @@ public class CommandsProcessor {
      * @param commandImplementationRegistry a registry of {@link CommandImplementation}s. Must be non-null.
      */
     public CommandsProcessor(CommandImplementationRegistry commandImplementationRegistry) {
-
         failIfRegistryIsNull(commandImplementationRegistry);
 
         this.commandImplementationRegistry = commandImplementationRegistry;
@@ -34,9 +33,7 @@ public class CommandsProcessor {
      * @throws CommandNotFoundException in case the command is not recognised by this {@link CommandsProcessor}.
      */
     public void process(Command command, DrawingContext context) {
-
         failIfAnyArgumentIsNull(command, context);
-
         Optional<CommandImplementation> commandImplementation = commandImplementationRegistry.findImplementation(command);
 
         if (commandImplementation.isPresent()) {
@@ -54,23 +51,16 @@ public class CommandsProcessor {
      * @return true if this {@link CommandsProcessor} can handle the given {@link Command}, false otherwise.
      */
     public boolean canHandle(Command command) {
-
         Checks.failIfNullArgument(command, "command");
-
         return commandImplementationRegistry.findImplementation(command).isPresent();
     }
 
     private void failIfRegistryIsNull(CommandImplementationRegistry registry) {
-
         Checks.failIfNullArgument(registry, "CommandImplementationRegistry");
-
     }
 
     private void failIfAnyArgumentIsNull(Command command, DrawingContext context) {
-
         Checks.failIfNullArgument(command, "command");
-
         Checks.failIfNullArgument(context, "context");
     }
-
 }

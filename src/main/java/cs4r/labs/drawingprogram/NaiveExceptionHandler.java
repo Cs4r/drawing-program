@@ -13,7 +13,6 @@ public class NaiveExceptionHandler implements ExceptionHandler {
     @Override
     public void handle(RuntimeException exception, DrawingContext context) {
         Checks.failIfAnyArgumentIsNull(exception, context);
-
         OutputStream output = context.getOutput();
         String messageToPrint = String.format("%s\n", getMessage(exception));
 

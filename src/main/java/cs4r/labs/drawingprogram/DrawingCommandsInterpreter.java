@@ -13,7 +13,6 @@ public class DrawingCommandsInterpreter {
     public DrawingCommandsInterpreter(CommandsReader commandsReader,
                                       CommandsProcessor commandsProcessor,
                                       ExceptionHandler exceptionHandler) {
-
         failIfNullArguments(commandsReader, commandsProcessor, exceptionHandler);
         failIfCannotHandlePrintPromptCommand(commandsProcessor);
         failIfCannotHandlePrintCanvasCommand(commandsProcessor);

@@ -1,4 +1,3 @@
-
 package cs4r.labs.drawingprogram;
 
 

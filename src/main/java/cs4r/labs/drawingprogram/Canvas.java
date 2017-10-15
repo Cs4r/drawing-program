@@ -43,7 +43,6 @@ public class Canvas {
      * @return text representation of the canvas as {@link String}.
      */
     public String toText() {
-
         StringBuilder canvasAsText = new StringBuilder();
 
         addHeader(canvasAsText);
@@ -69,7 +68,6 @@ public class Canvas {
      * @param y2 y coordinate of the second point
      */
     public void drawLine(int x1, int y1, int x2, int y2) {
-
         if (y1 == y2) {
             drawHorizontalLine(y1, x1, x2);
         } else if (x1 == x2) {
@@ -89,7 +87,6 @@ public class Canvas {
      * @param y2 y coordinate of the second point
      */
     public void drawRectangle(int x1, int y1, int x2, int y2) {
-
         boolean validLeftCorner = (x1 <= x2 && y1 <= y2) && isWithinCanvas(x1, y1);
         boolean validRightCorner = isWithinCanvas(x2, y2);
 
@@ -106,26 +103,19 @@ public class Canvas {
      * <p>
      * Inspiration taken from: https://en.wikipedia.org/wiki/Flood_fill
      *
-     * @param x x coordinate of the starting point for the filling
-     * @param y y coordinate of the starting point for the filling
+     * @param x      x coordinate of the starting point for the filling
+     * @param y      y coordinate of the starting point for the filling
      * @param colour Colour to use
      */
     public void fillArea(int x, int y, char colour) {
-
         if (isWithinCanvas(x, y) && !isColoured(x, y, colour)) {
-
             LinkedList<Cell> toColour = new LinkedList<>();
-
             toColour.add(Cell.from(x, y));
 
             while (!toColour.isEmpty()) {
-
                 Cell cell = takeNext(toColour);
-
                 colourCell(cell, colour);
-
                 List<Cell> neighbors = uncoloredNeighbors(cell, colour);
-
                 addNeighborsNotVisited(neighbors, toColour);
             }
         }
@@ -146,7 +136,6 @@ public class Canvas {
     }
 
     private List<Cell> uncoloredNeighbors(Cell current, char colour) {
-
         List<Cell> uncoloredNeighbors = new ArrayList<>(4);
 
         int x = current.getX();
@@ -180,7 +169,6 @@ public class Canvas {
     }
 
     private void drawHorizontalLine(int y, int x1, int x2) {
-
         int from;
         int to;
 
@@ -198,11 +186,9 @@ public class Canvas {
                 canvas[y][i] = LINE_COLOR;
             }
         }
-
     }
 
     private void drawVerticalLine(int x, int y1, int y2) {
-
         int from;
         int to;
 

@@ -32,7 +32,6 @@ public class CommandsReader {
      * @return a {@link Command}.
      */
     public Command nextCommand() {
-
         try {
             String line = scanner.nextLine();
             Matcher matcher = COMMAND_REGEX.matcher(line);

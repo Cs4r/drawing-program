@@ -14,17 +14,13 @@ public class InMemoryCommandImplementationRegistry implements CommandImplementat
     private final Map<String, CommandImplementation> registry;
 
     public InMemoryCommandImplementationRegistry(Map<String, CommandImplementation> registry) {
-
         Checks.failIfNullArgument(registry, "registry");
-
         this.registry = registry;
     }
 
     @Override
     public Optional<CommandImplementation> findImplementation(Command command) {
-
         Checks.failIfNullArgument(command, "command");
-
         return Optional.ofNullable(registry.get(command.getName()));
     }
 
