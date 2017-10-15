@@ -2,6 +2,7 @@ package cs4r.labs.drawingprogram.commandimpl;
 
 import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.DrawingContext;
+import cs4r.labs.drawingprogram.exception.CanvasNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -70,6 +71,22 @@ public class FillAreaTest {
         // Then
         verify(context).isActive();
         verify(context, never()).getCanvas();
+        verify(canvas, never()).fillArea(anyInt(), anyInt(), anyChar());
+    }
+
+    @Test
+    public void throwCanvasNotFoundExceptionIfNoCanvas() throws Exception {
+        context = TestUtils.activeContextWithoutCanvas(canvas);
+        FillArea fillArea = new FillArea(argumentParser);
+
+        // When
+        assertThatThrownBy(() -> fillArea.execute("Arguments are not used.", context))
+                .isInstanceOf(CanvasNotFoundException.class)
+                .hasMessage("no canvas to draw on");
+
+        // Then
+        verify(context).isActive();
+        verify(context).getCanvas();
         verify(canvas, never()).fillArea(anyInt(), anyInt(), anyChar());
     }
 
