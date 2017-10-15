@@ -46,8 +46,8 @@ public class CreateCanvasTest {
         createCanvas.execute(arguments, context);
 
         // Then
-        verify(argumentParser).getPositionalArgument(arguments, 0, Integer.class);
-        verify(argumentParser).getPositionalArgument(arguments, 1, Integer.class);
+        verify(argumentParser).getIntArgument(arguments, 0);
+        verify(argumentParser).getIntArgument(arguments, 1);
         ArgumentCaptor<Canvas> canvasCaptor = ArgumentCaptor.forClass(Canvas.class);
 
         verify(context).setCanvas(canvasCaptor.capture());

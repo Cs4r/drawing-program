@@ -52,9 +52,9 @@ public class FillAreaTest {
         // Then
         verify(context).isActive();
         verify(context).getCanvas();
-        verify(argumentParser).getPositionalArgument(arguments, 0, Integer.class);
-        verify(argumentParser).getPositionalArgument(arguments, 1, Integer.class);
-        verify(argumentParser).getPositionalArgument(arguments, 2, Character.class);
+        verify(argumentParser).getIntArgument(arguments, 0);
+        verify(argumentParser).getIntArgument(arguments, 1);
+        verify(argumentParser).getCharArgument(arguments, 2);
         verify(canvas).fillArea(33, 30, 'c');
     }
 
@@ -102,9 +102,9 @@ public class FillAreaTest {
     private ArgumentParser validFillAreaArguments(String arguments, int x, int y, char c) {
         ArgumentParser argumentParser = mock(ArgumentParser.class);
 
-        when(argumentParser.getPositionalArgument(arguments, 0, Integer.class)).thenReturn(x);
-        when(argumentParser.getPositionalArgument(arguments, 1, Integer.class)).thenReturn(y);
-        when(argumentParser.getPositionalArgument(arguments, 2, Character.class)).thenReturn(c);
+        when(argumentParser.getIntArgument(arguments, 0)).thenReturn(x);
+        when(argumentParser.getIntArgument(arguments, 1)).thenReturn(y);
+        when(argumentParser.getCharArgument(arguments, 2)).thenReturn(c);
 
         return argumentParser;
     }

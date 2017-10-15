@@ -53,10 +53,10 @@ public class DrawRectangleTest {
         // Then
         verify(context).isActive();
         verify(context).getCanvas();
-        verify(this.argumentParser).getPositionalArgument(arguments, 0, Integer.class);
-        verify(this.argumentParser).getPositionalArgument(arguments, 1, Integer.class);
-        verify(this.argumentParser).getPositionalArgument(arguments, 2, Integer.class);
-        verify(this.argumentParser).getPositionalArgument(arguments, 3, Integer.class);
+        verify(this.argumentParser).getIntArgument(arguments, 0);
+        verify(this.argumentParser).getIntArgument(arguments, 1);
+        verify(this.argumentParser).getIntArgument(arguments, 2);
+        verify(this.argumentParser).getIntArgument(arguments, 3);
         verify(canvas).drawRectangle(0, 0, 39, 39);
     }
 

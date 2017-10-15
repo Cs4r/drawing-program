@@ -42,7 +42,7 @@ public class TestUtils {
 
         int pos = 0;
         for (int arg : args) {
-            when(argumentParser.getPositionalArgument(arguments, pos, Integer.class)).thenReturn(arg);
+            when(argumentParser.getIntArgument(arguments, pos)).thenReturn(arg);
             ++pos;
         }
 

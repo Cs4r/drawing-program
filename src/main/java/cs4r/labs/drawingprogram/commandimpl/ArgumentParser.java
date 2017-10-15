@@ -7,13 +7,22 @@ package cs4r.labs.drawingprogram.commandimpl;
 public interface ArgumentParser {
 
     /**
-     * Parses the argument at the given position and transforms it into an instance of the given type.
+     * Parses the argument at the given position and transforms it into an Integer value.
      *
      * @param rawArguments the arguments as a raw string. Arguments must be separated by spaces.
      * @param position     the position of the argument. Must be greater or equal than zero.
-     * @param type         expected type of the argument
-     * @throw InvalidArgumentException if the argument at the given position cannot be transformed into the type given type.
+     * @throw InvalidArgumentException if the argument at the given position cannot be transformed into an Integer.
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
-    <T> T getPositionalArgument(String rawArguments, int position, Class<T> type);
+    Integer getIntArgument(String rawArguments, int position);
+
+    /**
+     * Parses the argument at the given position and transforms it into an Character value.
+     *
+     * @param rawArguments the arguments as a raw string. Arguments must be separated by spaces.
+     * @param position     the position of the argument. Must be greater or equal than zero.
+     * @throw InvalidArgumentException if the argument at the given position cannot be transformed into a Character.
+     * (Independently of the reason why it couldn't be transformed or parsed).
+     */
+    Character getCharArgument(String rawArguments, int position);
 }

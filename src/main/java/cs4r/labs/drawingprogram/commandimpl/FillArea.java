@@ -24,9 +24,9 @@ public class FillArea implements CommandImplementation {
         if (context.isActive()) {
             Canvas canvas = context.getCanvas();
 
-            Integer x = argumentParser.getPositionalArgument(arguments, 0, Integer.class);
-            Integer y = argumentParser.getPositionalArgument(arguments, 1, Integer.class);
-            Character c = argumentParser.getPositionalArgument(arguments, 2, Character.class);
+            Integer x = argumentParser.getIntArgument(arguments, 0);
+            Integer y = argumentParser.getIntArgument(arguments, 1);
+            Character c = argumentParser.getCharArgument(arguments, 2);
 
             canvas.fillArea(x - 1, y - 1, c);
         }

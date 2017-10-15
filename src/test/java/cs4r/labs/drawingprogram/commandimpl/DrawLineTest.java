@@ -54,10 +54,10 @@ public class DrawLineTest {
         // Then
         verify(context).isActive();
         verify(context).getCanvas();
-        verify(argumentParser).getPositionalArgument(arguments, 0, Integer.class);
-        verify(argumentParser).getPositionalArgument(arguments, 1, Integer.class);
-        verify(argumentParser).getPositionalArgument(arguments, 2, Integer.class);
-        verify(argumentParser).getPositionalArgument(arguments, 3, Integer.class);
+        verify(argumentParser).getIntArgument(arguments, 0);
+        verify(argumentParser).getIntArgument(arguments, 1);
+        verify(argumentParser).getIntArgument(arguments, 2);
+        verify(argumentParser).getIntArgument(arguments, 3);
         verify(canvas).drawLine(0, 1, 2, 3);
     }
 
