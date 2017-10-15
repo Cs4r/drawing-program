@@ -26,7 +26,7 @@ public class CreateCanvasTest {
     @Test
     public void requireNonNullContext() throws Exception {
 
-        CreateCanvas createCanvas = new CreateCanvas(null);
+        CreateCanvas createCanvas = new CreateCanvas(argumentParser);
 
         assertThatThrownBy(() -> createCanvas.execute("", null))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -73,6 +73,13 @@ public class CreateCanvasTest {
         verify(context, never()).setCanvas(any());
     }
 
+    @Test
+    public void cannotBeConstructedWithNullArgumentParser() throws Exception {
+
+        assertThatThrownBy(() -> new CreateCanvas(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("argumentParser cannot be null");
+    }
 
     private void inactiveContext() {
         when(context.isActive()).thenReturn(false);

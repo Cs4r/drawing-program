@@ -12,12 +12,12 @@ public class CreateCanvas implements CommandImplementation {
     private final ArgumentParser argumentParser;
 
     public CreateCanvas(ArgumentParser argumentParser) {
+        Checks.failIfNullArgument(argumentParser, "argumentParser");
         this.argumentParser = argumentParser;
     }
 
     @Override
     public void execute(String arguments, DrawingContext context) {
-
         Checks.failIfNullArgument(context, "context");
 
         if (context.isActive()) {
