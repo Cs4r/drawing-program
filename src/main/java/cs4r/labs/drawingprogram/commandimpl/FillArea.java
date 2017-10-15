@@ -14,7 +14,7 @@ public class FillArea implements CommandImplementation {
     private final ArgumentParser argumentParser;
 
     public FillArea(ArgumentParser argumentParser) {
-
+        Checks.failIfNullArgument(argumentParser, "argumentParser");
         this.argumentParser = argumentParser;
     }
 

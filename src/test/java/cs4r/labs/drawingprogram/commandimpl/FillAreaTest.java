@@ -19,13 +19,14 @@ public class FillAreaTest {
 
     @Mock
     private Canvas canvas;
-    private DrawingContext context;
+    @Mock
     private ArgumentParser argumentParser;
+    private DrawingContext context;
 
     @Test
     public void requireNonNullArguments() throws Exception {
 
-        FillArea fillArea = new FillArea(null);
+        FillArea fillArea = new FillArea(argumentParser);
 
         assertThatThrownBy(() -> fillArea.execute(null, mock(DrawingContext.class)))
                 .isInstanceOf(IllegalArgumentException.class)
@@ -88,6 +89,14 @@ public class FillAreaTest {
         verify(context).isActive();
         verify(context).getCanvas();
         verify(canvas, never()).fillArea(anyInt(), anyInt(), anyChar());
+    }
+
+    @Test
+    public void cannotBeConstructedWithNullArgumentParser() throws Exception {
+
+        assertThatThrownBy(() -> new FillArea(null))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("argumentParser cannot be null");
     }
 
     private ArgumentParser validFillAreaArguments(String arguments, int x, int y, char c) {
