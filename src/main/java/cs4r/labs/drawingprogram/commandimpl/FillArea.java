@@ -20,13 +20,12 @@ public class FillArea implements CommandImplementation {
     public void execute(String arguments, DrawingContext context) {
         Checks.failIfAnyArgumentIsNull(arguments, context);
 
+        if (context.isActive()) {
+            Integer x = argumentParser.getPositionalArgument(arguments, 0, Integer.class);
+            Integer y = argumentParser.getPositionalArgument(arguments, 1, Integer.class);
+            Character c = argumentParser.getPositionalArgument(arguments, 2, Character.class);
 
-        context.isActive();
-
-        Integer x = argumentParser.getPositionalArgument(arguments, 0, Integer.class);
-        Integer y = argumentParser.getPositionalArgument(arguments, 1, Integer.class);
-        Character c = argumentParser.getPositionalArgument(arguments, 2, Character.class);
-
-        context.getCanvas().get().fillArea(x - 1, y - 1, c);
+            context.getCanvas().get().fillArea(x - 1, y - 1, c);
+        }
     }
 }

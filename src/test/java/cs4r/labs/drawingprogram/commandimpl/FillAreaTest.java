@@ -56,6 +56,23 @@ public class FillAreaTest {
         verify(canvas).fillArea(33, 30, 'c');
     }
 
+    @Test
+    public void doNotFillAreaIfContextIsNotActive() throws Exception {
+        // Given
+        context = TestUtils.inactiveContext();
+        String arguments = "34 31 c";
+        argumentParser = validFillAreaArguments(arguments, 23, 23, 'b');
+        FillArea fillArea = new FillArea(argumentParser);
+
+        // When
+        fillArea.execute(arguments, context);
+
+        // Then
+        verify(context).isActive();
+        verify(context, never()).getCanvas();
+        verify(canvas, never()).fillArea(anyInt(), anyInt(), anyChar());
+    }
+
     private ArgumentParser validFillAreaArguments(String arguments, int x, int y, char c) {
         ArgumentParser argumentParser = mock(ArgumentParser.class);
 

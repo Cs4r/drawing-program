@@ -96,10 +96,4 @@ public class TestUtils {
         when(context.getCanvas()).thenReturn(Optional.ofNullable(canvas));
         return context;
     }
-
-    public static DrawingContext inactiveContextWithCanvas(Canvas canvas) {
-        DrawingContext context = inactiveContext();
-        when(context.getCanvas()).thenReturn(Optional.of(canvas));
-        return context;
-    }
 }
