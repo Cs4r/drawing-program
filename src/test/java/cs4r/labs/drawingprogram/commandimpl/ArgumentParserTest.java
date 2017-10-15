@@ -87,7 +87,7 @@ public class ArgumentParserTest {
     }
 
     @Test
-    public void getIntArgumentRequiresNonNullArguments() throws Exception {
+    public void getIntArgumentRequiresNonNullRawArguments() throws Exception {
 
         assertThatThrownBy(() -> new ArgumentParser().getIntArgument(null, 0))
                 .isInstanceOf(IllegalArgumentException.class)
