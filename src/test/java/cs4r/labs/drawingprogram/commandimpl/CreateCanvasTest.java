@@ -37,11 +37,10 @@ public class CreateCanvasTest {
     public void createANewCanvasIfContextIsActive() throws Exception {
 
         // Given
-        CreateCanvas createCanvas = new CreateCanvas(argumentParser);
-        DrawingContext context = mock(DrawingContext.class);
-        when(context.isActive()).thenReturn(true);
         String arguments = "20 40";
-        validArguments(arguments, 20, 40);
+        argumentParser = TestUtils.validArguments(arguments, 20, 40);
+        context = TestUtils.activeContext();
+        CreateCanvas createCanvas = new CreateCanvas(argumentParser);
 
         // When
         createCanvas.execute(arguments, context);
@@ -64,7 +63,7 @@ public class CreateCanvasTest {
 
         // Given
         CreateCanvas createCanvas = new CreateCanvas(argumentParser);
-        inactiveContext();
+        context = TestUtils.inactiveContext();
 
         createCanvas.execute("Arguments are not relevant for this test", context);
 
@@ -79,14 +78,5 @@ public class CreateCanvasTest {
         assertThatThrownBy(() -> new CreateCanvas(null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("argumentParser cannot be null");
-    }
-
-    private void inactiveContext() {
-        when(context.isActive()).thenReturn(false);
-    }
-
-    private void validArguments(String arguments, int w, int h) {
-        when(argumentParser.getPositionalArgument(arguments, 0, Integer.class)).thenReturn(w);
-        when(argumentParser.getPositionalArgument(arguments, 1, Integer.class)).thenReturn(h);
     }
 }

@@ -7,13 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
 
 
 /**
@@ -38,8 +35,6 @@ public class PrintPromptTest {
 
         PrintPrompt printPrompt = new PrintPrompt();
 
-        DrawingContext context = mock(DrawingContext.class);
-
         assertThatThrownBy(() -> printPrompt.execute("", null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("context cannot be null");
@@ -51,7 +46,7 @@ public class PrintPromptTest {
         // Given
         PrintPrompt printPrompt = new PrintPrompt();
 
-        DrawingContext context = activeContext(true);
+        DrawingContext context = TestUtils.activeContextWithOutput(output);
 
         // When
         printPrompt.execute(null, context);
@@ -67,7 +62,7 @@ public class PrintPromptTest {
         // Given
         PrintPrompt printPrompt = new PrintPrompt();
 
-        DrawingContext context = activeContext(false);
+        DrawingContext context = TestUtils.inactiveContextWithOutput(output);
 
         // When
         printPrompt.execute(null, context);
@@ -82,7 +77,7 @@ public class PrintPromptTest {
     public void throwCorruptedOutputExceptionIfOutputIsCorrupted() throws Exception {
         PrintPrompt printPrompt = new PrintPrompt();
 
-        DrawingContext context = activeContextWithBrokenOutput();
+        DrawingContext context = TestUtils.activeContextWithBrokenOutput(null);
 
         assertThatThrownBy(() ->
                 printPrompt.execute(null, context))
@@ -90,23 +85,5 @@ public class PrintPromptTest {
                 .hasMessage("output is corrupted");
 
         verify(context).isActive();
-    }
-
-    private DrawingContext activeContextWithBrokenOutput() throws IOException {
-        DrawingContext context = activeContext(true);
-
-        OutputStream brokenOutput = mock(OutputStream.class);
-        doThrow(IOException.class).when(brokenOutput).write(any());
-        when(context.getOutput()).thenReturn(brokenOutput);
-        return context;
-    }
-
-    private DrawingContext activeContext(boolean isActive) {
-
-        DrawingContext drawingContext = mock(DrawingContext.class);
-        when(drawingContext.isActive()).thenReturn(isActive);
-        when(drawingContext.getOutput()).thenReturn(output);
-
-        return drawingContext;
     }
 }

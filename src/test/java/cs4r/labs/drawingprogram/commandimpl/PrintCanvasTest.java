@@ -12,11 +12,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Optional;
 
-import static java.util.Optional.empty;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -50,8 +46,6 @@ public class PrintCanvasTest {
 
         PrintCanvas printCanvas = new PrintCanvas();
 
-        DrawingContext context = mock(DrawingContext.class);
-
         assertThatThrownBy(() -> printCanvas.execute("", null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("context cannot be null");
@@ -64,7 +58,8 @@ public class PrintCanvasTest {
         // Given
         PrintCanvas printCanvas = new PrintCanvas();
 
-        activeContextWithCanvas(true);
+        when(canvas.toText()).thenReturn(CANVAS_CONTENT);
+        context = TestUtils.activeContextWith(canvas, output);
 
         // When
         printCanvas.execute(null, context);
@@ -85,7 +80,7 @@ public class PrintCanvasTest {
         // Given
         PrintCanvas printCanvas = new PrintCanvas();
 
-        activeContextWithCanvas(false);
+        context = TestUtils.inactiveContextWithOutput(output);
 
         // When
         printCanvas.execute(null, context);
@@ -104,7 +99,7 @@ public class PrintCanvasTest {
         // Given
         PrintCanvas printCanvas = new PrintCanvas();
 
-        activeContextWithNoCanvas();
+        context = TestUtils.activeContextWith(null, output);
 
         // When
         assertThatThrownBy(() -> printCanvas.execute(null, context))
@@ -124,7 +119,8 @@ public class PrintCanvasTest {
     public void throwCorruptedOutputExceptionIfOutputIsCorrupted() throws Exception {
         PrintCanvas printCanvas = new PrintCanvas();
 
-        activeContextWithBrokenOutput();
+        when(canvas.toText()).thenReturn(CANVAS_CONTENT);
+        context = TestUtils.activeContextWithBrokenOutput(canvas);
 
         assertThatThrownBy(() ->
                 printCanvas.execute(null, context))
@@ -132,27 +128,5 @@ public class PrintCanvasTest {
                 .hasMessage("output is corrupted");
 
         verify(context).isActive();
-    }
-
-    private void activeContextWithBrokenOutput() throws IOException {
-        activeContextWithCanvas(true);
-        OutputStream corruptedOutput = mock(OutputStream.class);
-        doThrow(IOException.class).when(corruptedOutput).write(any());
-        when(context.getOutput()).thenReturn(corruptedOutput);
-    }
-
-    private void activeContextWithNoCanvas() {
-        activeContextWithCanvas(true);
-        when(context.getCanvas()).thenReturn(empty());
-    }
-
-    private void activeContextWithCanvas(boolean isActive) {
-        when(context.isActive()).thenReturn(isActive);
-
-        when(context.getOutput()).thenReturn(output);
-
-        when(canvas.toText()).thenReturn(CANVAS_CONTENT);
-
-        when(context.getCanvas()).thenReturn(Optional.of(canvas));
     }
 }

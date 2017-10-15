@@ -8,8 +8,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
@@ -21,7 +19,6 @@ import static org.mockito.Mockito.*;
 public class DrawLineTest {
 
 
-    @Mock
     private DrawingContext context;
     @Mock
     private Canvas canvas;
@@ -46,9 +43,9 @@ public class DrawLineTest {
     public void drawLine() throws Exception {
 
         // Given
-        activeContextWithCanvas();
+        context = TestUtils.activeContextWithCanvas(canvas);
         String arguments = "1 2 3 4";
-        validArguments(arguments, 1, 2, 3, 4);
+        argumentParser = TestUtils.validArguments(arguments, 1, 2, 3, 4);
         DrawLine drawLine = new DrawLine(argumentParser);
 
         // When
@@ -66,7 +63,7 @@ public class DrawLineTest {
 
     @Test
     public void doNotDrawALineIfContextIsNotActive() throws Exception {
-        inactiveContext();
+        context = TestUtils.inactiveContext();
         DrawLine drawLine = new DrawLine(argumentParser);
 
         // When
@@ -80,7 +77,7 @@ public class DrawLineTest {
 
     @Test
     public void throwCanvasNotFoundExceptionIfNoCanvas() throws Exception {
-        activeContextWithoutCanvas();
+        context = TestUtils.activeContextWithoutCanvas(canvas);
         DrawLine drawLine = new DrawLine(argumentParser);
 
         // When
@@ -101,28 +98,5 @@ public class DrawLineTest {
         assertThatThrownBy(() -> new DrawLine(null))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("argumentParser cannot be null");
-    }
-
-    private void activeContextWithoutCanvas() {
-        when(context.isActive()).thenReturn(true);
-        when(context.getCanvas()).thenReturn(Optional.empty());
-    }
-
-    private void inactiveContext() {
-        when(context.isActive()).thenReturn(false);
-    }
-
-    private ArgumentParser validArguments(String arguments, int x1, int y1, int x2, int y2) {
-        argumentParser = mock(ArgumentParser.class);
-        when(argumentParser.getPositionalArgument(arguments, 0, Integer.class)).thenReturn(x1);
-        when(argumentParser.getPositionalArgument(arguments, 1, Integer.class)).thenReturn(y1);
-        when(argumentParser.getPositionalArgument(arguments, 2, Integer.class)).thenReturn(x2);
-        when(argumentParser.getPositionalArgument(arguments, 3, Integer.class)).thenReturn(y2);
-        return argumentParser;
-    }
-
-    private void activeContextWithCanvas() {
-        when(context.isActive()).thenReturn(true);
-        when(context.getCanvas()).thenReturn(Optional.of(canvas));
     }
 }
