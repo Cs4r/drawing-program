@@ -3,6 +3,8 @@ package cs4r.labs.drawingprogram.commandimpl;
 
 import cs4r.labs.drawingprogram.exception.InvalidArgumentException;
 
+import static java.lang.String.format;
+
 /**
  * Parses command line arguments and transforms them into their expected types.
  */
@@ -17,14 +19,14 @@ public class ArgumentParser {
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
     Integer getIntArgument(String rawArguments, int position) {
-
-        String[] arguments = rawArguments.trim().split("\\s+");
-
+        
         try {
+            String[] arguments = rawArguments.trim().split("\\s+");
             return Integer.valueOf(arguments[position]);
         } catch (NumberFormatException exception) {
-            String msg = String.format("argument at position %d has an unexpected type", position);
-            throw new InvalidArgumentException(msg);
+            throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            throw new InvalidArgumentException(format("no argument at position %d", position));
         }
     }
 

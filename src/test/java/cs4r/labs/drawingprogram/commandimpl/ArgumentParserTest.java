@@ -11,7 +11,6 @@ import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
  */
 public class ArgumentParserTest {
 
-
     @Test
     public void getIntArgumentReturnsArgumentValueWhenValidType() throws Exception {
         ArgumentParser argumentParser = new ArgumentParser();
@@ -71,5 +70,19 @@ public class ArgumentParserTest {
         assertThatThrownBy(() -> argumentParser.getIntArgument("20 1 hola", 2))
                 .isInstanceOf(InvalidArgumentException.class)
                 .hasMessage("argument at position 2 has an unexpected type");
+    }
+
+    @Test
+    public void getIntArgumentThrowsInvalidArgumentExceptionWhenArgumentNotFound() throws Exception {
+
+        ArgumentParser argumentParser = new ArgumentParser();
+
+        assertThatThrownBy(() -> argumentParser.getIntArgument("12 24", 3))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("no argument at position 3");
+
+        assertThatThrownBy(() -> argumentParser.getIntArgument("26 300 0 0", -1))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("no argument at position -1");
     }
 }
