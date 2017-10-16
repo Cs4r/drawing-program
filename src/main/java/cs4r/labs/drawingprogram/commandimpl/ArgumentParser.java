@@ -40,6 +40,7 @@ public class ArgumentParser {
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
     Character getCharArgument(String rawArguments, int position) {
-        throw new UnsupportedOperationException();
+        String[] arguments = rawArguments.trim().split("\\s+");
+        return arguments[position].charAt(0);
     }
 }

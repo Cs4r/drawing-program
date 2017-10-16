@@ -93,4 +93,20 @@ public class ArgumentParserTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("rawArguments cannot be null");
     }
+
+    @Test
+    public void getCharArgumentReturnsArgumentValueWhenValidType() throws Exception {
+
+        ArgumentParser argumentParser = new ArgumentParser();
+
+        Character thirdArgument = argumentParser.getCharArgument("20 40 c", 2);
+        assertThat(thirdArgument).isEqualTo('c');
+
+
+        Character secondArgument = argumentParser.getCharArgument("20 b", 1);
+        assertThat(secondArgument).isEqualTo('b');
+
+        Character firstArgument = argumentParser.getCharArgument("a", 0);
+        assertThat(firstArgument).isEqualTo('a');
+    }
 }
