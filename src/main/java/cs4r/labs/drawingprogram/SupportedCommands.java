@@ -1,5 +1,7 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.command.Command;
+
 /**
  * A class to state the supported commands.
  */

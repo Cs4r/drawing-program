@@ -1,6 +1,9 @@
 package cs4r.labs.drawingprogram;
 
-import cs4r.labs.drawingprogram.commandimpl.*;
+import cs4r.labs.drawingprogram.command.*;
+import cs4r.labs.drawingprogram.command.commandimpl.*;
+import cs4r.labs.drawingprogram.command.exception.ExceptionHandler;
+import cs4r.labs.drawingprogram.command.exception.NaiveExceptionHandler;
 
 import java.io.InputStream;
 import java.io.OutputStream;

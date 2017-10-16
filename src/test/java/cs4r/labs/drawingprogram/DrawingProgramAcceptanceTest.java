@@ -1,7 +1,7 @@
 package cs4r.labs.drawingprogram;
 
 
-import cs4r.labs.drawingprogram.commandimpl.TestUtils;
+import cs4r.labs.drawingprogram.command.commandimpl.TestUtils;
 import org.junit.Test;
 
 import java.io.BufferedReader;

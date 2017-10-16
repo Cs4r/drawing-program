@@ -1,5 +1,7 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.command.*;
+import cs4r.labs.drawingprogram.command.exception.ExceptionHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
