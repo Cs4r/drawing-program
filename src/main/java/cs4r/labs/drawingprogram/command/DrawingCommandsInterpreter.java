@@ -14,6 +14,9 @@ import static java.util.Objects.isNull;
  */
 public class DrawingCommandsInterpreter {
 
+    protected static final Command PRINT_CANVAS_COMMAND = Command.with(SupportedCommands.PRINT_CANVAS_COMMAND, "");
+    protected static final Command PRINT_PROMPT_COMMAND = Command.with(SupportedCommands.PRINT_PROMPT_COMMAND, "");
+
     private final CommandsReader commandsReader;
     private final CommandsProcessor commandsProcessor;
     private final ExceptionHandler exceptionHandler;
@@ -59,11 +62,11 @@ public class DrawingCommandsInterpreter {
     }
 
     public void afterProcessingCommand(DrawingContext context) {
-        commandsProcessor.process(SupportedCommands.PRINT_CANVAS_COMMAND, context);
+        commandsProcessor.process(PRINT_CANVAS_COMMAND, context);
     }
 
     public void beforeProcessingCommand(DrawingContext context) {
-        commandsProcessor.process(SupportedCommands.PRINT_PROMPT_COMMAND, context);
+        commandsProcessor.process(PRINT_PROMPT_COMMAND, context);
     }
 
     private void failIfContextIsNull(DrawingContext context) {
@@ -90,13 +93,13 @@ public class DrawingCommandsInterpreter {
     }
 
     private void failIfCannotHandlePrintCanvasCommand(CommandsProcessor commandsProcessor) {
-        if (!commandsProcessor.canHandle(SupportedCommands.PRINT_CANVAS_COMMAND)) {
+        if (!commandsProcessor.canHandle(PRINT_CANVAS_COMMAND)) {
             throw new IllegalArgumentException("CommandsProcessor must handle PrintCanvasCommand");
         }
     }
 
     private void failIfCannotHandlePrintPromptCommand(CommandsProcessor commandsProcessor) {
-        if (!commandsProcessor.canHandle(SupportedCommands.PRINT_PROMPT_COMMAND)) {
+        if (!commandsProcessor.canHandle(PRINT_PROMPT_COMMAND)) {
             throw new IllegalArgumentException("CommandsProcessor must handle PrintPromptCommand");
         }
     }

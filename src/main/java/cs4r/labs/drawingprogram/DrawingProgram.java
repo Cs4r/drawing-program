@@ -52,8 +52,8 @@ public class DrawingProgram {
     private InMemoryCommandImplementationRegistry buildRegistry(ArgumentParser argumentParser) {
         return new InMemoryCommandImplementationRegistry(new HashMap<String, CommandImplementation>() {{
 
-            put(SupportedCommands.PRINT_CANVAS_COMMAND.getName(), new PrintCanvas());
-            put(SupportedCommands.PRINT_PROMPT_COMMAND.getName(), new PrintPrompt());
+            put(SupportedCommands.PRINT_CANVAS_COMMAND, new PrintCanvas());
+            put(SupportedCommands.PRINT_PROMPT_COMMAND, new PrintPrompt());
             put(SupportedCommands.CREATE_CANVAS_COMMAND, new CreateCanvas(argumentParser));
             put(SupportedCommands.DRAW_LINE_COMMAND, new DrawLine(argumentParser));
             put(SupportedCommands.DRAW_RECTANGLE_COMMAND, new DrawRectangle(argumentParser));

@@ -41,8 +41,8 @@ public class DrawingProgramTest {
     public void implementsAllCommandRequired() throws Exception {
         CommandsProcessor commandImplementationRegistry = drawingProgram.getCommandsProcessor();
 
-        assertThat(commandImplementationRegistry.canHandle(SupportedCommands.PRINT_PROMPT_COMMAND)).isTrue();
-        assertThat(commandImplementationRegistry.canHandle(SupportedCommands.PRINT_CANVAS_COMMAND)).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.PRINT_PROMPT_COMMAND, ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.PRINT_CANVAS_COMMAND, ""))).isTrue();
 
         assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.CREATE_CANVAS_COMMAND, ""))).isTrue();
         assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.DRAW_LINE_COMMAND, ""))).isTrue();

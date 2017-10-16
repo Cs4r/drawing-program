@@ -1,6 +1,5 @@
 package cs4r.labs.drawingprogram.command;
 
-import cs4r.labs.drawingprogram.SupportedCommands;
 import cs4r.labs.drawingprogram.command.exception.ExceptionHandler;
 import org.junit.Before;
 import org.junit.Test;
@@ -197,7 +196,7 @@ public class DrawingCommandsInterpreterTest {
 
         commandsInterpreter.beforeProcessingCommand(drawingContext);
 
-        verify(commandsProcessor).process(SupportedCommands.PRINT_PROMPT_COMMAND, drawingContext);
+        verify(commandsProcessor).process(DrawingCommandsInterpreter.PRINT_PROMPT_COMMAND, drawingContext);
     }
 
     @Test
@@ -205,16 +204,16 @@ public class DrawingCommandsInterpreterTest {
 
         commandsInterpreter.afterProcessingCommand(drawingContext);
 
-        verify(commandsProcessor).process(SupportedCommands.PRINT_CANVAS_COMMAND, drawingContext);
+        verify(commandsProcessor).process(DrawingCommandsInterpreter.PRINT_CANVAS_COMMAND, drawingContext);
     }
 
     private void commandsProcessorCannotHandlePrintCanvasCommand() {
-        Command printCanvas = SupportedCommands.PRINT_CANVAS_COMMAND;
+        Command printCanvas = DrawingCommandsInterpreter.PRINT_CANVAS_COMMAND;
         when(commandsProcessor.canHandle(printCanvas)).thenReturn(false);
     }
 
     private void commandsProcessorCannotHandlePrintPromptCommand() {
-        Command printPrompt = SupportedCommands.PRINT_PROMPT_COMMAND;
+        Command printPrompt = DrawingCommandsInterpreter.PRINT_PROMPT_COMMAND;
         when(commandsProcessor.canHandle(printPrompt)).thenReturn(false);
     }
 
@@ -227,11 +226,11 @@ public class DrawingCommandsInterpreterTest {
     }
 
     private void commandsProcessorCanHandlePrintPromptCommand() {
-        when(commandsProcessor.canHandle(SupportedCommands.PRINT_PROMPT_COMMAND)).thenReturn(true);
+        when(commandsProcessor.canHandle(DrawingCommandsInterpreter.PRINT_PROMPT_COMMAND)).thenReturn(true);
     }
 
     private void commandsProcessorCanHandlePrintCanvasCommand() {
-        when(commandsProcessor.canHandle(SupportedCommands.PRINT_CANVAS_COMMAND)).thenReturn(true);
+        when(commandsProcessor.canHandle(DrawingCommandsInterpreter.PRINT_CANVAS_COMMAND)).thenReturn(true);
 
     }
 
