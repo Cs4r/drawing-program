@@ -4,6 +4,12 @@ import cs4r.labs.drawingprogram.util.Checks;
 
 import static java.util.Objects.isNull;
 
+
+/**
+ * Interprets drawing commands.
+ *
+ * @see DrawingCommandsInterpreter#interpretCommands(DrawingContext)
+ */
 public class DrawingCommandsInterpreter {
 
     private final CommandsReader commandsReader;
@@ -21,6 +27,19 @@ public class DrawingCommandsInterpreter {
         this.exceptionHandler = exceptionHandler;
     }
 
+
+    /**
+     * Interprets console commands by:
+     * <ul>
+     * <p>
+     * <li> Reading them from a {@link CommandsReader}</li>.
+     * <li> Executing their associated logic by invoking a {@link CommandsProcessor}.
+     * </ul>
+     * <p>
+     * Console commands are read as a long as the {@link DrawingContext} is active.
+     *
+     * @param context the context where the commands take effect.
+     */
     public void interpretCommands(DrawingContext context) {
 
         failIfContextIsNull(context);

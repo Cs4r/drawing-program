@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * A naive implementation of {@link ExceptionHandler}.
+ * A naive implementation of {@link ExceptionHandler} that just prints the exception message in the console.
  */
 public class NaiveExceptionHandler implements ExceptionHandler {
 

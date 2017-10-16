@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.util.Optional;
 
 /**
- * Holds valuable information for the executing of {@link DrawingProgram}.
+ * Holds valuable information for the execution of the {@link DrawingProgram}.
  */
 public class DrawingContext {
 

@@ -6,6 +6,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 
+
+/**
+ * A canvas that supports four operations:
+ * <ul>
+ * <li>Draw a horizontal line.</li>
+ * <li>Draw vertical line.</li>
+ * <li>Draw a rectangle.</li>
+ * <li>Fill an area with a color.</li>
+ * </ul>
+ */
 public class Canvas {
 
     private static final char EMPTY_CELL_COLOR = ' ';
