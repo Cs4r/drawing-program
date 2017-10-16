@@ -70,7 +70,7 @@ public class PrintCanvasTest {
         verify(canvas).toText();
 
         String outputAsString = TestUtils.getOutputAsString(context);
-        assertThat(outputAsString).isEqualTo(CANVAS_CONTENT);
+        assertThat(outputAsString).isEqualTo("\n" + CANVAS_CONTENT);
     }
 
 

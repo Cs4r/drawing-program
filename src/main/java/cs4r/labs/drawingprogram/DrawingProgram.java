@@ -27,7 +27,7 @@ public class DrawingProgram {
     }
 
     public void run() {
-
+        drawingCommandsInterpreter.interpretCommands(context);
     }
 
     public DrawingContext getContext() {
@@ -61,5 +61,10 @@ public class DrawingProgram {
 
     public ExceptionHandler getExceptionHandler() {
         return exceptionHandler;
+    }
+
+    public static void main(String[] args) {
+
+        new DrawingProgram(System.in, System.out).run();
     }
 }

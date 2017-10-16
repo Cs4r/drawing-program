@@ -25,6 +25,7 @@ public class PrintCanvas implements CommandImplementation {
             byte[] canvasAsBytes = canvas.toText().getBytes();
 
             try {
+                output.write('\n');
                 output.write(canvasAsBytes);
                 output.flush();
             } catch (IOException e) {

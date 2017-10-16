@@ -2,7 +2,6 @@ package cs4r.labs.drawingprogram;
 
 
 import cs4r.labs.drawingprogram.commandimpl.TestUtils;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.BufferedReader;
@@ -19,7 +18,6 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
  * <p>
  * It tests that the program supports the 5 commands described in the functional specification.
  */
-@Ignore("This test will be ignored until I finish the implementation of the program")
 public class DrawingProgramAcceptanceTest {
 
 
