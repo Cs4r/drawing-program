@@ -134,10 +134,12 @@ public class CommandsReaderTest {
     public void testCommandRegex() throws Exception {
         // Valid commands
         assertThat(COMMAND_REGEX.matcher("C w h").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher("C -1 -1").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher(" C w h").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("C w h ").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher(" C w h ").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("L x1 y1 x2 y2").matches()).isTrue();
+        assertThat(COMMAND_REGEX.matcher("L -1 -2 -4 -5000").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("R x1 y1 x2 y2").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("B x y c").matches()).isTrue();
         assertThat(COMMAND_REGEX.matcher("Q").matches()).isTrue();

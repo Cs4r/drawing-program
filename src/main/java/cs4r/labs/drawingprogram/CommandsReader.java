@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class CommandsReader {
 
     // Protected for testing purposes
-    protected static Pattern COMMAND_REGEX = Pattern.compile("\\s*(\\p{Alnum}+)\\s*(((\\p{Alnum}+)\\s*)*)\\s*");
+    protected static Pattern COMMAND_REGEX = Pattern.compile("\\s*(\\p{Alnum}+)\\s*(((-?\\p{Alnum}+)\\s*)*)\\s*");
     private final Scanner scanner;
 
     /**
