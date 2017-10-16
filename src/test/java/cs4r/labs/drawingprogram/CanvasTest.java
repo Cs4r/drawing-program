@@ -444,6 +444,34 @@ public class CanvasTest {
     }
 
     @Test
+    public void fillTwiceComplexArea() throws Exception {
+
+        int height = 4;
+        int width = 20;
+
+        Canvas canvas = new Canvas(height, width);
+
+        canvas.drawLine(0, 1, 5, 1);
+        canvas.drawLine(5, 2, 5, 3);
+        canvas.drawRectangle(15, 0, 19, 2);
+
+        canvas.fillArea(9, 2, 'o');
+        canvas.fillArea(9, 2, '2');
+
+        String currentCanvas = canvas.toText();
+
+        String expectedCanvas = ""
+                + "----------------------\n"
+                + "|222222222222222xxxxx|\n"
+                + "|xxxxxx222222222x   x|\n"
+                + "|     x222222222xxxxx|\n"
+                + "|     x22222222222222|\n"
+                + "----------------------\n";
+
+        assertThat(currentCanvas).isEqualTo(expectedCanvas);
+    }
+
+    @Test
     public void ignoreAreaFillsOutsideTheCanvas() throws Exception {
 
         int height = 4;

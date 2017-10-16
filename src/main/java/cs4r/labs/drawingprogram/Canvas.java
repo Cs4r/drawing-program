@@ -176,7 +176,7 @@ public class Canvas {
     }
 
     private boolean isColoured(int x, int y, char colour) {
-        return canvas[y][x] == colour || canvas[y][x] != EMPTY_CELL_COLOR;
+        return canvas[y][x] == colour || canvas[y][x] == LINE_COLOR;
     }
 
     private void drawHorizontalLine(int y, int x1, int x2) {
