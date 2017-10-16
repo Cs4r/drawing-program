@@ -137,4 +137,12 @@ public class ArgumentParserTest {
                 .isInstanceOf(InvalidArgumentException.class)
                 .hasMessage("no argument at position -1");
     }
+
+    @Test
+    public void getCharArgumentRequiresNonNullRawArguments() throws Exception {
+
+        assertThatThrownBy(() -> new ArgumentParser().getCharArgument(null, 0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("rawArguments cannot be null");
+    }
 }

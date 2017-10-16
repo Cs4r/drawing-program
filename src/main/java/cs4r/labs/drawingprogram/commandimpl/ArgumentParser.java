@@ -38,6 +38,7 @@ public class ArgumentParser {
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
     Character getCharArgument(String rawArguments, int position) {
+        Checks.failIfNullArgument(rawArguments, "rawArguments");
         String argument = getArgumentAtPos(rawArguments, position);
         if (argument.length() == 1) {
             return argument.charAt(0);
