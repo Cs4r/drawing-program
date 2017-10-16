@@ -10,9 +10,6 @@ import java.util.Objects;
  */
 public class Command {
 
-    public static final Command PRINT_PROMPT_COMMAND = with("#PP#", "");
-    public static final Command PRINT_CANVAS_COMMAND = with("#PC#", "");
-
     private final String arguments;
     private final String name;
 

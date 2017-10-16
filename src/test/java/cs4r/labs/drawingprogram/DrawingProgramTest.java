@@ -39,14 +39,14 @@ public class DrawingProgramTest {
     public void implementsAllCommandRequired() throws Exception {
         CommandsProcessor commandImplementationRegistry = drawingProgram.getCommandsProcessor();
 
-        assertThat(commandImplementationRegistry.canHandle(Command.PRINT_PROMPT_COMMAND)).isTrue();
-        assertThat(commandImplementationRegistry.canHandle(Command.PRINT_CANVAS_COMMAND)).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(SupportedCommands.PRINT_PROMPT_COMMAND)).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(SupportedCommands.PRINT_CANVAS_COMMAND)).isTrue();
 
-        assertThat(commandImplementationRegistry.canHandle(Command.with("C", ""))).isTrue();
-        assertThat(commandImplementationRegistry.canHandle(Command.with("L", ""))).isTrue();
-        assertThat(commandImplementationRegistry.canHandle(Command.with("R", ""))).isTrue();
-        assertThat(commandImplementationRegistry.canHandle(Command.with("B", ""))).isTrue();
-        assertThat(commandImplementationRegistry.canHandle(Command.with("Q", ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.CREATE_CANVAS_COMMAND, ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.DRAW_LINE_COMMAND, ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.DRAW_RECTANGLE_COMMAND, ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.FILL_AREA_COMMAND, ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with(SupportedCommands.QUIT_COMMAND, ""))).isTrue();
     }
 
     @Test

@@ -56,7 +56,7 @@ public class DrawingContext {
      * {@link Optional#empty()} otherwise
      */
     public Optional<Canvas> getOptionalCanvas() {
-        return Optional.of(canvas);
+        return Optional.ofNullable(canvas);
     }
 
     /**

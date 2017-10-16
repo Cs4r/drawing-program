@@ -38,11 +38,11 @@ public class DrawingCommandsInterpreter {
     }
 
     public void afterProcessingCommand(DrawingContext context) {
-        commandsProcessor.process(Command.PRINT_CANVAS_COMMAND, context);
+        commandsProcessor.process(SupportedCommands.PRINT_CANVAS_COMMAND, context);
     }
 
     public void beforeProcessingCommand(DrawingContext context) {
-        commandsProcessor.process(Command.PRINT_PROMPT_COMMAND, context);
+        commandsProcessor.process(SupportedCommands.PRINT_PROMPT_COMMAND, context);
     }
 
     private void failIfContextIsNull(DrawingContext context) {
@@ -69,13 +69,13 @@ public class DrawingCommandsInterpreter {
     }
 
     private void failIfCannotHandlePrintCanvasCommand(CommandsProcessor commandsProcessor) {
-        if (!commandsProcessor.canHandle(Command.PRINT_CANVAS_COMMAND)) {
+        if (!commandsProcessor.canHandle(SupportedCommands.PRINT_CANVAS_COMMAND)) {
             throw new IllegalArgumentException("CommandsProcessor must handle PrintCanvasCommand");
         }
     }
 
     private void failIfCannotHandlePrintPromptCommand(CommandsProcessor commandsProcessor) {
-        if (!commandsProcessor.canHandle(Command.PRINT_PROMPT_COMMAND)) {
+        if (!commandsProcessor.canHandle(SupportedCommands.PRINT_PROMPT_COMMAND)) {
             throw new IllegalArgumentException("CommandsProcessor must handle PrintPromptCommand");
         }
     }
