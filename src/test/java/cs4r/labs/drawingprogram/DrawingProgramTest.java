@@ -54,4 +54,10 @@ public class DrawingProgramTest {
         CommandsReader commandsReader = drawingProgram.getCommandsReader();
         assertThat(commandsReader).isNotNull();
     }
+
+    @Test
+    public void hasDrawingCommandsInterpreter() throws Exception {
+        DrawingCommandsInterpreter drawingCommandsInterpreter = drawingProgram.getDrawingCommandsInterpreter();
+        assertThat(drawingCommandsInterpreter).isNotNull();
+    }
 }

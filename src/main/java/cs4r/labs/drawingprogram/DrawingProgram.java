@@ -11,16 +11,17 @@ import java.util.HashMap;
  */
 public class DrawingProgram {
 
-
     private final DrawingContext context;
     private final CommandsProcessor commandsProcessor;
     private final CommandsReader commandsReader;
+    private final DrawingCommandsInterpreter drawingCommandsInterpreter;
 
     public DrawingProgram(InputStream input, OutputStream output) {
         context = new DrawingContext(input, output);
         CommandImplementationRegistry registry = buildRegistry(new ArgumentParser());
         commandsProcessor = new CommandsProcessor(registry);
         commandsReader = new CommandsReader(context);
+        drawingCommandsInterpreter = new DrawingCommandsInterpreter(commandsReader, commandsProcessor, new NaiveExceptionHandler());
     }
 
     public void run() {
@@ -37,6 +38,10 @@ public class DrawingProgram {
 
     public CommandsReader getCommandsReader() {
         return commandsReader;
+    }
+
+    public DrawingCommandsInterpreter getDrawingCommandsInterpreter() {
+        return drawingCommandsInterpreter;
     }
 
     private InMemoryCommandImplementationRegistry buildRegistry(ArgumentParser argumentParser) {
