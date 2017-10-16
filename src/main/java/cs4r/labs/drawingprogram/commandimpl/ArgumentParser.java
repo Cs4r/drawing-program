@@ -21,12 +21,14 @@ public class ArgumentParser {
      */
     Integer getIntArgument(String rawArguments, int position) {
         Checks.failIfNullArgument(rawArguments, "rawArguments");
-        try {
-            String argument = getArgumentAtPos(rawArguments, position);
+
+        String argument = getArgumentAtPos(rawArguments, position);
+
+        if (argument.matches("-?[0-9]+")) {
             return Integer.valueOf(argument);
-        } catch (NumberFormatException exception) {
-            throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
         }
+
+        throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
     }
 
     /**
@@ -39,14 +41,17 @@ public class ArgumentParser {
      */
     Character getCharArgument(String rawArguments, int position) {
         Checks.failIfNullArgument(rawArguments, "rawArguments");
+
         String argument = getArgumentAtPos(rawArguments, position);
+
         if (argument.length() == 1) {
             return argument.charAt(0);
         }
+
         throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
     }
 
-    private String getArgumentAtPos(String args, int pos) {
+    private static String getArgumentAtPos(String args, int pos) {
         try {
             String[] arguments = args.trim().split("\\s+");
             return arguments[pos];

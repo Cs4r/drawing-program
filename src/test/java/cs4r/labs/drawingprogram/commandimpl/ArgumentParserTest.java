@@ -25,7 +25,7 @@ public class ArgumentParserTest {
 
 
         // Second input
-        String secondInput = "6 3 6 4";
+        String secondInput = "6 3 6 4 -15";
         firstArgument = argumentParser.getIntArgument(secondInput, 0);
         assertThat(firstArgument).isEqualTo(6);
 
@@ -38,6 +38,8 @@ public class ArgumentParserTest {
         fourthArgument = argumentParser.getIntArgument(secondInput, 3);
         assertThat(fourthArgument).isEqualTo(4);
 
+        Integer fifthArgument = argumentParser.getIntArgument(secondInput, 4);
+        assertThat(fifthArgument).isEqualTo(-15);
 
         // Third input
         String thirdInput = "           16 1 20 3         ";
