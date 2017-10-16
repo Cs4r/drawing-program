@@ -7,7 +7,6 @@ import cs4r.labs.drawingprogram.command.exception.CanvasNotFoundException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Optional;
 
 /**
  * Holds valuable information for the execution of the {@link DrawingProgram}.
@@ -52,16 +51,6 @@ public class DrawingContext {
     }
 
     /**
-     * Returns an optional that may contain the canvas held by this context.
-     *
-     * @return java.util.Optional containing the canvas held by this context (if there is any),
-     * {@link Optional#empty()} otherwise
-     */
-    public Optional<Canvas> getOptionalCanvas() {
-        return Optional.ofNullable(canvas);
-    }
-
-    /**
      * Returns the canvas held by this context.
      *
      * @return Canvas held by this context
@@ -69,7 +58,11 @@ public class DrawingContext {
      * if there is no canvas set in this context.
      */
     public Canvas getCanvas() {
-        return getOptionalCanvas().orElseThrow(CanvasNotFoundException::new);
+
+        if (canvas == null) {
+            throw new CanvasNotFoundException();
+        }
+        return canvas;
     }
 
     /**
