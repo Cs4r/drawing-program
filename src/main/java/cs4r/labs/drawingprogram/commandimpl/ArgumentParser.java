@@ -19,7 +19,7 @@ public class ArgumentParser {
      * @throw {@link InvalidArgumentException} if the argument at the given position cannot be transformed into an Integer.
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
-    Integer getIntArgument(String rawArguments, int position) {
+    public Integer getIntArgument(String rawArguments, int position) {
         Checks.failIfNullArgument(rawArguments, "rawArguments");
 
         String argument = getArgumentAtPos(rawArguments, position);
@@ -39,7 +39,7 @@ public class ArgumentParser {
      * @throw {@link InvalidArgumentException} if the argument at the given position cannot be transformed into a Character.
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
-    Character getCharArgument(String rawArguments, int position) {
+    public Character getCharArgument(String rawArguments, int position) {
         Checks.failIfNullArgument(rawArguments, "rawArguments");
 
         String argument = getArgumentAtPos(rawArguments, position);
