@@ -3,6 +3,7 @@ package cs4r.labs.drawingprogram;
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.assertj.core.api.Java6Assertions.assertThatThrownBy;
 
 
 /**
@@ -510,4 +511,24 @@ public class CanvasTest {
         assertThat(currentCanvas).isEqualTo(expectedCanvas);
     }
 
+    @Test
+    public void cannotBeCreatedWithNegativeNumbers() throws Exception {
+
+
+        assertThatThrownBy(() -> new Canvas(20, -1))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("canvas dimensions must be greater than zero");
+
+        assertThatThrownBy(() -> new Canvas(-1, 20))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("canvas dimensions must be greater than zero");
+
+        assertThatThrownBy(() -> new Canvas(0, 5))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("canvas dimensions must be greater than zero");
+
+        assertThatThrownBy(() -> new Canvas(5, 0))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("canvas dimensions must be greater than zero");
+    }
 }

@@ -15,6 +15,7 @@ public class Canvas {
     private char[][] canvas;
 
     public Canvas(int height, int width) {
+        failIfInvalidArguments(height, width);
         this.height = height;
         this.width = width;
         canvas = new char[this.height][this.width];
@@ -205,6 +206,12 @@ public class Canvas {
                 canvas[j][x] = LINE_COLOR;
             }
 
+        }
+    }
+
+    private void failIfInvalidArguments(int height, int width) {
+        if (height <= 0 || width <= 0) {
+            throw new IllegalArgumentException("canvas dimensions must be greater than zero");
         }
     }
 
