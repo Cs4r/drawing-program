@@ -18,6 +18,7 @@ public class NaiveExceptionHandler implements ExceptionHandler {
         String messageToPrint = String.format("%s\n", getMessage(exception));
 
         try {
+            output.write('\n');
             output.write(messageToPrint.getBytes());
             output.flush();
         } catch (IOException ioException) {

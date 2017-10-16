@@ -1,6 +1,7 @@
 package cs4r.labs.drawingprogram.command.commandimpl;
 
 import cs4r.labs.drawingprogram.Canvas;
+import cs4r.labs.drawingprogram.TestUtils;
 import cs4r.labs.drawingprogram.command.DrawingContext;
 import cs4r.labs.drawingprogram.command.exception.CanvasNotFoundException;
 import cs4r.labs.drawingprogram.command.exception.CorruptedOutputException;

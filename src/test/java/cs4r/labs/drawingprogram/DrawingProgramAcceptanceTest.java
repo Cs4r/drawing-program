@@ -1,15 +1,11 @@
 package cs4r.labs.drawingprogram;
 
 
-import cs4r.labs.drawingprogram.command.commandimpl.TestUtils;
 import org.junit.Test;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
-import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 
@@ -24,13 +20,13 @@ public class DrawingProgramAcceptanceTest {
     @Test
     public void allSupportedCommands() throws Exception {
 
-        InputStream input = getInputStreamFromFile("acceptance-test-input.txt");
+        InputStream input = TestUtils.getInputStreamFromFile("acceptance-test-input.txt", this.getClass());
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         new DrawingProgram(input, output).run();
 
         String currentOutput = TestUtils.convertToString(output);
-        String expectedOutput = readStringFromFile("acceptance-test-output.txt");
+        String expectedOutput = TestUtils.readStringFromFile("acceptance-test-output.txt", this.getClass());
 
         assertThat(currentOutput).isEqualTo(expectedOutput);
 
@@ -38,22 +34,4 @@ public class DrawingProgramAcceptanceTest {
         output.close();
         input.close();
     }
-
-    private InputStream getInputStreamFromFile(String filePath) throws Exception {
-        return this.getClass().getResourceAsStream(filePath);
-    }
-
-    private String readStringFromFile(String filePath) throws Exception {
-
-        InputStream resourceAsStream = getInputStreamFromFile(filePath);
-
-        String fileAsString = new BufferedReader(new InputStreamReader(resourceAsStream))
-                .lines()
-                .collect(joining("\n"));
-
-        resourceAsStream.close();
-
-        return fileAsString;
-    }
-
 }

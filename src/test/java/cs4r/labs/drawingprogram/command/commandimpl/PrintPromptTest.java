@@ -1,5 +1,6 @@
 package cs4r.labs.drawingprogram.command.commandimpl;
 
+import cs4r.labs.drawingprogram.TestUtils;
 import cs4r.labs.drawingprogram.command.DrawingContext;
 import cs4r.labs.drawingprogram.command.exception.CorruptedOutputException;
 import org.junit.After;

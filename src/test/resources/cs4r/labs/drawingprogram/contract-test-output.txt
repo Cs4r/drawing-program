@@ -1,0 +1,61 @@
+enter command:
+canvas dimensions must be greater than zero
+enter command:
+Command "c" not found
+enter command:
+-------
+|     |
+|     |
+|     |
+|     |
+|     |
+-------
+enter command:
+-------
+|     |
+|     |
+|     |
+|     |
+|     |
+-------
+enter command:
+-------
+|xxxxx|
+|x   x|
+|x   x|
+|x   x|
+|xxxxx|
+-------
+enter command:
+-------
+|xxxxx|
+|x   x|
+|x   x|
+|x   x|
+|xxxxx|
+-------
+enter command:
+-------
+|xxxxx|
+|xaaax|
+|xaaax|
+|xaaax|
+|xxxxx|
+-------
+enter command:
+-------
+|xxxxx|
+|xbbbx|
+|xbbbx|
+|xbbbx|
+|xxxxx|
+-------
+enter command:
+-------
+|xxxxx|
+|xbbbx|
+|xbbbx|
+|xbbbx|
+|xxxxx|
+-------
+enter command:

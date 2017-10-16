@@ -1,14 +1,13 @@
-package cs4r.labs.drawingprogram.command.commandimpl;
+package cs4r.labs.drawingprogram;
 
-import cs4r.labs.drawingprogram.Canvas;
 import cs4r.labs.drawingprogram.command.DrawingContext;
+import cs4r.labs.drawingprogram.command.commandimpl.ArgumentParser;
 import cs4r.labs.drawingprogram.command.exception.CanvasNotFoundException;
 import org.mockito.Mockito;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
+import static java.util.stream.Collectors.joining;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -98,4 +97,23 @@ public class TestUtils {
         }
         return context;
     }
+
+
+    public static InputStream getInputStreamFromFile(String filePath, Class<?> clazz) throws Exception {
+        return clazz.getResourceAsStream(filePath);
+    }
+
+    public static String readStringFromFile(String filePath, Class<?> clazz) throws Exception {
+
+        InputStream resourceAsStream = getInputStreamFromFile(filePath, clazz);
+
+        String fileAsString = new BufferedReader(new InputStreamReader(resourceAsStream))
+                .lines()
+                .collect(joining("\n"));
+
+        resourceAsStream.close();
+
+        return fileAsString;
+    }
+
 }
