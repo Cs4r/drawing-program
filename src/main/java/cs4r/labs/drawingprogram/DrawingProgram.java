@@ -4,16 +4,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /*
- * Just a skeleton for now
+ * The drawing program. Main entry point of this piece of software.
  */
 public class DrawingProgram {
 
 
-    public DrawingProgram(InputStream input, OutputStream output) {
+    private DrawingContext context;
 
+    public DrawingProgram(InputStream input, OutputStream output) {
+        context = new DrawingContext(input, output);
     }
 
     public void run() {
 
+    }
+
+    public DrawingContext getContext() {
+        return context;
     }
 }
