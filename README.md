@@ -17,6 +17,8 @@ A console version of a drawing program.
 ```
 ./gradlew test
 ```
+This project has mainly unit tests. It also has an acceptance test that states the desired behavior of the program
+and a contract test that describes other behaviour not specified by the program specification.
 
 ## Design decisions 
 
