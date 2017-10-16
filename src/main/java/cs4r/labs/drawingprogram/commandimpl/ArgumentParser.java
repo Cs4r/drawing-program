@@ -22,12 +22,10 @@ public class ArgumentParser {
     Integer getIntArgument(String rawArguments, int position) {
         Checks.failIfNullArgument(rawArguments, "rawArguments");
         try {
-            String[] arguments = rawArguments.trim().split("\\s+");
-            return Integer.valueOf(arguments[position]);
+            String argument = getArgumentAtPos(rawArguments, position);
+            return Integer.valueOf(argument);
         } catch (NumberFormatException exception) {
             throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
-        } catch (ArrayIndexOutOfBoundsException exception) {
-            throw new InvalidArgumentException(format("no argument at position %d", position));
         }
     }
 
@@ -40,11 +38,19 @@ public class ArgumentParser {
      * (Independently of the reason why it couldn't be transformed or parsed).
      */
     Character getCharArgument(String rawArguments, int position) {
-        String[] arguments = rawArguments.trim().split("\\s+");
-        String argument = arguments[position];
+        String argument = getArgumentAtPos(rawArguments, position);
         if (argument.length() == 1) {
             return argument.charAt(0);
         }
         throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
+    }
+
+    private String getArgumentAtPos(String args, int pos) {
+        try {
+            String[] arguments = args.trim().split("\\s+");
+            return arguments[pos];
+        } catch (ArrayIndexOutOfBoundsException exception) {
+            throw new InvalidArgumentException(format("no argument at position %d", pos));
+        }
     }
 }

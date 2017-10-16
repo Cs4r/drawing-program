@@ -123,4 +123,18 @@ public class ArgumentParserTest {
                 .isInstanceOf(InvalidArgumentException.class)
                 .hasMessage("argument at position 2 has an unexpected type");
     }
+
+    @Test
+    public void getCharArgumentThrowsInvalidArgumentExceptionWhenArgumentNotFound() throws Exception {
+
+        ArgumentParser argumentParser = new ArgumentParser();
+
+        assertThatThrownBy(() -> argumentParser.getCharArgument("a b", 33))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("no argument at position 33");
+
+        assertThatThrownBy(() -> argumentParser.getIntArgument("e d f g", -1))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("no argument at position -1");
+    }
 }
