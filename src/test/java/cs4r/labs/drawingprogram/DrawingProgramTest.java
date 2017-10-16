@@ -1,5 +1,6 @@
 package cs4r.labs.drawingprogram;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -9,19 +10,24 @@ import java.io.OutputStream;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 /**
- * Unit test for {@link DrawingProgram}
+ * Unit test for {@link DrawingProgram}.
  */
 public class DrawingProgramTest {
 
+    private InputStream input;
+    private OutputStream output;
+    private DrawingProgram drawingProgram;
+
+    @Before
+    public void setUp() throws Exception {
+        input = Mockito.mock(InputStream.class);
+        output = Mockito.mock(OutputStream.class);
+
+        drawingProgram = new DrawingProgram(input, output);
+    }
 
     @Test
     public void hasContext() throws Exception {
-
-        InputStream input = Mockito.mock(InputStream.class);
-        OutputStream output = Mockito.mock(OutputStream.class);
-
-        DrawingProgram drawingProgram = new DrawingProgram(input, output);
-
         DrawingContext context = drawingProgram.getContext();
         assertThat(context).isNotNull();
 
@@ -31,12 +37,6 @@ public class DrawingProgramTest {
 
     @Test
     public void implementsAllCommandRequired() throws Exception {
-
-        InputStream input = Mockito.mock(InputStream.class);
-        OutputStream output = Mockito.mock(OutputStream.class);
-
-        DrawingProgram drawingProgram = new DrawingProgram(input, output);
-
         CommandsProcessor commandImplementationRegistry = drawingProgram.getCommandsProcessor();
 
         assertThat(commandImplementationRegistry.canHandle(Command.PRINT_PROMPT_COMMAND)).isTrue();
@@ -47,5 +47,11 @@ public class DrawingProgramTest {
         assertThat(commandImplementationRegistry.canHandle(Command.with("R", ""))).isTrue();
         assertThat(commandImplementationRegistry.canHandle(Command.with("B", ""))).isTrue();
         assertThat(commandImplementationRegistry.canHandle(Command.with("Q", ""))).isTrue();
+    }
+
+    @Test
+    public void hasCommandsReader() throws Exception {
+        CommandsReader commandsReader = drawingProgram.getCommandsReader();
+        assertThat(commandsReader).isNotNull();
     }
 }

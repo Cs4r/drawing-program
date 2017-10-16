@@ -14,13 +14,13 @@ public class DrawingProgram {
 
     private final DrawingContext context;
     private final CommandsProcessor commandsProcessor;
+    private final CommandsReader commandsReader;
 
     public DrawingProgram(InputStream input, OutputStream output) {
         context = new DrawingContext(input, output);
-
         CommandImplementationRegistry registry = buildRegistry(new ArgumentParser());
-
         commandsProcessor = new CommandsProcessor(registry);
+        commandsReader = new CommandsReader(context);
     }
 
     public void run() {
@@ -33,6 +33,10 @@ public class DrawingProgram {
 
     public CommandsProcessor getCommandsProcessor() {
         return commandsProcessor;
+    }
+
+    public CommandsReader getCommandsReader() {
+        return commandsReader;
     }
 
     private InMemoryCommandImplementationRegistry buildRegistry(ArgumentParser argumentParser) {
