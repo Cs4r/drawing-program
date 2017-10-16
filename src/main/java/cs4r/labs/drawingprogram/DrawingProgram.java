@@ -15,13 +15,15 @@ public class DrawingProgram {
     private final CommandsProcessor commandsProcessor;
     private final CommandsReader commandsReader;
     private final DrawingCommandsInterpreter drawingCommandsInterpreter;
+    private final ExceptionHandler exceptionHandler;
 
     public DrawingProgram(InputStream input, OutputStream output) {
         context = new DrawingContext(input, output);
         CommandImplementationRegistry registry = buildRegistry(new ArgumentParser());
         commandsProcessor = new CommandsProcessor(registry);
         commandsReader = new CommandsReader(context);
-        drawingCommandsInterpreter = new DrawingCommandsInterpreter(commandsReader, commandsProcessor, new NaiveExceptionHandler());
+        exceptionHandler = new NaiveExceptionHandler();
+        drawingCommandsInterpreter = new DrawingCommandsInterpreter(commandsReader, commandsProcessor, exceptionHandler);
     }
 
     public void run() {
@@ -55,5 +57,9 @@ public class DrawingProgram {
             put("B", new FillArea(argumentParser));
             put("Q", new Terminate());
         }});
+    }
+
+    public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
     }
 }

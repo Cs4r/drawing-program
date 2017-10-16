@@ -60,4 +60,10 @@ public class DrawingProgramTest {
         DrawingCommandsInterpreter drawingCommandsInterpreter = drawingProgram.getDrawingCommandsInterpreter();
         assertThat(drawingCommandsInterpreter).isNotNull();
     }
+
+    @Test
+    public void hasExceptionHandler() throws Exception {
+        ExceptionHandler exceptionHandler = drawingProgram.getExceptionHandler();
+        assertThat(exceptionHandler).isNotNull();
+    }
 }
