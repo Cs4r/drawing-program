@@ -41,6 +41,10 @@ public class ArgumentParser {
      */
     Character getCharArgument(String rawArguments, int position) {
         String[] arguments = rawArguments.trim().split("\\s+");
-        return arguments[position].charAt(0);
+        String argument = arguments[position];
+        if (argument.length() == 1) {
+            return argument.charAt(0);
+        }
+        throw new InvalidArgumentException(format("argument at position %d has an unexpected type", position));
     }
 }

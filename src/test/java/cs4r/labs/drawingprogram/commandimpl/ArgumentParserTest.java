@@ -109,4 +109,18 @@ public class ArgumentParserTest {
         Character firstArgument = argumentParser.getCharArgument("a", 0);
         assertThat(firstArgument).isEqualTo('a');
     }
+
+    @Test
+    public void getCharArgumentThrowsInvalidArgumentExceptionWhenInvalidType() {
+
+        ArgumentParser argumentParser = new ArgumentParser();
+
+        assertThatThrownBy(() -> argumentParser.getCharArgument("argument", 0))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("argument at position 0 has an unexpected type");
+
+        assertThatThrownBy(() -> argumentParser.getCharArgument("23 b c2", 2))
+                .isInstanceOf(InvalidArgumentException.class)
+                .hasMessage("argument at position 2 has an unexpected type");
+    }
 }
