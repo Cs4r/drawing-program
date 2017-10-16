@@ -49,6 +49,15 @@ public class DrawingProgram {
         return drawingCommandsInterpreter;
     }
 
+    public ExceptionHandler getExceptionHandler() {
+        return exceptionHandler;
+    }
+
+    public static void main(String[] args) {
+
+        new DrawingProgram(System.in, System.out).run();
+    }
+
     private InMemoryCommandImplementationRegistry buildRegistry(ArgumentParser argumentParser) {
         return new InMemoryCommandImplementationRegistry(new HashMap<String, CommandImplementation>() {{
 
@@ -60,14 +69,5 @@ public class DrawingProgram {
             put(SupportedCommands.FILL_AREA_COMMAND, new FillArea(argumentParser));
             put(SupportedCommands.QUIT_COMMAND, new Terminate());
         }});
-    }
-
-    public ExceptionHandler getExceptionHandler() {
-        return exceptionHandler;
-    }
-
-    public static void main(String[] args) {
-
-        new DrawingProgram(System.in, System.out).run();
     }
 }
