@@ -28,4 +28,24 @@ public class DrawingProgramTest {
         assertThat(context.getInput()).isEqualTo(input);
         assertThat(context.getOutput()).isEqualTo(output);
     }
+
+    @Test
+    public void implementsAllCommandRequired() throws Exception {
+
+        InputStream input = Mockito.mock(InputStream.class);
+        OutputStream output = Mockito.mock(OutputStream.class);
+
+        DrawingProgram drawingProgram = new DrawingProgram(input, output);
+
+        CommandsProcessor commandImplementationRegistry = drawingProgram.getCommandsProcessor();
+
+        assertThat(commandImplementationRegistry.canHandle(Command.PRINT_PROMPT_COMMAND)).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.PRINT_CANVAS_COMMAND)).isTrue();
+
+        assertThat(commandImplementationRegistry.canHandle(Command.with("C", ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with("L", ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with("R", ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with("B", ""))).isTrue();
+        assertThat(commandImplementationRegistry.canHandle(Command.with("Q", ""))).isTrue();
+    }
 }

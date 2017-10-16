@@ -1,7 +1,10 @@
 package cs4r.labs.drawingprogram;
 
+import cs4r.labs.drawingprogram.commandimpl.*;
+
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 
 /*
  * The drawing program. Main entry point of this piece of software.
@@ -9,10 +12,15 @@ import java.io.OutputStream;
 public class DrawingProgram {
 
 
-    private DrawingContext context;
+    private final DrawingContext context;
+    private final CommandsProcessor commandsProcessor;
 
     public DrawingProgram(InputStream input, OutputStream output) {
         context = new DrawingContext(input, output);
+
+        CommandImplementationRegistry registry = buildRegistry(new ArgumentParser());
+
+        commandsProcessor = new CommandsProcessor(registry);
     }
 
     public void run() {
@@ -21,5 +29,22 @@ public class DrawingProgram {
 
     public DrawingContext getContext() {
         return context;
+    }
+
+    public CommandsProcessor getCommandsProcessor() {
+        return commandsProcessor;
+    }
+
+    private InMemoryCommandImplementationRegistry buildRegistry(ArgumentParser argumentParser) {
+        return new InMemoryCommandImplementationRegistry(new HashMap<String, CommandImplementation>() {{
+
+            put(Command.PRINT_CANVAS_COMMAND.getName(), new PrintCanvas());
+            put(Command.PRINT_PROMPT_COMMAND.getName(), new PrintPrompt());
+            put("C", new CreateCanvas(argumentParser));
+            put("L", new DrawLine(argumentParser));
+            put("R", new DrawRectangle(argumentParser));
+            put("B", new FillArea(argumentParser));
+            put("Q", new Terminate());
+        }});
     }
 }
